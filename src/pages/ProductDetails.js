@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { ref, onValue } from "firebase/database";
 import { db } from "../firebaseConfig";
 import "../css/productDetails.css";
+import productData from "../Data/data.json";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -48,6 +49,10 @@ const ProductDetails = () => {
   };
 
   const addToWishlist = (product) => {
+    if (!localStorage.getItem("user")) {
+      alert("Please log in to add items to your wishlist.");
+      return;
+    }
     try {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       wishlist.push(product);
@@ -69,7 +74,11 @@ const ProductDetails = () => {
   return (
     <div className="product-details">
       <h1>{product.name}</h1>
-      <img src={product.image} alt={product.name} className="product-image" />
+      <img
+        src={productData.produt[product.id].image}
+        alt={product.name}
+        className="product-image"
+      />
       <p className="price">lkr {product.price.toFixed(2)}</p>
       <p>{product.description}</p>
       <span className="badge">{product.badge}</span>

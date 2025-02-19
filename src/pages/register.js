@@ -1,17 +1,36 @@
 import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, googleProvider, db} from "../firebaseConfig";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { ref, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import "../css/register.css";
 
 const Register = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (event) => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await set(ref(db, "users/" + user.uid), {
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+      });
       alert("Registration successful! Please log in.");
       navigate("/login");
     } catch (error) {
@@ -19,10 +38,28 @@ const Register = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate("/dashboard");
+    } catch (error) {
+      alert("Error logging in with Google");
+    }
+  };
+
   return (
-    <div className="register-container">
-      <form className="register-form" onSubmit={handleRegister}>
+    <div className="register-page-container">
+      <form className="register-page-form" onSubmit={handleRegister}>
         <h2>Register</h2>
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -30,6 +67,15 @@ const Register = () => {
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <label htmlFor="phoneNumber">Phone Number:</label>
+        <input
+          type="tel"
+          id="phoneNumber"
+          name="phoneNumber"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
           required
         />
         <label htmlFor="password">Password:</label>
@@ -41,7 +87,24 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <label htmlFor="confirmPassword">Confirm Password:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
         <button type="submit">Register</button>
+
+        <button
+          className="register-google-button"
+          type="button"
+          onClick={handleGoogleLogin}
+        >
+          Register with Google
+        </button>
         <p>
           Already have an account? <a href="/login">Login here</a>
         </p>

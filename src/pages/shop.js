@@ -4,6 +4,7 @@ import { db } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "../css/shop.css";
 import Navbar from "../components/Navbar";
+import productData from "../Data/data.json";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -54,6 +55,10 @@ const Shop = () => {
   };
 
   const addToWishlist = (product) => {
+    if (!localStorage.getItem("user")) {
+      alert("Please log in to add items to your wishlist.");
+      return;
+    }
     try {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       wishlist.push(product);
@@ -70,9 +75,9 @@ const Shop = () => {
 
   return (
     <div>
-        <div>
-            <Navbar/>
-        </div>
+      <div>
+        <Navbar />
+      </div>
       <h1 style={{ color: "#388e3c", textAlign: "center", fontSize: "2rem" }}>
         Our Products
       </h1>
@@ -90,7 +95,7 @@ const Shop = () => {
               <span className="badge">{product.badge}</span>
               <div className="product-image-container">
                 <img
-                  src={product.image}
+                  src={productData.produt[product.id].image}
                   alt={product.name}
                   className="product-image"
                 />

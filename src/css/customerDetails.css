@@ -1,0 +1,41 @@
+/* CustomerDetails.css */
+.customer-details {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .customer-details h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .customer-details form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .customer-details input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .next-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .next-button:hover {
+    background-color: #0056b3;
+  }
+  

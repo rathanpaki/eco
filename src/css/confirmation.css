@@ -1,0 +1,45 @@
+/* Confirmation.css */
+.confirmation {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .confirmation h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .confirmation p {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .order-summary {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .order-summary p {
+    margin-bottom: 5px;
+  }
+  
+  .home-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+  }
+  
+  .home-button:hover {
+    background-color: #0056b3;
+  }
+  

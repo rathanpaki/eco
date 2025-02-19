@@ -1,0 +1,99 @@
+/* General Styles */
+body {
+  font-family: "Times New Roman", Times, serif;
+  background-color: #ffffff;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+/* Register Container */
+.register-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110vh;
+  width: 100%;
+}
+
+/* Register Form */
+.register-page-form {
+  background: #f1f8e9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  text-align: center;
+}
+
+.register-page-form h2 {
+  margin-bottom: 20px;
+  color: #4caf50;
+}
+
+.register-page-form label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.register-page-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.register-page-form button {
+  width: 200px;
+  margin-left: 20px;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-page-form button:hover {
+  background-color: #388e3c;
+}
+
+/* Google Register Button */
+.register-google-button {
+  margin-top: 10px;
+  background-color: #db4437;
+}
+
+.register-google-button:hover {
+  background-color: #c1351c;
+}
+
+/* Login Link */
+.register-page-form p {
+  margin-top: 15px;
+}
+
+.register-page-form a {
+  color: #1e88e5;
+  text-decoration: none;
+}
+
+.register-page-form a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .register-page-container {
+    height: auto;
+    padding: 20px;
+  }
+
+  .register-page-form {
+    width: 100%;
+  }
+}
