@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/shop.css";
 import Navbar from "../components/Navbar";
 import productData from "../Data/data.json";
+import Loader from "../components/Loader";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -120,7 +121,7 @@ console.log(productData);
             </div>
           ))
         ) : !error ? (
-          <p style={{ textAlign: "center" }}>Loading products...</p>
+          <p style={{ textAlign: "center" }}><Loader/></p>
         ) : null}
       </div>
     </div>

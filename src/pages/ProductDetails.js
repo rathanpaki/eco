@@ -4,6 +4,7 @@ import { ref, onValue } from "firebase/database";
 import { db } from "../firebaseConfig";
 import "../css/productDetails.css";
 import productData from "../Data/data.json";
+import Loader from "../components/Loader";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -68,7 +69,7 @@ const ProductDetails = () => {
   }
 
   if (!product) {
-    return <p style={{ textAlign: "center" }}>Loading product details...</p>;
+    return <p style={{ textAlign: "center" }}><Loader/></p>;
   }
 
   return (
