@@ -13,7 +13,7 @@
     "2": {
       "id": 2,
       "badge": "Personalized 🎁",
-      "image": "assets/img/product2.jpg",
+      "image": "src/Data/assets/img/product2.jpg",
       "name": "Handmade Clay Candle Holders",
       "price": 1800,
       "description": "Biodegradable and customizable.",

@@ -10,6 +10,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+console.log(productData);
 
   useEffect(() => {
     const productsRef = ref(db, "produt");
@@ -72,6 +73,7 @@ const Shop = () => {
   const navigateToProductDetails = (productId) => {
     navigate(`/product/${productId}`);
   };
+  
 
   return (
     <div>

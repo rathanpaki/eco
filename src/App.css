@@ -1,38 +1,30 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.cart-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4caf4f9f;
   color: white;
+  border: none;
+  padding: 15px 20px;
+  font-size: 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1100;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.cart-toggle-btn:hover {
+  background-color: #43a047;
+  transform: scale(1.05);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.cart-toggle-btn {
+  transition: opacity 0.3s ease-in-out;
+  backdrop-filter: blur(1.5px);
+}
+
+.cart-toggle-btn.hidden {
+  opacity: 0; /* Make button invisible */
+  pointer-events: none; /* Disable interaction when hidden */
 }
