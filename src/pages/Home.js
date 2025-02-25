@@ -1,13 +1,15 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "../css/home.css"
+import "../css/home.css";
 
 const Home = () => {
   return (
     <div>
       <Navbar />
-      <header className="hero">
+      <header
+        className="hero"
+      >
         <h1>Make Your Wedding Green & Personal!</h1>
         <p>Personalized & Eco-friendly gifts for your special occasions.</p>
         <a href="productList.html" className="btn">

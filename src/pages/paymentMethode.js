@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import '../css/paymentMethode.css';
+import React, { useState } from "react";
+import "../css/paymentMethode.css";
+import { getAuth } from "firebase/auth";
+import { ref, set } from "firebase/database";
+import { db } from "../firebaseConfig";
 
 const PaymentMethod = ({ nextStep, previousStep }) => {
   const [paymentDetails, setPaymentDetails] = useState({
-    cardNumber: '',
-    cardHolderName: '',
-    expiryDate: '',
-    cvc: '',
+    cardNumber: "",
+    cardHolderName: "",
+    expiryDate: "",
+    cvc: "",
   });
 
   const handleChange = (e) => {
@@ -14,9 +17,24 @@ const PaymentMethod = ({ nextStep, previousStep }) => {
     setPaymentDetails({ ...paymentDetails, [name]: value });
   };
 
+  const saveOrderToFirebase = (orderDetails) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      const orderRef = ref(db, `orders/${user.uid}/${orderDetails.id}`);
+      set(orderRef, orderDetails);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    nextStep();
+    const orderDetails = JSON.parse(localStorage.getItem("orderDetails")) || {};
+    const updatedOrderDetails = {
+      ...orderDetails,
+      payment: paymentDetails,
+    };
+    localStorage.setItem("orderDetails", JSON.stringify(updatedOrderDetails));
+    nextStep(updatedOrderDetails);
   };
 
   return (

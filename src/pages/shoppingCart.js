@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../css/shoppingCart.css";
 import productData from "../Data/data.json";
 import { Link } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import { ref, set } from "firebase/database";
+import { db } from "../firebaseConfig";
 
 const ShoppingCart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -36,6 +39,29 @@ const ShoppingCart = ({ isOpen, onClose }) => {
     localStorage.setItem("cart", JSON.stringify(newCartItems));
   };
 
+  const saveOrderToFirebase = (orderDetails) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      const orderRef = ref(db, `orders/${user.uid}/${orderDetails.id}`);
+      set(orderRef, orderDetails);
+    }
+  };
+
+  const handleCheckout = () => {
+    const orderDetails = {
+      id: new Date().getTime().toString(),
+      details: {
+        items: cartItems,
+        subtotal: parseFloat(subTotal),
+        deliveryCost: 5.5, // Example delivery cost
+      },
+      payment: {},
+    };
+    localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
+    // Removed saveOrderToFirebase(orderDetails) to avoid saving twice
+  };
+
   const subTotal = cartItems
     .reduce((total, item) => total + item.price * item.quantity, 0)
     .toFixed(2);
@@ -44,7 +70,10 @@ const ShoppingCart = ({ isOpen, onClose }) => {
 
   return (
     <div className="shopping-cart">
-      <button className="close-cart" onClick={onClose}>X</button> {/* Close Button */}
+      <button className="close-cart" onClick={onClose}>
+        X
+      </button>{" "}
+      {/* Close Button */}
       <h2>Shopping Cart</h2>
       <div className="cart-content">
         {cartItems.length === 0 ? (
@@ -81,7 +110,9 @@ const ShoppingCart = ({ isOpen, onClose }) => {
           <strong>Sub-Total:</strong> LKR {subTotal}
         </p>
         <Link to="/checkout">
-        <button className="checkout-button">Checkout</button>
+          <button className="checkout-button" onClick={handleCheckout}>
+            Checkout
+          </button>
         </Link>
       </div>
     </div>

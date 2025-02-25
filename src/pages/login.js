@@ -12,10 +12,18 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("user", JSON.stringify({ email }));
-      alert("Login successful!");
-      navigate("/");
+      // Check for admin credentials
+      if (email === "admin@gmail.com" && password === "admin@123") {
+        localStorage.setItem("user", JSON.stringify({ email: "admin" }));
+        alert("Admin login successful!");
+        navigate("/admin-dashboard");
+      } else {
+        // Regular user login
+        await signInWithEmailAndPassword(auth, email, password);
+        localStorage.setItem("user", JSON.stringify({ email }));
+        alert("Login successful!");
+        navigate("/");
+      }
     } catch (error) {
       alert("Invalid email or password");
     }

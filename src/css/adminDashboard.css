@@ -1,0 +1,52 @@
+.admin-dashboard-inventory-section {
+  margin: 20px;
+}
+
+.admin-th {
+  color: #4caf50;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.admin-dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-color: #45a049;
+}
+
+.admin-dashboard-th,
+.admin-dashboard-td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.admin-dashboard-th {
+  background-color: #f2f2f2;
+  text-align: left;
+  color: #4caf50;
+}
+
+.admin-dashboard-input-number {
+  width: 60px;
+}
+
+.admin-dashboard-save-button {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  transition: background-color 0.3s ease; 
+  float: right; 
+  margin-right: 100px;
+}
+
+.admin-dashboard-save-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { uploadBytes, getDownloadURL } from "firebase/storage"; // Import uploadBytes and getDownloadURL
 import "../css/profile.css";
 import Navbar from "../components/Navbar";
+import Loading from "../components/Loader";
 
 const Profile = () => {
   const auth = getAuth();
@@ -111,8 +112,8 @@ const Profile = () => {
     });
   };
 
-  if (loading) return <p className="profile-loading">Loading...</p>;
-
+  if (loading) return
+  <div className="profile-loading"> <Loading /></div>;
   return (
     <>
       <Navbar />

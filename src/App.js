@@ -10,6 +10,7 @@ import Profile from "./pages/profile";
 import ShoppingCart from "./pages/shoppingCart";
 import WishList from "./pages/wishList";
 import Checkout from "./pages/checkOut";
+import AdminDashboard from "./pages/adminDashboard";
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -38,6 +39,7 @@ function App() {
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="/wishlist" element={<WishList />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </div>
     </Router>

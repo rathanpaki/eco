@@ -130,9 +130,8 @@
 
 /* Loading State */
 .profile-loading {
-  text-align: center;
-  font-size: 18px;
-  color: #388e3c;
+  margin-top: 20vh;
+
 }
 
 /* Profile Section */
