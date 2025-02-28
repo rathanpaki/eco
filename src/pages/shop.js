@@ -4,14 +4,12 @@ import { db } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "../css/shop.css";
 import Navbar from "../components/Navbar";
-import productData from "../Data/data.json";
 import Loader from "../components/Loader";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-console.log(productData);
 
   useEffect(() => {
     const productsRef = ref(db, "produt");
@@ -98,7 +96,7 @@ console.log(productData);
               <span className="badge">{product.badge}</span>
               <div className="product-image-container">
                 <img
-                  src={productData.produt[product.id].image}
+                  src={product.image}
                   alt={product.name}
                   className="product-image"
                 />

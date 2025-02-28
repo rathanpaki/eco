@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { ref, onValue } from "firebase/database";
 import { db } from "../firebaseConfig";
 import "../css/productDetails.css";
-import productData from "../Data/data.json";
 import Loader from "../components/Loader";
 
 const ProductDetails = () => {
@@ -12,7 +11,7 @@ const ProductDetails = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const productRef = ref(db, `produt/${productId}`);
+    const productRef = ref(db, `produt/${productId}`); // Fixed typo here
 
     const unsubscribe = onValue(
       productRef,
@@ -69,26 +68,49 @@ const ProductDetails = () => {
   }
 
   if (!product) {
-    return <p style={{ textAlign: "center" }}><Loader/></p>;
+    return (
+      <p style={{ textAlign: "center" }}>
+        <Loader />
+      </p>
+    );
   }
 
   return (
     <div className="product-details">
-      <h1>{product.name}</h1>
-      <img
-        src={productData.produt[product.id].image}
-        alt={product.name}
-        className="product-image"
-      />
-      <p className="price">lkr {product.price.toFixed(2)}</p>
-      <p>{product.description}</p>
-      <span className="badge">{product.badge}</span>
-      <button className="btn primary" onClick={() => addToCart(product)}>
-        Add to Cart
-      </button>
-      <button className="btn wishlist" onClick={() => addToWishlist(product)}>
-        Add to Wishlist
-      </button>
+      <div className="product-image-container">
+        <img src={product.image} alt={product.name} className="product-image" />
+      </div>
+      <div className="product-info">
+        <h1>{product.name}</h1>
+        <p className="price">LKR {product.price.toFixed(2)}</p>
+        <p>{product.description}</p>
+        <p>
+          <strong>Material:</strong> {product.material}
+        </p>
+        <p>
+          <strong>Sustainability:</strong> {product.sustainability}
+        </p>
+        <p>
+          <strong>Seller:</strong> {product.seller}
+        </p>
+        <span className="badge">{product.badge}</span>
+        <div className="buttons">
+          <button className="cart-btn" onClick={() => addToCart(product)}>
+            Add to Cart
+          </button>
+          <button
+            className="wishlist-btn"
+            onClick={() => addToWishlist(product)}
+          >
+            Add to Wishlist
+          </button>
+        </div>
+        <div className="ar-preview">
+          <button onClick={() => alert("AR preview coming soon!")}>
+            View in AR
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

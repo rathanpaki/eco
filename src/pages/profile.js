@@ -99,7 +99,7 @@ const Profile = () => {
       const userRef = ref(db, `users/${user.uid}`);
       update(userRef, {
         name: profile.name,
-        phone: profile.phoneNumber,
+        phoneNumber: profile.phoneNumber,
         profilePic: profile.profilePic,
       }).then(() => setEditing(false));
     }
