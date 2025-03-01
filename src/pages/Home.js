@@ -1,6 +1,10 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Gift from "../img/gift-icon.png";
+import AI from "../img/ai-icon.png";
+import AR from "../img/ar-icon.png";
+import Eco from "../img/eco-icon.png";
 import "../css/home.css";
 
 const Home = () => {
@@ -12,31 +16,31 @@ const Home = () => {
       >
         <h1>Make Your Wedding Green & Personal!</h1>
         <p>Personalized & Eco-friendly gifts for your special occasions.</p>
-        <a href="productList.html" className="btn">
+        <a href="/shop" className="btn">
           Shop Now
         </a>
-        <a href="personalization.html" className="btn">
+        <a href="/personalization" className="btn">
           Customize Gift
         </a>
       </header>
       <section className="features">
         <div className="feature fade-in">
-          <img src="assets/img/gift-icon.png" alt="Gifts" />
+          <img src={Gift} alt="Gifts" />
           <h4>Browse Gifts 🛍️</h4>
           <p>Explore eco-friendly wedding return gifts.</p>
         </div>
         <div className="feature fade-in">
-          <img src="assets/img/ai-icon.png" alt="AI Finder" />
+          <img src={AI} alt="AI Finder" />
           <h4>Smart Gift Finder 🤖</h4>
           <p>AI-powered personalized recommendations.</p>
         </div>
         <div className="feature fade-in">
-          <img src="assets/img/ar-icon.png" alt="AR Preview" />
+          <img src={AR} alt="AR Preview" />
           <h4>AR Gift Preview 🌍</h4>
           <p>Visualize gifts before purchase.</p>
         </div>
         <div className="feature fade-in">
-          <img src="assets/img/eco-icon.png" alt="Sustainability" />
+          <img src={Eco} alt="Sustainability" />
           <h4>Why Eco-Gifts? 🌱</h4>
           <p>Learn about our sustainable practices.</p>
         </div>

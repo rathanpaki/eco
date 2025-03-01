@@ -11,6 +11,7 @@ body {
   flex-direction: row;
   max-width: 900px;
   margin: 40px auto;
+  margin-top: 100px;
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -45,7 +46,7 @@ body {
 .product-details .product-image {
   width: 100%;
   max-width: 500px;
-  height: auto; /* Ensure the image maintains its aspect ratio */
+  height: auto; 
   border-radius: 10px;
   margin-bottom: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -54,6 +55,8 @@ body {
 .product-details .product-image:hover {
   transform: scale(1.1);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  zoom: normal;
 }
 
 .product-details .price {

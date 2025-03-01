@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../css/shoppingCart.css";
-import productData from "../Data/data.json";
 import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { ref, set } from "firebase/database";
@@ -54,12 +53,11 @@ const ShoppingCart = ({ isOpen, onClose }) => {
       details: {
         items: cartItems,
         subtotal: parseFloat(subTotal),
-        deliveryCost: 5.5, // Example delivery cost
+        deliveryCost: 5.5, 
       },
       payment: {},
     };
     localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
-    // Removed saveOrderToFirebase(orderDetails) to avoid saving twice
   };
 
   const subTotal = cartItems
@@ -82,7 +80,7 @@ const ShoppingCart = ({ isOpen, onClose }) => {
           cartItems.map((item, index) => (
             <div className="cart-item" key={index}>
               <img
-                src={productData.produt[item.id]?.image}
+                src={item.image}
                 alt={item.name}
                 className="item-image"
               />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/wishList.css";
-import productData from "../Data/data.json";
+
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -37,7 +37,7 @@ const Wishlist = () => {
             <tr key={index}>
               <td>
                 <img
-                  src={productData.produt[product.id].image}
+                  src={product.image}
                   alt={product.name}
                   className="product-image"
                 />

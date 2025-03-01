@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -27,6 +28,7 @@ const Shop = () => {
               ...product,
             }));
             setProducts(productsArray);
+            setFilteredProducts(productsArray);
             console.log(productsArray);
           }
         } catch (err) {
@@ -42,6 +44,16 @@ const Shop = () => {
 
     return () => unsubscribe();
   }, []);
+
+  const filterProducts = (badge) => {
+    if (badge === "all") {
+      setFilteredProducts(products);
+    } else {
+      setFilteredProducts(
+        products.filter((product) => product.badge === badge)
+      );
+    }
+  };
 
   const addToCart = (product) => {
     try {
@@ -72,22 +84,45 @@ const Shop = () => {
   const navigateToProductDetails = (productId) => {
     navigate(`/product/${productId}`);
   };
-  
 
   return (
     <div>
       <div>
         <Navbar />
       </div>
-      <h1 style={{ color: "#388e3c", textAlign: "center", fontSize: "2rem" }}>
+      <h1 style={{ color: "#388e3c", textAlign: "center", fontSize: "2rem", marginTop: "1rem" }}>
         Our Products
       </h1>
 
       {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
+      <div className="filter-buttons">
+        <button className="btn all" onClick={() => filterProducts("all")}>
+          All
+        </button>
+        <button
+          className="btn personalized"
+          onClick={() => filterProducts("Personalized 🎁")}
+        >
+          Personalized
+        </button>
+        <button className="btn eco" onClick={() => filterProducts("Biodegradable 🌿")}>
+          Eco
+        </button>
+        <button
+          className="btn handmade"
+          onClick={() => filterProducts("Recycled ♻️")}
+        >
+          Recycled
+        </button>
+        <button className="btn nature" onClick={() => filterProducts("Nature-Inspired 🌿")}>
+          Nature
+        </button>
+      </div>
+
       <div className="product-grid">
-        {products.length > 0 ? (
-          products.map((product) => (
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
             <div
               key={product.id}
               className="product-card"
@@ -119,7 +154,9 @@ const Shop = () => {
             </div>
           ))
         ) : !error ? (
-          <p style={{ textAlign: "center" }}><Loader/></p>
+          <p style={{ textAlign: "center" }}>
+            <Loader />
+          </p>
         ) : null}
       </div>
     </div>
