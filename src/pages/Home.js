@@ -45,26 +45,7 @@ const Home = () => {
           <p>Learn about our sustainable practices.</p>
         </div>
       </section>
-      <section className="featured-products">
-        <h2>Featured Sustainable Products</h2>
-        <div className="product-grid">
-          <div className="product">
-            <img src="assets/img/hero1.jpg" alt="Product 1" />
-            <h3>Eco-friendly Candle</h3>
-            <p>lkr 500.00</p>
-          </div>
-          <div className="product">
-            <img src="assets/img/product29.jpg" alt="Product 2" />
-            <h3>Bamboo Sunglasses</h3>
-            <p>lkr 5200.00</p>
-          </div>
-          <div className="product">
-            <img src="assets/img/product26.jpg" alt="Product 3" />
-            <h3>Dried Flower Wedding Keepsakes</h3>
-            <p>lkr 2800.00</p>
-          </div>
-        </div>
-      </section>
+      
       <section className="testimonials">
         <h2>What Our Customers Say</h2>
         <div>

@@ -56,14 +56,14 @@ h2 {
 .hero .btn {
   display: inline-block;
   padding: 10px 20px;
-  font-size: 1.2rem;
-  background-color: #4caf50;
-  color: #ffffff;
+  font-size: 1.3rem;
+  background-color: transparent; /* Changed to transparent */
+  color: #4caf50;
   border: none;
   cursor: pointer;
   text-decoration: none;
   margin-top: 15px;
-  border-radius: 5px;
+  border-radius: 50px;
   transition: background-color 0.3s ease, transform 0.3s ease;
   animation: blink-shadow 1s infinite;
 }
@@ -75,7 +75,7 @@ h2 {
 @keyframes blink-shadow {
   0%,
   100% {
-    box-shadow: 0 0 40px rgb(29, 252, 0);
+    box-shadow: 0 0 40px rgb(199, 0, 0);
   }
   50% {
     box-shadow: 0 0 20px rgb(255, 255, 255);
@@ -134,48 +134,6 @@ h2 {
   box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
   background-color: #2e7d329f;
   color: #ffffff;
-}
-
-/* Featured Products Section */
-.featured-products {
-  padding: 50px 20px;
-  background-color: #f1f8e9;
-  text-align: center;
-  align-items: center;
-}
-
-.featured-products h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #4caf50;
-}
-
-.product-grid {
-  display: grid;
-  /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  justify-content: center;
-}
-
-.product {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.product img {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.product:hover {
-  transform: scale(1.05);
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Testimonials & Eco-Impact Section */

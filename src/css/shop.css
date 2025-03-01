@@ -25,7 +25,15 @@ body {
   cursor: pointer;
   font-size: 14px;
   border-radius: 8px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, backdrop-filter 0.3s;
+  background-color: rgba(255, 255, 255, 0.2); /* Glass effect */
+  color: #4caf50;
+  backdrop-filter: blur(10px); /* Glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Glass effect */
+}
+
+.filter-buttons .btn:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Glass effect */
 }
 
 .filter-buttons .btn.all {
@@ -34,7 +42,7 @@ body {
 }
 
 .filter-buttons .btn.all:hover {
-  background-color: #45a049;
+  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
 }
 
 .filter-buttons .btn.personalized {
@@ -43,7 +51,7 @@ body {
 }
 
 .filter-buttons .btn.personalized:hover {
-  background-color: #45a049;
+  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
 }
 
 .filter-buttons .btn.eco {
@@ -52,7 +60,7 @@ body {
 }
 
 .filter-buttons .btn.eco:hover {
-  background-color: #45a049;
+  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
 }
 
 .filter-buttons .btn.handmade {
@@ -61,7 +69,7 @@ body {
 }
 
 .filter-buttons .btn.handmade:hover {
-  background-color: #45a049;
+  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
 }
 
 .filter-buttons .btn.nature {
@@ -70,7 +78,7 @@ body {
 }
 
 .filter-buttons .btn.nature:hover {
-  background-color: #45a049;
+  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
 }
 
 /* Product Cards */

@@ -55,7 +55,10 @@ const Profile = () => {
     const ordersRef = ref(db, `orders/${uid}`);
     get(ordersRef).then((snapshot) => {
       if (snapshot.exists()) {
-        setOrders(snapshot.val());
+        const ordersData = snapshot.val();
+        setOrders(Array.isArray(ordersData) ? ordersData : Object.values(ordersData));
+      } else {
+        setOrders([]);
       }
     });
   };
@@ -189,8 +192,16 @@ const Profile = () => {
               <ul className="profile-list">
                 {orders.map((order, index) => (
                   <li key={index} className="profile-list-item">
-                    Order #{order.id} - {order.date}
-                  </li>
+                  <div>
+                    <strong>Order #{order.id}</strong> - {order.date}
+                  </div>
+                  <div>
+                    <strong>Tracking Number:</strong> {order.trackingNumber}
+                  </div>
+                  <div>
+                    <strong>Status:</strong> {order.status}
+                  </div>
+                </li>
                 ))}
               </ul>
             </div>
