@@ -1,0 +1,35 @@
+.customization-page-eco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.customization-tools-eco {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.customization-tools-eco input,
+.customization-tools-eco select {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.customization-canvas-eco {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+button.customization-btn-eco {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+button.customization-btn-eco:hover {
+  background-color: #ddd;
+}

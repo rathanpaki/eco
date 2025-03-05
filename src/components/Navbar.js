@@ -20,7 +20,7 @@ const Navbar = () => {
             <Link to="/shop">Shop</Link>
           </li>
           <li>
-            <Link to="/personalization">Personalization</Link>
+            <Link to="/customize">Personalization</Link>
           </li>
           <li>
             <Link to="/contact">Contact Us</Link>

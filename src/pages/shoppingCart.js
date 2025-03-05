@@ -12,7 +12,7 @@ const ShoppingCart = ({ isOpen, onClose }) => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(cart);
   }, []);
-
+ 
   const handleIncrease = (index) => {
     const newCartItems = [...cartItems];
     newCartItems[index] = {

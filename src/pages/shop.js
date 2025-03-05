@@ -81,8 +81,12 @@ const Shop = () => {
     }
   };
 
-  const navigateToProductDetails = (productId) => {
-    navigate(`/product/${productId}`);
+  const navigateToProductDetails = (product) => {
+    if (product.badge === "Personalized 🎁") {
+      navigate("/customize", { state: { product } });
+    } else {
+      navigate(`/product/${product.id}`);
+    }
   };
 
   return (
@@ -90,7 +94,14 @@ const Shop = () => {
       <div>
         <Navbar />
       </div>
-      <h1 style={{ color: "#388e3c", textAlign: "center", fontSize: "2rem", marginTop: "1rem" }}>
+      <h1
+        style={{
+          color: "#388e3c",
+          textAlign: "center",
+          fontSize: "2rem",
+          marginTop: "1rem",
+        }}
+      >
         Our Products
       </h1>
 
@@ -106,7 +117,10 @@ const Shop = () => {
         >
           Personalized
         </button>
-        <button className="btn eco" onClick={() => filterProducts("Biodegradable 🌿")}>
+        <button
+          className="btn eco"
+          onClick={() => filterProducts("Biodegradable 🌿")}
+        >
           Eco
         </button>
         <button
@@ -115,7 +129,10 @@ const Shop = () => {
         >
           Recycled
         </button>
-        <button className="btn nature" onClick={() => filterProducts("Nature-Inspired 🌿")}>
+        <button
+          className="btn nature"
+          onClick={() => filterProducts("Nature-Inspired 🌿")}
+        >
           Nature
         </button>
       </div>
@@ -126,7 +143,7 @@ const Shop = () => {
             <div
               key={product.id}
               className="product-card"
-              onClick={() => navigateToProductDetails(product.id)}
+              onClick={() => navigateToProductDetails(product)}
             >
               <span className="badge">{product.badge}</span>
               <div className="product-image-container">

@@ -11,6 +11,7 @@ import ShoppingCart from "./pages/shoppingCart";
 import WishList from "./pages/wishList";
 import Checkout from "./pages/checkOut";
 import AdminDashboard from "./pages/adminDashboard";
+import Customization from "./pages/customization";
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -27,7 +28,10 @@ function App() {
         </button>
 
         {/* Shopping Cart Overlay */}
-        <ShoppingCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+        <ShoppingCart
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+        />
 
         {/* Main Routes */}
         <Routes>
@@ -40,6 +44,7 @@ function App() {
           <Route path="/wishlist" element={<WishList />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/customize" element={<Customization />} />
         </Routes>
       </div>
     </Router>
