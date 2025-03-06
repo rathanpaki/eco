@@ -39,9 +39,9 @@
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  transition: background-color 0.3s ease; 
-  float: right; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  float: right;
   margin-right: 100px;
 }
 
@@ -49,4 +49,30 @@
   background-color: #45a049;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: scale(1.05);
+}
+
+.admin-navbar {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.admin-navbar-title {
+  margin: 0;
+}
+
+.admin-dashboard-cards {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+}
+
+.admin-dashboard-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 45%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

@@ -56,7 +56,14 @@ const Profile = () => {
     get(ordersRef).then((snapshot) => {
       if (snapshot.exists()) {
         const ordersData = snapshot.val();
-        setOrders(Array.isArray(ordersData) ? ordersData : Object.values(ordersData));
+        const ordersArray = [];
+        Object.entries(ordersData).forEach(([orderId, orderDetails]) => {
+          ordersArray.push({
+            id: orderId,
+            ...orderDetails,
+          });
+        });
+        setOrders(ordersArray);
       } else {
         setOrders([]);
       }
@@ -115,8 +122,11 @@ const Profile = () => {
     });
   };
 
-  if (loading) return
-  <div className="profile-loading"> <Loading /></div>;
+  if (loading) return;
+  <div className="profile-loading">
+    {" "}
+    <Loading />
+  </div>;
   return (
     <>
       <Navbar />
@@ -192,16 +202,16 @@ const Profile = () => {
               <ul className="profile-list">
                 {orders.map((order, index) => (
                   <li key={index} className="profile-list-item">
-                  <div>
-                    <strong>Order #{order.id}</strong> - {order.date}
-                  </div>
-                  <div>
-                    <strong>Tracking Number:</strong> {order.trackingNumber}
-                  </div>
-                  <div>
-                    <strong>Status:</strong> {order.status}
-                  </div>
-                </li>
+                    <div>
+                      <strong>Order #{order.id}</strong> - {order.date}
+                    </div>
+                    <div>
+                      <strong>Tracking Number:</strong> {order.trackingNumber}
+                    </div>
+                    <div>
+                      <strong>Status:</strong> {order.status}
+                    </div>
+                  </li>
                 ))}
               </ul>
             </div>

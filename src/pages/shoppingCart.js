@@ -10,9 +10,27 @@ const ShoppingCart = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(cart);
+    // Set default quantity to 1 if not already set
+    const updatedCart = cart.map((item) => ({
+      ...item,
+      quantity: item.quantity || 1,
+    }));
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   }, []);
- 
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      setCartItems(cart);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   const handleIncrease = (index) => {
     const newCartItems = [...cartItems];
     newCartItems[index] = {
@@ -38,6 +56,26 @@ const ShoppingCart = ({ isOpen, onClose }) => {
     localStorage.setItem("cart", JSON.stringify(newCartItems));
   };
 
+  const addProductToCart = (product) => {
+    const existingProductIndex = cartItems.findIndex(
+      (item) => item.id === product.id
+    );
+    let newCartItems;
+    if (existingProductIndex !== -1) {
+      newCartItems = [...cartItems];
+      newCartItems[existingProductIndex].quantity += 1;
+    } else {
+      newCartItems = [...cartItems, { ...product, quantity: 1 }];
+    }
+    setCartItems(newCartItems);
+    localStorage.setItem("cart", JSON.stringify(newCartItems));
+  };
+
+  // Example function to simulate adding a product to the cart
+  const handleAddProduct = (product) => {
+    addProductToCart(product);
+  };
+
   const saveOrderToFirebase = (orderDetails) => {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -53,7 +91,7 @@ const ShoppingCart = ({ isOpen, onClose }) => {
       details: {
         items: cartItems,
         subtotal: parseFloat(subTotal),
-        deliveryCost: 5.5, 
+        deliveryCost: 5.5,
       },
       payment: {},
     };
@@ -79,11 +117,7 @@ const ShoppingCart = ({ isOpen, onClose }) => {
         ) : (
           cartItems.map((item, index) => (
             <div className="cart-item" key={index}>
-              <img
-                src={item.image}
-                alt={item.name}
-                className="item-image"
-              />
+              <img src={item.image} alt={item.name} className="item-image" />
               <div className="item-details">
                 <h3>{item.name}</h3>
                 <p>{item.size}</p>
@@ -94,7 +128,7 @@ const ShoppingCart = ({ isOpen, onClose }) => {
                 </div>
               </div>
               <div className="item-price">
-                <p>LKR {item.price}</p>
+                <p>LKR {item.price * item.quantity}</p>
                 <a href="#" onClick={() => handleRemove(index)}>
                   Remove
                 </a>

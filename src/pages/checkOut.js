@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CustomerDetails from "./customerDetails";
 import PaymentMethod from "./paymentMethode";
 import Confirmation from "./confirmation";
-import "./checkout.css"; // Import the CSS file for styling
+import "../css/checkout.css"; 
 
 const Checkout = () => {
   const [step, setStep] = useState(1);
@@ -15,6 +15,7 @@ const Checkout = () => {
     },
     payment: {},
     total: 0,
+    status: "pending",
   });
 
   const nextStep = () => setStep(step + 1);

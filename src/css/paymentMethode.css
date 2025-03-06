@@ -1,68 +1,89 @@
 /* PaymentMethod.css */
 .payment-method {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-  }
-  
-  .payment-method h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .payment-method form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .payment-method input {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .checkbox {
-    display: flex;
-    align-items: center;
-  }
-  
-  .checkbox input {
-    margin-right: 10px;
-  }
-  
-  .navigation-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .prev-button,
-  .next-button {
-    width: 48%;
-    padding: 10px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .prev-button {
-    background-color: #6c757d;
-  }
-  
-  .next-button {
-    background-color: #007bff;
-  }
-  
-  .prev-button:hover {
-    background-color: #5a6268;
-  }
-  
-  .next-button:hover {
-    background-color: #0056b3;
-  }
-  
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #e7e6e6c9;
+}
+
+.payment-method h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.payment-method form {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-method input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox input {
+  margin-right: 10px;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.prev-button,
+.next-button {
+  width: 48%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.prev-button {
+  background-color: #6c757d;
+}
+
+.next-button {
+  background-color: #007bff;
+}
+
+.prev-button:hover {
+  background-color: #5a6268;
+}
+
+.next-button:hover {
+  background-color: #0056b3;
+}
+
+input[type="text"] {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.card-type {
+  margin-bottom: 20px;
+}
+
+.card-type label {
+  margin-right: 15px;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+}

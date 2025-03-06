@@ -1,35 +1,153 @@
-.customization-page-eco {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
 }
 
+.customization-page-eco {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Customization Tools */
 .customization-tools-eco {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
-.customization-tools-eco input,
-.customization-tools-eco select {
+.customization-tools-eco input[type="text"],
+.customization-tools-eco input[type="color"],
+.customization-tools-eco select,
+.customization-tools-eco input[type="file"] {
   padding: 10px;
-  font-size: 16px;
+  border: 2px solid #16703bef;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
-.customization-canvas-eco {
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
+.customization-tools-eco input[type="text"]:focus,
+.customization-tools-eco input[type="color"]:focus,
+.customization-tools-eco select:focus,
+.customization-tools-eco input[type="file"]:focus {
+  border-color: #16703bef;
 }
 
-button.customization-btn-eco {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 5px;
+.customization-tools-eco input[type="file"] {
+  background-color: #16703b86;
+  color: white;
   cursor: pointer;
 }
 
-button.customization-btn-eco:hover {
-  background-color: #ddd;
+.customization-tools-eco input[type="file"]:hover {
+  background-color: #16703bbe;
+}
+
+/* Canvas */
+.customization-canvas-eco {
+  border: 2px solid #16703bef;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  cursor: crosshair;
+}
+
+/* Price Display */
+.price-display-eco {
+  font-size: 1.5rem;
+  color: #27ae60;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+.customization-btn-eco {
+  padding: 12px 24px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+}
+
+.customization-btn-eco:hover {
+  background-color: #16703bef;
+}
+
+.customization-btn-eco:active {
+  background-color: #16703bef;
+}
+
+.customization-tools-eco input[type="number"] {
+  padding: 10px;
+  border: 2px solid #16703bef;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+  width: 100px; /* Fixed width for number inputs */
+}
+
+.customization-tools-eco input[type="number"]:focus {
+  border-color: #16703bef;
+}
+
+.settings-display-eco {
+  background-color: #ffffff;
+  border: 2px solid #16703bef;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 20px auto;
+  max-width: 300px;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.settings-display-eco p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.settings-display-eco p span {
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .customization-tools-eco {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .customization-tools-eco input[type="text"],
+  .customization-tools-eco input[type="color"],
+  .customization-tools-eco select,
+  .customization-tools-eco input[type="file"] {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .customization-canvas-eco {
+    width: 100%;
+    height: auto;
+  }
 }
