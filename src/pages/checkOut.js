@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import CustomerDetails from "./customerDetails";
 import PaymentMethod from "./paymentMethode";
 import Confirmation from "./confirmation";
-import "../css/checkout.css"; 
+import "../css/checkout.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Checkout = () => {
   const [step, setStep] = useState(1);
@@ -16,6 +18,7 @@ const Checkout = () => {
     payment: {},
     total: 0,
     status: "pending",
+    date : new Date().toLocaleDateString(),
   });
 
   const nextStep = () => setStep(step + 1);
@@ -31,6 +34,7 @@ const Checkout = () => {
       payment: details.payment,
       total: details.details.subtotal + details.details.deliveryCost,
     });
+    toast.success("Order details updated successfully!");
     nextStep();
   };
 

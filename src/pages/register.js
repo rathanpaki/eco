@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { auth, googleProvider, db} from "../firebaseConfig";
+import { auth, googleProvider, db } from "../firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import "../css/register.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -16,7 +18,7 @@ const Register = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
     try {
@@ -31,10 +33,10 @@ const Register = () => {
         email: email,
         phoneNumber: phoneNumber,
       });
-      alert("Registration successful! Please log in.");
+      toast.success("Registration successful! Please log in.");
       navigate("/login");
     } catch (error) {
-      alert("Error registering user");
+      toast.error("Error registering user");
     }
   };
 
@@ -43,7 +45,7 @@ const Register = () => {
       await signInWithPopup(auth, googleProvider);
       navigate("/dashboard");
     } catch (error) {
-      alert("Error logging in with Google");
+      toast.error("Error logging in with Google");
     }
   };
 

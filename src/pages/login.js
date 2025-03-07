@@ -3,6 +3,8 @@ import { auth } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "../css/login.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,17 +17,17 @@ const Login = () => {
       // Check for admin credentials
       if (email === "admin@gmail.com" && password === "admin@123") {
         localStorage.setItem("user", JSON.stringify({ email: "admin" }));
-        alert("Admin login successful!");
+        toast.success("Admin login successful!");
         navigate("/admin-dashboard");
       } else {
         // Regular user login
         await signInWithEmailAndPassword(auth, email, password);
         localStorage.setItem("user", JSON.stringify({ email }));
-        alert("Login successful!");
+        toast.success("Login successful!");
         navigate("/");
       }
     } catch (error) {
-      alert("Invalid email or password");
+      toast.error("Invalid email or password");
     }
   };
 

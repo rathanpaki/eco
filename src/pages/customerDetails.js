@@ -3,6 +3,8 @@ import "../css/customerDetails.css";
 import { getAuth } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { db } from "../firebaseConfig";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CustomerDetails = ({ nextStep }) => {
   const [formData, setFormData] = useState({
@@ -38,6 +40,7 @@ const CustomerDetails = ({ nextStep }) => {
       },
     };
     localStorage.setItem("orderDetails", JSON.stringify(updatedOrderDetails));
+    toast.success("Customer details saved successfully!");
     nextStep();
   };
 

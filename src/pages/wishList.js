@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../css/wishList.css";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
   useEffect(() => {
     if (!localStorage.getItem("user")) {
-      alert("Please log in to view your wishlist.");
+      toast.error("Please log in to view your wishlist.");
       return;
     }
     const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];

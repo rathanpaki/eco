@@ -3,6 +3,8 @@ import "../css/paymentMethode.css";
 import { getAuth } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { db } from "../firebaseConfig";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PaymentMethod = ({ nextStep, previousStep }) => {
   const [paymentDetails, setPaymentDetails] = useState({
@@ -84,7 +86,10 @@ const PaymentMethod = ({ nextStep, previousStep }) => {
     const newErrors = {};
 
     // Validate card number based on card type
-    const cardNumberError = validateCardNumber(paymentDetails.cardNumber, paymentDetails.cardType);
+    const cardNumberError = validateCardNumber(
+      paymentDetails.cardNumber,
+      paymentDetails.cardType
+    );
     if (cardNumberError) {
       newErrors.cardNumber = cardNumberError;
     }
@@ -101,6 +106,7 @@ const PaymentMethod = ({ nextStep, previousStep }) => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      toast.error("Please correct the errors in the form.");
       return;
     }
 
@@ -110,6 +116,7 @@ const PaymentMethod = ({ nextStep, previousStep }) => {
       payment: paymentDetails,
     };
     localStorage.setItem("orderDetails", JSON.stringify(updatedOrderDetails));
+    toast.success("Payment details saved successfully!");
     nextStep(updatedOrderDetails);
   };
 

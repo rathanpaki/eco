@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../css/customization.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Customization = () => {
   const [text, setText] = useState("");
@@ -32,7 +34,16 @@ const Customization = () => {
   useEffect(() => {
     drawCanvas();
     calculatePrice();
-  }, [text, color, font, image, drawingData, textPosition, textSize, drawingSize]);
+  }, [
+    text,
+    color,
+    font,
+    image,
+    drawingData,
+    textPosition,
+    textSize,
+    drawingSize,
+  ]);
 
   // Handle text input change
   const handleTextChange = (e) => setText(e.target.value);
@@ -59,7 +70,8 @@ const Customization = () => {
   const handleTextSizeChange = (e) => setTextSize(parseInt(e.target.value, 10));
 
   // Handle drawing size change
-  const handleDrawingSizeChange = (e) => setDrawingSize(parseInt(e.target.value, 10));
+  const handleDrawingSizeChange = (e) =>
+    setDrawingSize(parseInt(e.target.value, 10));
 
   // Start drawing on the canvas
   const startDrawing = (e) => {
@@ -204,6 +216,7 @@ const Customization = () => {
   // Navigate to the checkout page
   const handleProceedToCheckout = () => {
     navigate("/checkout", { state: { price } });
+    toast.success("Proceeding to checkout!");
   };
 
   return (
@@ -244,9 +257,13 @@ const Customization = () => {
         <p>Current Settings:</p>
         <p>Text Size: {textSize}px</p>
         <p>Drawing Size: {drawingSize}px</p>
-        <p>Color: <span style={{ color: color }}>{color}</span></p>
+        <p>
+          Color: <span style={{ color: color }}>{color}</span>
+        </p>
         <p>Font: {font}</p>
-        <p>Text Position: ({textPosition.x}, {textPosition.y})</p>
+        <p>
+          Text Position: ({textPosition.x}, {textPosition.y})
+        </p>
       </div>
       <canvas
         ref={canvasRef}

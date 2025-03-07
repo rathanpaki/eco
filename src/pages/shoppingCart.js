@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { db } from "../firebaseConfig";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ShoppingCart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    // Set default quantity to 1 if not already set
+
     const updatedCart = cart.map((item) => ({
       ...item,
       quantity: item.quantity || 1,
@@ -71,20 +73,6 @@ const ShoppingCart = ({ isOpen, onClose }) => {
     localStorage.setItem("cart", JSON.stringify(newCartItems));
   };
 
-  // Example function to simulate adding a product to the cart
-  const handleAddProduct = (product) => {
-    addProductToCart(product);
-  };
-
-  const saveOrderToFirebase = (orderDetails) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user) {
-      const orderRef = ref(db, `orders/${user.uid}/${orderDetails.id}`);
-      set(orderRef, orderDetails);
-    }
-  };
-
   const handleCheckout = () => {
     const orderDetails = {
       id: new Date().getTime().toString(),
@@ -96,20 +84,20 @@ const ShoppingCart = ({ isOpen, onClose }) => {
       payment: {},
     };
     localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
+    toast.success("Order details saved successfully!");
   };
 
   const subTotal = cartItems
     .reduce((total, item) => total + item.price * item.quantity, 0)
     .toFixed(2);
 
-  if (!isOpen) return null; // Don't render the cart if it's not open
+  if (!isOpen) return null; 
 
   return (
     <div className="shopping-cart">
       <button className="close-cart" onClick={onClose}>
         X
       </button>{" "}
-      {/* Close Button */}
       <h2>Shopping Cart</h2>
       <div className="cart-content">
         {cartItems.length === 0 ? (

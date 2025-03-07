@@ -4,6 +4,8 @@ import { ref, onValue } from "firebase/database";
 import { db } from "../firebaseConfig";
 import "../css/productDetails.css";
 import Loader from "../components/Loader";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -42,24 +44,26 @@ const ProductDetails = () => {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       cart.push(product);
       localStorage.setItem("cart", JSON.stringify(cart));
-      alert("Product added to cart!");
+      toast.success("Product added to cart!");
     } catch (err) {
       console.error("Error adding to cart:", err);
+      toast.error("Error adding to cart.");
     }
   };
 
   const addToWishlist = (product) => {
     if (!localStorage.getItem("user")) {
-      alert("Please log in to add items to your wishlist.");
+      toast.error("Please log in to add items to your wishlist.");
       return;
     }
     try {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       wishlist.push(product);
       localStorage.setItem("wishlist", JSON.stringify(wishlist));
-      alert("Product added to wishlist!");
+      toast.success("Product added to wishlist!");
     } catch (err) {
       console.error("Error adding to wishlist:", err);
+      toast.error("Error adding to wishlist.");
     }
   };
 

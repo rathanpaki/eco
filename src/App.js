@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Home from "./pages/Home";
 import Shop from "./pages/shop";
@@ -12,13 +14,21 @@ import WishList from "./pages/wishList";
 import Checkout from "./pages/checkOut";
 import AdminDashboard from "./pages/adminDashboard";
 import Customization from "./pages/customization";
+import AboutUs from "./pages/AboutUs"; 
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   return (
     <Router>
       <div>
+        <ToastContainer /> {/* Add ToastContainer here */}
         {/* Cart Toggle Button (Hidden when cart is open) */}
         <button
           className={`cart-toggle-btn ${isCartOpen ? "hidden" : ""}`}
@@ -26,13 +36,11 @@ function App() {
         >
           🛒
         </button>
-
         {/* Shopping Cart Overlay */}
         <ShoppingCart
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}
         />
-
         {/* Main Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
@@ -45,6 +53,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/customize" element={<Customization />} />
+          <Route path="/about" element={<AboutUs />} />
         </Routes>
       </div>
     </Router>

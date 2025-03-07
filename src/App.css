@@ -25,6 +25,8 @@
 }
 
 .cart-toggle-btn.hidden {
-  opacity: 0; /* Make button invisible */
-  pointer-events: none; /* Disable interaction when hidden */
+  opacity: 0; 
+  pointer-events: none; 
 }
+
+

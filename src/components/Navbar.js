@@ -1,35 +1,73 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom"; // Use NavLink
 import "../css/navbar.css";
 import logo from "../img/logo.jpg";
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <nav className="navbar">
       <div className="container">
-        <Link className="logo" to="/">
+        <NavLink className="logo" to="/">
           <img src={logo} alt="Logo" />
-        </Link>
-        <div className="menu-toggle" id="mobile-menu">
+        </NavLink>
+        <div
+          className={`menu-toggle ${isMobileMenuOpen ? "active" : ""}`}
+          id="mobile-menu"
+          onClick={toggleMobileMenu}
+        >
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
         </div>
-        <ul className="nav-links" id="nav-links">
+        <ul
+          className={`nav-links ${isMobileMenuOpen ? "active" : ""}`}
+          id="nav-links"
+        >
           <li>
-            <Link to="/shop">Shop</Link>
+            <NavLink
+              to="/shop"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Shop
+            </NavLink>
           </li>
           <li>
-            <Link to="/customize">Personalization</Link>
+            <NavLink
+              to="/about"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              About Us
+            </NavLink>
           </li>
           <li>
-            <Link to="/contact">Contact Us</Link>
+            <NavLink
+              to="/customize"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Personalization
+            </NavLink>
           </li>
           <li>
-            <Link to="/blog">Blog</Link>
+            <NavLink
+              to="/blog"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Blog
+            </NavLink>
           </li>
           <li>
-            <Link to="/profile">Profile</Link>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Profile
+            </NavLink>
           </li>
         </ul>
       </div>

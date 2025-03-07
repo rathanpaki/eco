@@ -4,6 +4,8 @@ import { ref, set, get, update } from "firebase/database";
 import { db } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "../css/confirmation.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Confirmation = ({ orderDetails }) => {
   const auth = getAuth();
@@ -30,6 +32,7 @@ const Confirmation = ({ orderDetails }) => {
 
   const handleHomeButtonClick = () => {
     navigate("/");
+    toast.success("Redirecting to homepage!");
   };
 
   return (
