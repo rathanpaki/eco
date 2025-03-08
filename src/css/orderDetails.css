@@ -1,9 +1,8 @@
-/* orderDetails.css */
 .page-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .page-content {
@@ -166,5 +165,57 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@media (max-width: 1024px) {
+  .page-container {
+    padding: 1.5rem;
+  }
+
+  .page-content {
+    padding: 1.5rem;
+  }
+
+  .order-item {
+    padding: 1rem 0;
+  }
+
+  .item-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .btn-primary-profile,
+  .btn-danger-profile,
+  .btn-secondary-profile {
+    font-size: 14px;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 1rem;
+  }
+
+  .page-content {
+    padding: 1rem;
+  }
+
+  .order-item {
+    padding: 0.5rem 0;
+  }
+
+  .item-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .btn-primary-profile,
+  .btn-danger-profile,
+  .btn-secondary-profile {
+    font-size: 12px;
+    padding: 0.5rem;
   }
 }

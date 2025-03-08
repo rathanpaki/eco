@@ -131,7 +131,7 @@
   animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
+/* @keyframes pulse {
   0% {
     transform: scale(1);
   }
@@ -141,7 +141,7 @@
   100% {
     transform: scale(1);
   }
-}
+} */
 
 @media (max-width: 768px) {
   .about-us {
@@ -162,7 +162,52 @@
   }
 }
 
-/* Existing styles remain the same */
+@media (max-width: 1024px) {
+  .about-us {
+    padding: 40px 30px;
+  }
+
+  .about-us h1 {
+    font-size: 2.5em;
+  }
+
+  .about-us h2 {
+    font-size: 1.8em;
+  }
+
+  .about-us p,
+  .about-us ul {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-us {
+    padding: 20px 10px;
+  }
+
+  .about-us h1 {
+    font-size: 2em;
+  }
+
+  .about-us h2 {
+    font-size: 1.4em;
+  }
+
+  .about-us p,
+  .about-us ul {
+    font-size: 0.9em;
+  }
+
+  .contact-us-button {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+}
 
 /* Contact Us Button */
 .contact-us-button {

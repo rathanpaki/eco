@@ -29,7 +29,8 @@ function App() {
   return (
     <Router>
       <div>
-        <ToastContainer /> {/* Add ToastContainer here */}
+        <ToastContainer /> 
+        
         {/* Cart Toggle Button (Hidden when cart is open) */}
         <button
           className={`cart-toggle-btn ${isCartOpen ? "hidden" : ""}`}

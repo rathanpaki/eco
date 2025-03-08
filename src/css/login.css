@@ -1,89 +1,110 @@
-/* General Styles */
 body {
-    font-family: "Times New Roman", Times, serif;
-    background-color: #ffffff;
-    color: #000000;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Login Container */
+  font-family: "Times New Roman", Times, serif;
+  background-color: #ffffff;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+/* Login Container */
+.login-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+  height: 80vh;
+}
+
+/* Login Form */
+.login-page-form {
+  background: #f1f8e9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  text-align: center;
+}
+
+.login-page-form h2 {
+  margin-bottom: 10px;
+  color: #4caf50;
+}
+
+.login-page-form label {
+  display: block;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.login-page-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.login-page-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-page-form button:hover {
+  background-color: #388e3c;
+}
+
+/* Register Link */
+.login-page-form p {
+  margin-top: 15px;
+}
+
+.login-page-form a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+.login-page-form a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .login-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 80px;
-    height: 80vh;
-  }
-  
-  /* Login Form */
-  .login-page-form {
-    background: #f1f8e9;
+    height: auto;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    width: 320px;
-    text-align: center;
   }
-  
-  .login-page-form h2 {
-    margin-bottom: 10px;
-    color: #4caf50;
-  }
-  
-  .login-page-form label {
-    display: block;
-    margin-bottom: 4px;
-    text-align: left;
-  }
-  
-  .login-page-form input {
+
+  .login-page-form {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
   }
-  
-  /* Buttons */
+}
+
+@media (max-width: 1024px) {
+  .login-page-form {
+    width: 80%;
+  }
+
   .login-page-form button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page-form {
     width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 15px;
   }
-  
-  .login-page-form button:hover {
-    background-color: #388e3c;
+
+  .login-page-form button {
+    font-size: 12px;
+    padding: 6px;
   }
-  
-  /* Register Link */
-  .login-page-form p {
-    margin-top: 15px;
-  }
-  
-  .login-page-form a {
-    color: #4caf50;
-    text-decoration: none;
-  }
-  
-  .login-page-form a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .login-page-container {
-      height: auto;
-      padding: 20px;
-    }
-  
-    .login-page-form {
-      width: 100%;
-    }
-  }
-  
+}

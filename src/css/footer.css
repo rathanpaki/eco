@@ -53,3 +53,42 @@ footer:hover {
 .newsletter button:hover {
   background-color: #388e3c;
 }
+
+@media (max-width: 1024px) {
+  footer {
+    padding: 15px;
+  }
+
+  .footer-links {
+    gap: 15px;
+  }
+
+  .newsletter input {
+    padding: 8px;
+  }
+
+  .newsletter button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 10px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .newsletter input {
+    padding: 6px;
+  }
+
+  .newsletter button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}

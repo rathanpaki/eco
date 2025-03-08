@@ -1,4 +1,3 @@
-/* PaymentMethod.css */
 .payment-method {
   width: 80%;
   margin: 0 auto;
@@ -43,7 +42,7 @@
 .next-button {
   width: 48%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #4caf50;
   border: none;
   color: white;
   cursor: pointer;
@@ -55,7 +54,7 @@
 }
 
 .next-button {
-  background-color: #007bff;
+  background-color: #4caf50;
 }
 
 .prev-button:hover {
@@ -63,7 +62,7 @@
 }
 
 .next-button:hover {
-  background-color: #0056b3;
+  background-color: #4caf4fbb;
 }
 
 input[type="text"] {
@@ -86,4 +85,45 @@ input[type="text"] {
   color: red;
   font-size: 0.9em;
   margin-top: 5px;
+}
+
+@media (max-width: 1024px) {
+  .payment-method {
+    width: 90%;
+  }
+
+  .payment-method h2 {
+    font-size: 20px;
+  }
+
+  .payment-method input {
+    padding: 8px;
+  }
+
+  .prev-button,
+  .next-button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-method {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .payment-method h2 {
+    font-size: 18px;
+  }
+
+  .payment-method input {
+    padding: 6px;
+  }
+
+  .prev-button,
+  .next-button {
+    font-size: 12px;
+    padding: 6px;
+  }
 }

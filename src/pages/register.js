@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/register.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FcGoogle } from "react-icons/fc"; 
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -43,7 +44,7 @@ const Register = () => {
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate("/dashboard");
+      navigate("/profile");
     } catch (error) {
       toast.error("Error logging in with Google");
     }
@@ -98,15 +99,17 @@ const Register = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <button type="submit">Register</button>
-
-        <button
-          className="register-google-button"
-          type="button"
-          onClick={handleGoogleLogin}
-        >
-          Register with Google
-        </button>
+        <div className="buttons-container">
+          <button type="submit">Register</button>
+          <button
+            className="register-google-button"
+            type="button"
+            onClick={handleGoogleLogin}
+          >
+            <FcGoogle style={{ width: "20px", marginRight: "10px" }} />
+            Register with Google
+          </button>
+        </div>
         <p>
           Already have an account? <a href="/login">Login here</a>
         </p>

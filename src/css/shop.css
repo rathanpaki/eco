@@ -26,14 +26,14 @@ body {
   font-size: 14px;
   border-radius: 8px;
   transition: background-color 0.3s, backdrop-filter 0.3s;
-  background-color: rgba(255, 255, 255, 0.2); /* Glass effect */
+  background-color: rgba(255, 255, 255, 0.2);
   color: #4caf50;
-  backdrop-filter: blur(10px); /* Glass effect */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Glass effect */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .filter-buttons .btn:hover {
-  background-color: rgba(255, 255, 255, 0.3); /* Glass effect */
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .filter-buttons .btn.all {
@@ -42,7 +42,7 @@ body {
 }
 
 .filter-buttons .btn.all:hover {
-  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
+  background-color: rgba(69, 160, 73, 0.8);
 }
 
 .filter-buttons .btn.personalized {
@@ -51,7 +51,7 @@ body {
 }
 
 .filter-buttons .btn.personalized:hover {
-  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
+  background-color: rgba(69, 160, 73, 0.8);
 }
 
 .filter-buttons .btn.eco {
@@ -60,7 +60,7 @@ body {
 }
 
 .filter-buttons .btn.eco:hover {
-  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
+  background-color: rgba(69, 160, 73, 0.8);
 }
 
 .filter-buttons .btn.handmade {
@@ -69,7 +69,7 @@ body {
 }
 
 .filter-buttons .btn.handmade:hover {
-  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
+  background-color: rgba(69, 160, 73, 0.8);
 }
 
 .filter-buttons .btn.nature {
@@ -78,7 +78,7 @@ body {
 }
 
 .filter-buttons .btn.nature:hover {
-  background-color: rgba(69, 160, 73, 0.8); /* Add transparency */
+  background-color: rgba(69, 160, 73, 0.8);
 }
 
 /* Product Cards */
@@ -344,3 +344,39 @@ body {
   }
 }
 
+@media (max-width: 1024px) {
+  .filter-buttons .btn {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .product-card {
+    padding: 15px;
+  }
+
+  .product-card img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .filter-buttons .btn {
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+
+  .product-card {
+    padding: 10px;
+  }
+
+  .product-card img {
+    width: 60px;
+    height: 60px;
+  }
+}

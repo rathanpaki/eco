@@ -18,7 +18,7 @@ h2 {
 
 /* Hero Section */
 .hero {
-  background-image:  url("../img/hero.png");
+  background-image: url("../img/hero.png");
   height: 90vh;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@ h2 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; 
+  background-attachment: fixed;
 }
 
 .hero h1 {
@@ -181,7 +181,7 @@ h2 {
   top: -10%;
   width: 10px;
   height: 10px;
-  background:#4caf4f73;
+  background: #4caf4f73;
   border-radius: 50%;
   filter: blur(1px);
   animation: fall linear infinite;
@@ -229,4 +229,76 @@ h2 {
 .slide-in-right.visible {
   opacity: 1;
   transform: translateX(0);
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    height: 70vh;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+  }
+
+  .hero .btn {
+    font-size: 1.1rem;
+    padding: 8px 16px;
+  }
+
+  .features {
+    padding: 40px 15px;
+  }
+
+  .feature {
+    padding: 15px;
+  }
+
+  .testimonials,
+  .eco-impact {
+    padding: 40px 15px;
+  }
+
+  .testimonial {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 50vh;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero .btn {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .features {
+    padding: 30px 10px;
+  }
+
+  .feature {
+    padding: 10px;
+  }
+
+  .testimonials,
+  .eco-impact {
+    padding: 30px 10px;
+  }
+
+  .testimonial {
+    padding: 10px;
+  }
 }

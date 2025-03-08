@@ -1,41 +1,78 @@
-/* CustomerDetails.css */
 .customer-details {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #e7e6e6c9;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #e7e6e6c9;
+}
+
+.customer-details h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.customer-details form {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-details input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.next-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.next-button:hover {
+  background-color: #4caf50bb;
+}
+
+@media (max-width: 1024px) {
+  .customer-details {
+    width: 90%;
   }
-  
+
   .customer-details h2 {
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 20px;
   }
-  
-  .customer-details form {
-    display: flex;
-    flex-direction: column;
-  }
-  
+
   .customer-details input {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 8px;
   }
-  
+
   .next-button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-details {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
   }
-  
-  .next-button:hover {
-    background-color: #0056b3;
+
+  .customer-details h2 {
+    font-size: 18px;
   }
-  
+
+  .customer-details input {
+    padding: 6px;
+  }
+
+  .next-button {
+    font-size: 12px;
+    padding: 6px;
+  }
+}

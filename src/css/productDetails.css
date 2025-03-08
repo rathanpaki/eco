@@ -46,7 +46,7 @@ body {
 .product-details .product-image {
   width: 100%;
   max-width: 500px;
-  height: auto; 
+  height: auto;
   border-radius: 10px;
   margin-bottom: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -147,13 +147,13 @@ body {
   cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
-  background: #ff9800;
+  background: #857e74;
   color: white;
   transition: background 0.3s, transform 0.3s;
 }
 
 .ar-preview button:hover {
-  background: #fb8c00;
+  background: #6b655d;
   transform: scale(1.05);
 }
 
@@ -182,5 +182,47 @@ body {
   .product-details .buttons button {
     width: 100%;
     margin-top: 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .product-details {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .product-image-container {
+    padding: 15px;
+  }
+
+  .product-info {
+    padding: 15px;
+  }
+
+  .product-details h1 {
+    font-size: 28px;
+  }
+
+  .product-details .price {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-details {
+    padding: 10px;
+  }
+
+  .product-details h1 {
+    font-size: 24px;
+  }
+
+  .product-details .price {
+    font-size: 18px;
+  }
+
+  .product-details .buttons button {
+    font-size: 14px;
+    padding: 10px;
   }
 }
