@@ -91,7 +91,7 @@ const ShoppingCart = ({ isOpen, onClose }) => {
     .reduce((total, item) => total + item.price * item.quantity, 0)
     .toFixed(2);
 
-  if (!isOpen) return null; 
+  if (!isOpen) return null;
 
   return (
     <div className="shopping-cart">

@@ -1,0 +1,170 @@
+/* orderDetails.css */
+.page-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-content {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.page-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.order-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.order-item:hover {
+  background-color: #f9f9f9;
+}
+
+.item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details strong {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.item-details div {
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.page-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-primary-profile,
+.btn-danger-profile,
+.btn-secondary-profile {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary-profile {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+}
+
+.btn-primary-profile:hover {
+  background: linear-gradient(135deg, #0056b3, #003d80);
+  transform: translateY(-2px);
+}
+
+.btn-danger-profile {
+  background: linear-gradient(135deg, #dc3545, #a71d2a);
+  color: #fff;
+}
+
+.btn-danger-profile:hover {
+  background: linear-gradient(135deg, #a71d2a, #7a1520);
+  transform: translateY(-2px);
+}
+
+.btn-secondary-profile {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: #fff;
+}
+
+.btn-secondary-profile:hover {
+  background: linear-gradient(135deg, #495057, #343a40);
+  transform: translateY(-2px);
+}
+
+/* orderDetails.css */
+.cancel-reason-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-reason-section h4 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.cancel-reason-section textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  resize: vertical;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.cancel-reason-section textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.cancel-reason-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

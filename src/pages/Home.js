@@ -1,6 +1,6 @@
 // Home.js
 import React, { useEffect } from "react";
-import { initScrollAnimations } from "../utils/scrollAnimations"; // Import the utility function
+import { initScrollAnimations } from "../utils/scrollAnimations";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Gift from "../img/gift-icon.png";
@@ -12,7 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   useEffect(() => {
-    // Initialize scroll animations
     initScrollAnimations();
 
     // Snowfall effect
@@ -41,7 +40,9 @@ const Home = () => {
       <Navbar />
       <header className="hero">
         <h1 className="fade-in">Make Your Wedding Green & Personal!</h1>
-        <p className="fade-in">Personalized & Eco-friendly gifts for your special occasions.</p>
+        <p className="fade-in">
+          Personalized & Eco-friendly gifts for your special occasions.
+        </p>
         <a href="/shop" className="btn fade-in">
           Shop Now
         </a>

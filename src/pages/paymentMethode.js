@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const PaymentMethod = ({ nextStep, previousStep }) => {
   const [paymentDetails, setPaymentDetails] = useState({
-    cardType: "visa", // Default to Visa
+    cardType: "visa",
     cardNumber: "",
     cardHolderName: "",
     expiryDate: "",

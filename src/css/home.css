@@ -1,6 +1,3 @@
-@import url("footer.css");
-@import url("navbar.css");
-
 body {
   /* font-family: Arial, sans-serif; */
   font-family: "Times New Roman", Times, serif;
@@ -33,7 +30,7 @@ h2 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* Add parallax effect */
+  background-attachment: fixed; 
 }
 
 .hero h1 {
@@ -55,7 +52,7 @@ h2 {
   display: inline-block;
   padding: 10px 20px;
   font-size: 1.3rem;
-  background-color: transparent; /* Changed to transparent */
+  background-color: transparent;
   color: #4caf50;
   border: none;
   cursor: pointer;

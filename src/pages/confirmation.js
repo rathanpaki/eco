@@ -18,17 +18,41 @@ const Confirmation = ({ orderDetails }) => {
       set(orderRef, orderDetails);
 
       // Update product stock
-      orderDetails.details.items.forEach(async (item) => {
-        const productRef = ref(db, `produt/${item.id}`);
-        const productSnapshot = await get(productRef);
-        if (productSnapshot.exists()) {
-          const productData = productSnapshot.val();
-          const updatedStock = productData.stock - item.quantity;
-          update(productRef, { stock: updatedStock });
+      const updateProductStock = async () => {
+        for (const item of orderDetails.details.items) {
+          try {
+            const productRef = ref(db, `products/${item.id}`);
+            const productSnapshot = await get(productRef);
+            if (productSnapshot.exists()) {
+              const productData = productSnapshot.val();
+              const updatedStock = productData.stock - item.quantity;
+              await update(productRef, { stock: updatedStock });
+            }
+          } catch (error) {
+            console.error("Error updating product stock:", error);
+          }
         }
-      });
+      };
+      updateProductStock();
+
+      // Update user loyalty points
+      const updateUserLoyaltyPoints = async () => {
+        try {
+          const userRef = ref(db, `users/${user.uid}`);
+          const userSnapshot = await get(userRef);
+          if (userSnapshot.exists()) {
+            const userData = userSnapshot.val();
+            const newLoyaltyPoints =
+              userData.loyaltyPoints + orderDetails.details.subtotal * 0.1;
+            await update(userRef, { loyaltyPoints: newLoyaltyPoints });
+          }
+        } catch (error) {
+          console.error("Error updating user loyalty points:", error);
+        }
+      };
+      updateUserLoyaltyPoints();
     }
-  }, [user, orderDetails]);
+  }, [user, orderDetails, db]);
 
   const handleHomeButtonClick = () => {
     navigate("/");

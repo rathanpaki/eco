@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ref, onValue, update, get } from "firebase/database";
 import { db } from "../firebaseConfig";
-import { sendEmailNotification } from "../utils/emailService"; // Import email service
+import { sendEmailNotification } from "../utils/emailService";
 import "../css/adminDashboard.css";
 
 const AdminDashboard = () => {
@@ -44,8 +44,8 @@ const AdminDashboard = () => {
             Object.entries(userOrders).forEach(([orderId, orderDetails]) => {
               ordersArray.push({
                 id: orderId,
-                userId, // Needed to update Firebase correctly
-                status: orderDetails.Status, // Ensure correct case
+                userId,
+                status: orderDetails.Status,
               });
             });
           });
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
     update(orderRef, { Status: newStatus })
       .then(() => {
         console.log(`Order ${orderId} status updated to ${newStatus}`);
-        notifyUser(userId, orderId, newStatus); // Notify user
+        notifyUser(userId, orderId, newStatus);
       })
       .catch((error) => {
         console.error("Error updating order status: ", error);
@@ -112,7 +112,7 @@ const AdminDashboard = () => {
         const userData = snapshot.val();
         const email = userData.email;
         const name = userData.name;
-        sendEmailNotification(email, name, orderId, newStatus); // Send email notification
+        sendEmailNotification(email, name, orderId, newStatus);
       }
     });
   };

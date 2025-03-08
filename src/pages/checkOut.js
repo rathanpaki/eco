@@ -18,7 +18,7 @@ const Checkout = () => {
     payment: {},
     total: 0,
     status: "pending",
-    date : new Date().toLocaleDateString(),
+    date: new Date().toLocaleDateString(),
   });
 
   const nextStep = () => setStep(step + 1);

@@ -13,7 +13,7 @@ const ProductDetails = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const productRef = ref(db, `produt/${productId}`); // Fixed typo here
+    const productRef = ref(db, `produt/${productId}`);
 
     const unsubscribe = onValue(
       productRef,

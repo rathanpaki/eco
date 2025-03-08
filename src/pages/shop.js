@@ -16,8 +16,6 @@ const Shop = () => {
 
   useEffect(() => {
     const productsRef = ref(db, "produt");
-
-    console.log(products);
     const unsubscribe = onValue(
       productsRef,
       (snapshot) => {

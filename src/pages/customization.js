@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../css/customization.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "../components/Navbar";
 
 const Customization = () => {
   const [text, setText] = useState("");
@@ -60,7 +61,7 @@ const Customization = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        setImage(event.target.result); // Set image as a data URL
+        setImage(event.target.result);
       };
       reader.readAsDataURL(file);
     }
@@ -128,7 +129,7 @@ const Customization = () => {
     if (
       x >= textPosition.x &&
       x <= textPosition.x + textWidth &&
-      y >= textPosition.y - textSize && // Approximate text height
+      y >= textPosition.y - textSize &&
       y <= textPosition.y
     ) {
       setIsDragging(true);
@@ -159,20 +160,20 @@ const Customization = () => {
     // Draw the image (if any)
     if (image) {
       const img = new Image();
-      img.crossOrigin = "Anonymous"; // Enable CORS for external images
+      img.crossOrigin = "Anonymous";
       img.src = image;
       img.onload = () => {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        redrawDrawing(ctx); // Redraw the drawing
-        drawText(ctx); // Draw the text
+        redrawDrawing(ctx);
+        drawText(ctx);
       };
       img.onerror = (error) => {
         console.error("Failed to load image:", error);
       };
     } else {
       // If no image, draw on a blank canvas
-      redrawDrawing(ctx); // Redraw the drawing
-      drawText(ctx); // Draw the text
+      redrawDrawing(ctx);
+      drawText(ctx);
     }
   };
 
@@ -206,9 +207,9 @@ const Customization = () => {
   const calculatePrice = () => {
     let additionalCost = 0;
 
-    if (text.length > 0) additionalCost += 5; // Cost for text
-    if (image) additionalCost += 10; // Cost for image
-    if (drawingData.length > 0) additionalCost += 15; // Cost for drawing
+    if (text.length > 0) additionalCost += 5;
+    if (image) additionalCost += 10;
+    if (drawingData.length > 0) additionalCost += 15;
 
     setPrice(basePrice + additionalCost);
   };
@@ -220,71 +221,74 @@ const Customization = () => {
   };
 
   return (
-    <div className="customization-page-eco">
-      <h1>Customize Your Gift</h1>
-      <div className="customization-tools-eco">
-        <input
-          type="text"
-          placeholder="Add text"
-          value={text}
-          onChange={handleTextChange}
+    <>
+      <Navbar />
+      <div className="customization-page-eco">
+        <h1>Customize Your Gift</h1>
+        <div className="customization-tools-eco">
+          <input
+            type="text"
+            placeholder="Add text"
+            value={text}
+            onChange={handleTextChange}
+          />
+          <input type="color" value={color} onChange={handleColorChange} />
+          <select value={font} onChange={handleFontChange}>
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Times New Roman">Times New Roman</option>
+          </select>
+          <input
+            type="number"
+            placeholder="Text Size"
+            value={textSize}
+            onChange={handleTextSizeChange}
+            min="10"
+            max="100"
+          />
+          <input
+            type="number"
+            placeholder="Drawing Size"
+            value={drawingSize}
+            onChange={handleDrawingSizeChange}
+            min="1"
+            max="20"
+          />
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+        </div>
+        <div className="settings-display-eco">
+          <p>Current Settings:</p>
+          <p>Text Size: {textSize}px</p>
+          <p>Drawing Size: {drawingSize}px</p>
+          <p>
+            Color: <span style={{ color: color }}>{color}</span>
+          </p>
+          <p>Font: {font}</p>
+          <p>
+            Text Position: ({textPosition.x}, {textPosition.y})
+          </p>
+        </div>
+        <canvas
+          ref={canvasRef}
+          width="500"
+          height="500"
+          className="customization-canvas-eco"
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseOut={stopDrawing}
         />
-        <input type="color" value={color} onChange={handleColorChange} />
-        <select value={font} onChange={handleFontChange}>
-          <option value="Arial">Arial</option>
-          <option value="Verdana">Verdana</option>
-          <option value="Times New Roman">Times New Roman</option>
-        </select>
-        <input
-          type="number"
-          placeholder="Text Size"
-          value={textSize}
-          onChange={handleTextSizeChange}
-          min="10"
-          max="100"
-        />
-        <input
-          type="number"
-          placeholder="Drawing Size"
-          value={drawingSize}
-          onChange={handleDrawingSizeChange}
-          min="1"
-          max="20"
-        />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <div className="price-display-eco">
+          <h3>Total Price: LKR {price}</h3>
+        </div>
+        <button
+          className="customization-btn-eco"
+          onClick={handleProceedToCheckout}
+        >
+          Proceed to Checkout
+        </button>
       </div>
-      <div className="settings-display-eco">
-        <p>Current Settings:</p>
-        <p>Text Size: {textSize}px</p>
-        <p>Drawing Size: {drawingSize}px</p>
-        <p>
-          Color: <span style={{ color: color }}>{color}</span>
-        </p>
-        <p>Font: {font}</p>
-        <p>
-          Text Position: ({textPosition.x}, {textPosition.y})
-        </p>
-      </div>
-      <canvas
-        ref={canvasRef}
-        width="500"
-        height="500"
-        className="customization-canvas-eco"
-        onMouseDown={startDrawing} // Start drawing
-        onMouseMove={draw} // Draw
-        onMouseUp={stopDrawing} // Stop drawing
-        onMouseOut={stopDrawing} // Stop drawing
-      />
-      <div className="price-display-eco">
-        <h3>Total Price: Lkr {price}</h3>
-      </div>
-      <button
-        className="customization-btn-eco"
-        onClick={handleProceedToCheckout}
-      >
-        Proceed to Checkout
-      </button>
-    </div>
+    </>
   );
 };
 

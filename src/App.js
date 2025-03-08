@@ -15,6 +15,7 @@ import Checkout from "./pages/checkOut";
 import AdminDashboard from "./pages/adminDashboard";
 import Customization from "./pages/customization";
 import AboutUs from "./pages/AboutUs"; 
+import OrderDetailsModal from "./pages/orderDetailsModal";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -54,6 +55,7 @@ function App() {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/customize" element={<Customization />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/order-details" element={<OrderDetailsModal />} />
         </Routes>
       </div>
     </Router>

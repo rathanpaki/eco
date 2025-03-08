@@ -38,24 +38,12 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [orders, setOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cancelReason, setCancelReason] = useState("");
-  const [showCancelReason, setShowCancelReason] = useState(false);
 
   const handleOrderClick = (order) => {
-    console.log("Order clicked:", order); // Debug log
-    setSelectedOrder(order);
-    setIsModalOpen(true);
+    console.log("Navigating to order details with:", order);
+    navigate("/order-details", { state: { order } });
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedOrder(null);
-    setCancelReason(""); // Reset cancel reason
-  };
-  console.log(orders);
-  console.log(selectedOrder);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -158,30 +146,6 @@ const Profile = () => {
       });
   };
 
-  const handleReorder = (order) => {
-    // Logic to reorder (e.g., add items to cart)
-    toast.success("Items added to cart for reorder!");
-    closeModal();
-  };
-
-  const handleCancelOrder = (orderId, reason) => {
-    if (!reason) {
-      toast.error("Please provide a reason for cancellation.");
-      return;
-    }
-
-    // Logic to cancel the order (e.g., update order status in Firebase)
-    const orderRef = databaseRef(db, `orders/${user.uid}/${orderId}`);
-    update(orderRef, { Status: "Cancelled", cancelReason: reason })
-      .then(() => {
-        toast.success("Order cancelled successfully!");
-        closeModal();
-      })
-      .catch((error) => {
-        toast.error("Error cancelling order.");
-      });
-  };
-
   if (loading)
     return (
       <div className="profile-loading">
@@ -250,16 +214,6 @@ const Profile = () => {
                   <FaGift /> {profile.loyaltyPoints}
                 </p>
               </div>
-              <div className="profile-info">
-                <label className="profile-label">Wishlist:</label>
-                <ul className="wishlist-list">
-                  {profile.wishlist.map((item, index) => (
-                    <li key={index} className="wishlist-item">
-                      <FaHeart /> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
               <div className="profile-actions">
                 {editing ? (
                   <button className="btn-primary-profile" onClick={handleSave}>
@@ -273,6 +227,12 @@ const Profile = () => {
                     <FaEdit /> Edit Profile
                   </button>
                 )}
+                <button
+                  className="btn-wishlist-profile"
+                  onClick={() => navigate("/wishlist")}
+                >
+                  <FaHeart /> Wishlist
+                </button>
                 <button className="btn-danger-profile" onClick={handleLogout}>
                   <FaSignOutAlt /> Logout
                 </button>
@@ -288,7 +248,7 @@ const Profile = () => {
                   <div
                     key={order.id}
                     className="order-card"
-                    onClick={() => handleOrderClick(order)} // Open modal on click
+                    onClick={() => handleOrderClick(order)}
                   >
                     <div>
                       <strong>Order #{order.id}</strong>
@@ -297,115 +257,11 @@ const Profile = () => {
                       <strong>Status:</strong> {order.Status}
                     </div>
                     <div>
-                      <strong>Total:</strong> ${order.total.toFixed(2)}
+                      <strong>Total:</strong> LKR {order.total.toFixed(2)}
                     </div>
                   </div>
                 ))}
               </div>
-              {isModalOpen && selectedOrder && (
-                <div className="modal-overlay">
-                  <div className="modal">
-                    <h3>Order Details</h3>
-                    <div className="modal-content">
-                      {selectedOrder.details ? ( // Ensure selectedOrder details are loaded
-                        <>
-                          <div>
-                            <strong>Order ID:</strong> {selectedOrder.id}
-                          </div>
-                          <div>
-                            <strong>Status:</strong> {selectedOrder.Status}
-                          </div>
-                          <div>
-                            <strong>Customer:</strong>{" "}
-                            {selectedOrder.details.customer.fullName}
-                          </div>
-                          <div>
-                            <strong>Email:</strong>{" "}
-                            {selectedOrder.details.customer.email}
-                          </div>
-                          <div>
-                            <strong>Address:</strong>{" "}
-                            {selectedOrder.details.customer.address},{" "}
-                            {selectedOrder.details.customer.city},{" "}
-                            {selectedOrder.details.customer.postalCode}
-                          </div>
-                          <div>
-                            <strong>Delivery Cost:</strong> $
-                            {selectedOrder.details.deliveryCost.toFixed(2)}
-                          </div>
-                          <div>
-                            <strong>Subtotal:</strong> $
-                            {selectedOrder.details.subtotal.toFixed(2)}
-                          </div>
-                          <div>
-                            <strong>Total:</strong> $
-                            {selectedOrder.total.toFixed(2)}
-                          </div>
-
-                          <h4>Items:</h4>
-                          <ul className="order-items-list">
-                            {selectedOrder.details.items.map((item, index) => (
-                              <li key={index} className="order-item">
-                                <div>
-                                  <strong>{item.name}</strong> - $
-                                  {item.price.toFixed(2)} x {item.quantity}
-                                </div>
-                                <div>{item.description}</div>
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      ) : (
-                        <p>Loading order details...</p>
-                      )}
-                      <div className="modal-actions">
-                        <button
-                          className="btn-primary-profile"
-                          onClick={() => handleReorder(selectedOrder)}
-                        >
-                          Reorder
-                        </button>
-                        <button
-                          className="btn-danger-profile"
-                          onClick={() => setShowCancelReason(true)}
-                        >
-                          Cancel Order
-                        </button>
-                        <button
-                          className="btn-secondary-profile"
-                          onClick={closeModal}
-                        >
-                          Close
-                        </button>
-                      </div>
-
-                      {showCancelReason && (
-                        <div className="cancel-reason">
-                          <textarea
-                            placeholder="Reason for cancellation"
-                            value={cancelReason}
-                            onChange={(e) => setCancelReason(e.target.value)}
-                          />
-                          <button
-                            className="btn-primary-profile"
-                            onClick={() =>
-                              handleCancelOrder(selectedOrder.id, cancelReason)
-                            }
-                          >
-                            Submit
-                          </button>
-                          <button
-                            className="btn-secondary-profile"
-                            onClick={() => setShowCancelReason(false)}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </>
         ) : (
