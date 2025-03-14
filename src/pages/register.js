@@ -33,6 +33,8 @@ const Register = () => {
         name: name,
         email: email,
         phoneNumber: phoneNumber,
+        profilePic: "",
+        loyaltyPoints: 0
       });
       toast.success("Registration successful! Please log in.");
       navigate("/login");

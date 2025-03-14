@@ -267,12 +267,14 @@ const Profile = () => {
         ) : (
           <div className="profile-login-wrapper">
             <h3 className="profile-login-text">Please login or register</h3>
-            <button
-              className="btn-primary-profile"
-              onClick={() => navigate("/login")}
-            >
-              Login / Register
-            </button>
+            <div className="login-button-wrapper">
+              <button
+                className="btn-green-profile"
+                onClick={() => navigate("/login")}
+              >
+                Login / Register
+              </button>
+            </div>
           </div>
         )}
       </div>
