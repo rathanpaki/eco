@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/adminDashboard";
 import Customization from "./pages/customization";
 import AboutUs from "./pages/AboutUs"; 
 import OrderDetailsModal from "./pages/orderDetailsModal";
+import BlogPage from "./pages/blogPage";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -57,6 +58,7 @@ function App() {
           <Route path="/customize" element={<Customization />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/order-details" element={<OrderDetailsModal />} />
+          <Route path="/blog" element={<BlogPage />} />
         </Routes>
       </div>
     </Router>

@@ -39,7 +39,9 @@ const Home = () => {
       <div className="snowfall"></div>
       <Navbar />
       <header className="hero">
-        <h1 className="fade-in">Make Your Wedding Green & Personal!</h1>
+        <h1 className="fade-in gradient-text">
+          Make Your Wedding Green & Personal!
+        </h1>
         <p className="fade-in">
           Personalized & Eco-friendly gifts for your special occasions.
         </p>

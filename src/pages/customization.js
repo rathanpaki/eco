@@ -214,6 +214,16 @@ const Customization = () => {
     setPrice(basePrice + additionalCost);
   };
 
+  // Function to clear drawing and text
+  const handleClearCanvas = () => {
+    setText("");
+    setDrawingData([]);
+    setTextPosition({ x: 50, y: 50 });
+    setTextSize(20);
+    setDrawingSize(2);
+    drawCanvas();
+  };
+
   // Navigate to the checkout page
   const handleProceedToCheckout = () => {
     navigate("/checkout", { state: { price } });
@@ -225,68 +235,69 @@ const Customization = () => {
       <Navbar />
       <div className="customization-page-eco">
         <h1>Customize Your Gift</h1>
-        <div className="customization-tools-eco">
-          <input
-            type="text"
-            placeholder="Add text"
-            value={text}
-            onChange={handleTextChange}
-          />
-          <input type="color" value={color} onChange={handleColorChange} />
-          <select value={font} onChange={handleFontChange}>
-            <option value="Arial">Arial</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Times New Roman">Times New Roman</option>
-          </select>
-          <input
-            type="number"
-            placeholder="Text Size"
-            value={textSize}
-            onChange={handleTextSizeChange}
-            min="10"
-            max="100"
-          />
-          <input
-            type="number"
-            placeholder="Drawing Size"
-            value={drawingSize}
-            onChange={handleDrawingSizeChange}
-            min="1"
-            max="20"
-          />
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+        <div className="customization-content-eco">
+          <div className="customization-tools-eco">
+            <input
+              type="text"
+              placeholder="Add text"
+              value={text}
+              onChange={handleTextChange}
+            />
+            <input type="color" value={color} onChange={handleColorChange} />
+            <select value={font} onChange={handleFontChange}>
+              <option value="Arial">Arial</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Times New Roman">Times New Roman</option>
+            </select>
+            <input
+              type="number"
+              placeholder="Text Size"
+              value={textSize}
+              onChange={handleTextSizeChange}
+              min="10"
+              max="100"
+            />
+            <input
+              type="number"
+              placeholder="Drawing Size"
+              value={drawingSize}
+              onChange={handleDrawingSizeChange}
+              min="1"
+              max="20"
+            />
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <button
+              className="customization-btn-eco"
+              onClick={handleClearCanvas}
+            >
+              Clear Drawing and Text
+            </button>
+          </div>
+          <div className="customization-canvas-container-eco">
+            <canvas
+              ref={canvasRef}
+              width="500"
+              height="500"
+              className="customization-canvas-eco"
+              onMouseDown={startDrawing}
+              onMouseMove={draw}
+              onMouseUp={stopDrawing}
+              onMouseOut={stopDrawing}
+              onMouseDownCapture={startTextDrag}
+              onMouseMoveCapture={dragText}
+              onMouseUpCapture={stopTextDrag}
+            />
+            <div className="price-display-eco">
+              <h3>Total Price: LKR {price}</h3>
+            </div>
+            <button
+              className="customization-btn-eco"
+              onClick={handleProceedToCheckout}
+            >
+              Proceed to Checkout
+            </button>
+          </div>
         </div>
-        <div className="settings-display-eco">
-          <p>Current Settings:</p>
-          <p>Text Size: {textSize}px</p>
-          <p>Drawing Size: {drawingSize}px</p>
-          <p>
-            Color: <span style={{ color: color }}>{color}</span>
-          </p>
-          <p>Font: {font}</p>
-          <p>
-            Text Position: ({textPosition.x}, {textPosition.y})
-          </p>
-        </div>
-        <canvas
-          ref={canvasRef}
-          width="500"
-          height="500"
-          className="customization-canvas-eco"
-          onMouseDown={startDrawing}
-          onMouseMove={draw}
-          onMouseUp={stopDrawing}
-          onMouseOut={stopDrawing}
-        />
-        <div className="price-display-eco">
-          <h3>Total Price: LKR {price}</h3>
-        </div>
-        <button
-          className="customization-btn-eco"
-          onClick={handleProceedToCheckout}
-        >
-          Proceed to Checkout
-        </button>
       </div>
     </>
   );
