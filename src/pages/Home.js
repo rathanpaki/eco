@@ -1,5 +1,4 @@
-// Home.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { initScrollAnimations } from "../utils/scrollAnimations";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -9,34 +8,21 @@ import AR from "../img/ar-icon.png";
 import Eco from "../img/eco-icon.png";
 import "../css/home.css";
 import "react-toastify/dist/ReactToastify.css";
+import Modal from "../components/Modal"; 
 
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     initScrollAnimations();
-
-    // Snowfall effect
-    const createSnowflakes = () => {
-      const snowfallContainer = document.querySelector(".snowfall");
-
-      if (snowfallContainer) {
-        for (let i = 0; i < 100; i++) {
-          const snowflake = document.createElement("div");
-          snowflake.classList.add("snowflake");
-          snowflake.style.left = `${Math.random() * 100}vw`;
-          snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
-          snowflake.style.opacity = Math.random();
-          snowflake.style.width = `${Math.random() * 10 + 5}px`;
-          snowflake.style.height = snowflake.style.width;
-          snowfallContainer.appendChild(snowflake);
-        }
-      }
-    };
-    createSnowflakes();
   }, []);
+
+  const handleFeatureClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <div>
-      <div className="snowfall"></div>
       <Navbar />
       <header className="hero">
         <h1 className="fade-in gradient-text">
@@ -53,22 +39,34 @@ const Home = () => {
         </a>
       </header>
       <section className="features">
-        <div className="feature fade-in slide-in-left">
+        <div
+          className="feature fade-in slide-in-left"
+          onClick={handleFeatureClick}
+        >
           <img src={Gift} alt="Gifts" />
           <h4>Browse Gifts 🛍️</h4>
           <p>Explore eco-friendly wedding return gifts.</p>
         </div>
-        <div className="feature fade-in slide-in-right">
+        <div
+          className="feature fade-in slide-in-right"
+          onClick={handleFeatureClick}
+        >
           <img src={AI} alt="AI Finder" />
           <h4>Smart Gift Finder 🤖</h4>
           <p>AI-powered personalized recommendations.</p>
         </div>
-        <div className="feature fade-in slide-in-left">
+        <div
+          className="feature fade-in slide-in-left"
+          onClick={handleFeatureClick}
+        >
           <img src={AR} alt="AR Preview" />
           <h4>AR Gift Preview 🌍</h4>
           <p>Visualize gifts before purchase.</p>
         </div>
-        <div className="feature fade-in slide-in-right">
+        <div
+          className="feature fade-in slide-in-right"
+          onClick={handleFeatureClick}
+        >
           <img src={Eco} alt="Sustainability" />
           <h4>Why Eco-Gifts? 🌱</h4>
           <p>Learn about our sustainable practices.</p>
@@ -96,6 +94,12 @@ const Home = () => {
         </p>
       </section>
       <Footer />
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <h2 className="modal-t">Coming Soon</h2>
+          <p className="modal-p">This feature is coming soon. Stay tuned!</p>
+        </Modal>
+      )}
     </div>
   );
 };

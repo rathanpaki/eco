@@ -1,4 +1,5 @@
 import React from "react";
+import image from "../img/eco-friendly-gifts.jpg";
 
 const BlogContent = () => {
   return (
@@ -8,7 +9,7 @@ const BlogContent = () => {
         By Jane Doe | October 10, 2023
       </p>
       <img
-        src="https://via.placeholder.com/800x400"
+        src={image}
         alt="Eco-Friendly Gifts"
         className="featured-image"
         data-aos="zoom-in"
