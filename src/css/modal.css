@@ -1,4 +1,4 @@
-.modal-overlay {
+.modal-overlay-unique {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.modal-content-unique {
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -21,7 +21,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.modal-close {
+.modal-close-unique {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -29,4 +29,11 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+}
+.modal-close-unique:hover {
+  color: #ff0000;
+  transition: color 0.3s ease;
+  transform: scale(1.2);
+  cursor: pointer;
+  outline: none;
 }

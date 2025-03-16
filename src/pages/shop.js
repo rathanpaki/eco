@@ -56,6 +56,11 @@ const Shop = () => {
   };
 
   const addToCart = (product) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      toast.error("Please log in to add items to your cart.");
+      return;
+    }
     try {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       cart.push(product);
@@ -68,7 +73,8 @@ const Shop = () => {
   };
 
   const addToWishlist = (product) => {
-    if (!localStorage.getItem("user")) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
       toast.error("Please log in to add items to your wishlist.");
       return;
     }

@@ -9,7 +9,8 @@ const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
 
   useEffect(() => {
-    if (!localStorage.getItem("user")) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
       toast.error("Please log in to view your wishlist.");
       return;
     }
@@ -21,6 +22,23 @@ const Wishlist = () => {
     const newWishlistItems = wishlistItems.filter((_, i) => i !== index);
     setWishlistItems(newWishlistItems);
     localStorage.setItem("wishlist", JSON.stringify(newWishlistItems));
+  };
+
+  const handleAddToCart = (product) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      toast.error("Please log in to add items to your cart.");
+      return;
+    }
+    try {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      toast.success("Product added to cart!");
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+      toast.error("Error adding to cart.");
+    }
   };
 
   return (
@@ -55,7 +73,10 @@ const Wishlist = () => {
                 </td>
                 <td>
                   <div className="button-group">
-                    <button className="add-to-cart-button">
+                    <button
+                      className="add-to-cart-button"
+                      onClick={() => handleAddToCart(product)}
+                    >
                       <FaCartPlus /> Add to Cart
                     </button>
                     <button

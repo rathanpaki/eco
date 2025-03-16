@@ -28,12 +28,21 @@
   height: 50px;
   border-radius: 50%;
   border-width: 10px;
+  box-shadow: 0 0 10px rgb(199, 253, 204); 
 }
 
 .logo img:hover {
   color: #c8e6c9;
   border-color: #000000;
   border-width: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); 
+}
+
+.logo img:active {
+  color: #c8e6c9;
+  border-color: #000000;
+  border-width: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); 
 }
 
 .nav-links {

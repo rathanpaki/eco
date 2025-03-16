@@ -109,6 +109,7 @@ h2 {
   box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
   background-color: #2e7d329f;
   color: #ffffff;
+  cursor: pointer;
 }
 
 /* Testimonials & Eco-Impact Section */

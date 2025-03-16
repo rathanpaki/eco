@@ -129,7 +129,7 @@
 .about-us p:last-child {
   text-align: center;
   font-size: 1.3em;
-  color: #27ae60;
+  color: #414643;
   animation: pulse 2s infinite;
 }
 
@@ -314,7 +314,7 @@ form {
 .form-group textarea {
   padding: 10px;
   border: 1px solid #0a6b33;
-  background-color: #adbdb436;
+  background-color: #adbdb48c;
   color: #fff;
   border-radius: 8px;
   font-size: 1em;

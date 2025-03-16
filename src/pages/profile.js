@@ -165,7 +165,7 @@ const Profile = () => {
             <div className="profile-card">
               <div className="profile-pic-wrapper">
                 <img
-                  src={profile.profilePic || "https://via.placeholder.com/150"}
+                  src={profile.profilePic || "https://firebasestorage.googleapis.com/v0/b/eco-gifts.firebasestorage.app/o/profilePics%2Fprofile.jpg?alt=media&token=831c9d67-03a8-489d-b5d3-62a3caff641a"}
                   alt="Profile"
                   className="profile-pic"
                 />
