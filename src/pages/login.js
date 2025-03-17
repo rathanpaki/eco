@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { auth } from "../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "../css/login.css";
 import { toast } from "react-toastify";
@@ -31,6 +34,19 @@ const Login = () => {
     }
   };
 
+  const handlePasswordReset = async () => {
+    if (!email) {
+      toast.error("Please enter your email address first.");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Password reset email sent!");
+    } catch (error) {
+      toast.error("Error sending password reset email.");
+    }
+  };
+
   return (
     <div className="login-page-container">
       <form className="login-page-form" onSubmit={handleSubmit}>
@@ -56,6 +72,11 @@ const Login = () => {
         <button type="submit">Login</button>
         <p>
           Don't have an account? <a href="/register">Register here</a>
+        </p>
+        <p>
+          <a href="/forgot-password" onClick={handlePasswordReset}>
+            Forgot Password?
+          </a>
         </p>
       </form>
     </div>

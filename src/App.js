@@ -14,9 +14,11 @@ import WishList from "./pages/wishList";
 import Checkout from "./pages/checkOut";
 import AdminDashboard from "./pages/adminDashboard";
 import Customization from "./pages/customization";
-import AboutUs from "./pages/AboutUs"; 
+import AboutUs from "./pages/AboutUs";
 import OrderDetailsModal from "./pages/orderDetailsModal";
 import BlogPage from "./pages/blogPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -30,8 +32,8 @@ function App() {
   return (
     <Router>
       <div>
-        <ToastContainer /> 
-        
+        <ToastContainer />
+
         {/* Cart Toggle Button (Hidden when cart is open) */}
         <button
           className={`cart-toggle-btn ${isCartOpen ? "hidden" : ""}`}
@@ -59,6 +61,8 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/order-details" element={<OrderDetailsModal />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </div>
     </Router>
