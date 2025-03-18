@@ -34,8 +34,8 @@ const Home = () => {
         <a href="/shop" className="btn fade-in">
           Shop Now
         </a>
-        <a href="/customize" className="btn fade-in">
-          Customize Gift
+        <a href="/community" className="btn fade-in">
+          Community
         </a>
       </header>
       <section className="features">

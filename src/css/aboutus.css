@@ -247,6 +247,7 @@
 
 /* Modal Content */
 .modal-content {
+  color: #fff;
   background: #fff;
   padding: 30px;
   border-radius: 12px;
@@ -254,6 +255,7 @@
   max-width: 500px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.5s ease-in-out;
+  backdrop-filter: none;
 }
 
 @keyframes slideIn {
@@ -307,14 +309,14 @@ form {
 
 .form-group label {
   font-size: 1.1em;
-  color: #ffffff;
+  color: #000000;
 }
 
 .form-group input,
 .form-group textarea {
   padding: 10px;
   border: 1px solid #0a6b33;
-  background-color: #adbdb48c;
+  background-color: #ffffff;
   color: #fff;
   border-radius: 8px;
   font-size: 1em;
@@ -325,7 +327,7 @@ form {
 .form-group textarea:focus {
   border-color: #27ae60;
   color: #000000;
-  background-color: #adbdb4c2;
+  background-color: #adbdb4;
   outline: none;
 }
 

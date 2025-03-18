@@ -18,9 +18,12 @@ import AboutUs from "./pages/AboutUs";
 import OrderDetailsModal from "./pages/orderDetailsModal";
 import BlogPage from "./pages/blogPage";
 import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Faq from "./pages/Faq";
+import Privacy from "./pages/Privacy";
+import Community from "./pages/Community";
+
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -62,7 +65,9 @@ function App() {
           <Route path="/order-details" element={<OrderDetailsModal />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/community" element={<Community />} />
         </Routes>
       </div>
     </Router>
