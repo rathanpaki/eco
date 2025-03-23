@@ -129,7 +129,7 @@ const Shop = () => {
           className="btn eco"
           onClick={() => filterProducts("Biodegradable 🌿")}
         >
-          Eco
+          Biodegradable
         </button>
         <button
           className="btn handmade"
@@ -141,7 +141,7 @@ const Shop = () => {
           className="btn nature"
           onClick={() => filterProducts("Nature-Inspired 🌿")}
         >
-          Nature
+          Nature-Inspired
         </button>
       </div>
 

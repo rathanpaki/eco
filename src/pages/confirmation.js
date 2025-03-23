@@ -71,6 +71,20 @@ const Confirmation = ({ orderDetails }) => {
         <p>
           Home delivery cost: LKR {orderDetails.details.deliveryCost.toFixed(2)}
         </p>
+        {/* Display Eco-Friendly Packaging Option */}
+        {orderDetails.details.ecoFriendlyPackaging && (
+          <p className="eco-badge">
+            🌿 You chose eco-friendly packaging! This reduces 500g of plastic
+            waste.
+          </p>
+        )}
+        {/* Display Tree Planting Contribution */}
+        {orderDetails.details.treePlantingContribution > 0 && (
+          <p className="eco-badge">
+            🌳 You contributed LKR 300 to plant a tree and offset your carbon
+            footprint!
+          </p>
+        )}
         <p>Total amount: LKR {orderDetails.total.toFixed(2)}</p>
       </div>
       <button className="home-button" onClick={handleHomeButtonClick}>

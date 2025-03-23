@@ -14,7 +14,7 @@
   margin-bottom: 20px;
 }
 
-.step {
+.checkout-step {
   flex: 1;
   padding: 10px;
   text-align: center;
@@ -22,7 +22,7 @@
   cursor: pointer;
 }
 
-.step.active {
+.checkout-step.active {
   border-bottom: 2px solid #4caf50;
   font-weight: bold;
 }
@@ -44,7 +44,7 @@
     gap: 10px;
   }
 
-  .step {
+  .checkout-step {
     font-size: 14px;
     padding: 8px;
   }
@@ -60,7 +60,7 @@
     padding: 10px;
   }
 
-  .step {
+  .checkout-step {
     font-size: 12px;
     padding: 6px;
   }

@@ -5,6 +5,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
 
+const CO2_SAVINGS = {
+  engravedText: 50, // 50g of CO₂ saved by choosing engraved text over printed plastic stickers
+  woodenMaterial: 0.3, // 30% CO₂ saved by choosing wooden material over plastic
+};
+
 const Customization = () => {
   const [text, setText] = useState("");
   const [color, setColor] = useState("#000000");
@@ -18,6 +23,8 @@ const Customization = () => {
   const [isDragging, setIsDragging] = useState(false); // Track text dragging
   const [textSize, setTextSize] = useState(20); // Text size
   const [drawingSize, setDrawingSize] = useState(2); // Drawing brush size
+  const [isEngravedText, setIsEngravedText] = useState(false);
+  const [isWoodenMaterial, setIsWoodenMaterial] = useState(false);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -230,6 +237,37 @@ const Customization = () => {
     toast.success("Proceeding to checkout!");
   };
 
+  // Calculate CO₂ savings
+  const calculateCO2Savings = () => {
+    let savings = 0;
+
+    if (isEngravedText) {
+      savings += CO2_SAVINGS.engravedText;
+    }
+
+    if (isWoodenMaterial) {
+      savings += CO2_SAVINGS.woodenMaterial * basePrice; // Assuming basePrice is related to material cost
+    }
+
+    return savings;
+  };
+
+  // Display CO₂ savings
+  const CO2SavingsDisplay = () => {
+    const savings = calculateCO2Savings();
+
+    return (
+      <div className="co2-savings-display">
+        <h3>Environmental Impact</h3>
+        <p>
+          {savings > 0
+            ? `Your choices save ${savings}g of CO₂ emissions!`
+            : "Make eco-friendly choices to reduce your carbon footprint."}
+        </p>
+      </div>
+    );
+  };
+
   return (
     <>
       <Navbar />
@@ -266,6 +304,22 @@ const Customization = () => {
               max="20"
             />
             <input type="file" accept="image/*" onChange={handleImageChange} />
+            <label>
+              <input
+                type="checkbox"
+                checked={isEngravedText}
+                onChange={(e) => setIsEngravedText(e.target.checked)}
+              />
+              Use Engraved Text (Eco-friendly)
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={isWoodenMaterial}
+                onChange={(e) => setIsWoodenMaterial(e.target.checked)}
+              />
+              Use Wooden Material (Eco-friendly)
+            </label>
             <button
               className="customization-btn-eco"
               onClick={handleClearCanvas}
@@ -290,6 +344,7 @@ const Customization = () => {
             <div className="price-display-eco">
               <h3>Total Price: LKR {price}</h3>
             </div>
+            <CO2SavingsDisplay />
             <button
               className="customization-btn-eco"
               onClick={handleProceedToCheckout}

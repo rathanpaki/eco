@@ -1,0 +1,74 @@
+.eco-options-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.eco-options-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.eco-option {
+  margin-bottom: 15px;
+}
+
+.eco-option label {
+  display: flex;
+  align-items: center;
+}
+
+.eco-option input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.eco-badge {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #4caf50;
+}
+
+.eco-navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.eco-navigation-buttons button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.eco-navigation-buttons button:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 1024px) {
+  .eco-options-container {
+    width: 90%;
+  }
+
+  .eco-navigation-buttons button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .eco-options-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .eco-navigation-buttons button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}

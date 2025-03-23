@@ -8,7 +8,7 @@ import AR from "../img/ar-icon.png";
 import Eco from "../img/eco-icon.png";
 import "../css/home.css";
 import "react-toastify/dist/ReactToastify.css";
-import Modal from "../components/Modal"; 
+import Modal from "../components/Modal";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,41 +38,6 @@ const Home = () => {
           Community
         </a>
       </header>
-      <section className="features">
-        <div
-          className="feature fade-in slide-in-left"
-          onClick={handleFeatureClick}
-        >
-          <img src={Gift} alt="Gifts" />
-          <h4>Browse Gifts 🛍️</h4>
-          <p>Explore eco-friendly wedding return gifts.</p>
-        </div>
-        <div
-          className="feature fade-in slide-in-right"
-          onClick={handleFeatureClick}
-        >
-          <img src={AI} alt="AI Finder" />
-          <h4>Smart Gift Finder 🤖</h4>
-          <p>AI-powered personalized recommendations.</p>
-        </div>
-        <div
-          className="feature fade-in slide-in-left"
-          onClick={handleFeatureClick}
-        >
-          <img src={AR} alt="AR Preview" />
-          <h4>AR Gift Preview 🌍</h4>
-          <p>Visualize gifts before purchase.</p>
-        </div>
-        <div
-          className="feature fade-in slide-in-right"
-          onClick={handleFeatureClick}
-        >
-          <img src={Eco} alt="Sustainability" />
-          <h4>Why Eco-Gifts? 🌱</h4>
-          <p>Learn about our sustainable practices.</p>
-        </div>
-      </section>
-
       <section className="testimonials">
         <h2 className="fade-in">What Our Customers Say</h2>
         <div>
