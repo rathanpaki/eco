@@ -51,6 +51,22 @@ const Confirmation = ({ orderDetails }) => {
         }
       };
       updateUserLoyaltyPoints();
+
+      // Update total trees planted
+      const updateTotalTreesPlanted = async () => {
+        try {
+          const treesRef = ref(db, `stats/totalTreesPlanted`);
+          const treesSnapshot = await get(treesRef);
+          if (treesSnapshot.exists()) {
+            const currentTotal = treesSnapshot.val();
+            const newTotal = currentTotal + 1; 
+            await update(treesRef, { totalTreesPlanted: newTotal });
+          }
+        } catch (error) {
+          console.error("Error updating total trees planted:", error);
+        }
+      };
+      updateTotalTreesPlanted();
     }
   }, [user, orderDetails, db]);
 

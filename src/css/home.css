@@ -148,6 +148,91 @@ h2 {
   font-weight: bold;
 }
 
+/* Trending Products Section */
+.trending-products {
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.trending-products h2 {
+  font-size: 2.3rem;
+  margin-bottom: 20px;
+  color: #4caf50;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  margin: 0 10px; 
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.product-card .price {
+  font-size: 1.2rem;
+  color: #388e3c;
+  margin-bottom: 10px;
+}
+
+.product-card p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.product-card .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-card .btn:hover {
+  background-color: #388e3c;
+  transform: translateY(-3px);
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -216,13 +301,34 @@ h2 {
 }
 
 .gradient-text {
-  background: linear-gradient(270deg, #4caf50, #0fa814, #2d8a32, #457947, #2d8a32);
+  background: linear-gradient(
+    270deg,
+    #4caf50,
+    #0fa814,
+    #2d8a32,
+    #457947,
+    #2d8a32
+  );
   background-size: 600% 600%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient 5s ease infinite;
   transition: background-size 5s ease;
+}
+
+.total-trees-planted {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #e0f7fa;
+  border-radius: 10px;
+}
+
+.total-trees-planted h2 {
+  font-size: 1.5rem;
+  color: #00796b;
+  font-weight: bold;
 }
 
 @media (max-width: 1024px) {
