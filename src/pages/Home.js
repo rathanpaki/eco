@@ -7,13 +7,11 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../css/home.css";
 import "react-toastify/dist/ReactToastify.css";
-import Modal from "../components/Modal";
 import product1 from "../img/product2.jpg";
 import product2 from "../img/product3.jpg";
 import product3 from "../img/product4.jpg";
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [totalTreesPlanted, setTotalTreesPlanted] = useState(12345);
 
   // Hardcoded product data
@@ -57,12 +55,8 @@ const Home = () => {
     initScrollAnimations();
   }, []);
 
-  const handleFeatureClick = () => {
-    setIsModalOpen(true);
-  };
-
   const carouselSettings = {
-    dots: false, // Updated to remove dots
+    dots: false, 
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -76,7 +70,7 @@ const Home = () => {
           slidesToShow: 2,
           slidesToScroll: 1,
           infinite: true,
-          dots: false, // Ensure dots are also removed for responsive settings
+          dots: false, 
         },
       },
       {
@@ -85,7 +79,7 @@ const Home = () => {
           slidesToShow: 1,
           slidesToScroll: 1,
           initialSlide: 1,
-          dots: false, // Ensure dots are also removed for responsive settings
+          dots: false, 
         },
       },
     ],
@@ -159,12 +153,6 @@ const Home = () => {
         </p>
       </section>
       <Footer />
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <h2 className="modal-t">Coming Soon</h2>
-          <p className="modal-p">This feature is coming soon. Stay tuned!</p>
-        </Modal>
-      )}
     </div>
   );
 };
