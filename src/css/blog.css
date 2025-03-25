@@ -596,3 +596,165 @@ body {
   margin-bottom: 10px;
   color: #333;
 }
+
+/* Articles & Case Studies Section */
+.ecogift-articles {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ecogift-articles__title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #2c3e50;
+}
+
+/* Articles Grid */
+.ecogift-articles__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Article Cards */
+.ecogift-articles__card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+}
+
+.ecogift-articles__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ecogift-articles__card-title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.ecogift-articles__card-text {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.ecogift-articles__card-button {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.ecogift-articles__card-button:hover {
+  background-color: #2ecc71;
+}
+
+/* Modal Styles */
+.ecogift-modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.ecogift-modal__content {
+  background: white;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.ecogift-modal__close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #7f8c8d;
+  transition: color 0.3s ease;
+}
+
+.ecogift-modal__close-button:hover {
+  color: #e74c3c;
+}
+
+.ecogift-modal__title {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.ecogift-modal__date {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.ecogift-modal__body {
+  line-height: 1.6;
+}
+
+.ecogift-modal__subtitle {
+  font-size: 1.3rem;
+  color: #27ae60;
+  margin: 1.5rem 0 1rem;
+}
+
+.ecogift-modal__text {
+  margin-bottom: 1rem;
+  color: #34495e;
+}
+
+.ecogift-modal__list {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.ecogift-modal__list-item {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .ecogift-articles {
+    padding: 3rem 1rem;
+  }
+
+  .ecogift-articles__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ecogift-modal__content {
+    padding: 1.5rem;
+  }
+
+  .ecogift-modal__title {
+    font-size: 1.5rem;
+  }
+}

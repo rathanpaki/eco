@@ -17,6 +17,16 @@ const EcoFriendlyIdeas = () => {
           <h3>Upcycled Home Decor</h3>
           <p>Turn old items into beautiful home decor pieces.</p>
         </div>
+        <div className="idea-card">
+          <h3>Compostable Wrapping Paper</h3>
+          <p>Use wrapping paper that can be composted after use.</p>
+        </div>
+        <div className="idea-card">
+          <h3>Solar-Powered Gadgets</h3>
+          <p>
+            Gift gadgets that run on solar energy to reduce electricity usage.
+          </p>
+        </div>
       </div>
     </section>
   );

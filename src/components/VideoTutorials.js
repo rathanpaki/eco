@@ -7,7 +7,7 @@ const VideoTutorials = () => {
       <div className="video-carousel">
         <div className="video-card">
           <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            src="https://www.youtube.com/embed/v7gp84UrtTs"
             title="Green Shopping Tips"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -16,7 +16,7 @@ const VideoTutorials = () => {
         </div>
         <div className="video-card">
           <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            src="https://www.youtube.com/embed/2mha2iU29Vo?si=1IASP8IB-JHWpF5b"
             title="Eco-Friendly Packaging"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -25,7 +25,7 @@ const VideoTutorials = () => {
         </div>
         <div className="video-card">
           <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            src="https://www.youtube.com/embed/xPfvHmBp8F0?si=t1i8nC48BseHsF29"
             title="DIY Sustainable Gifts"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
