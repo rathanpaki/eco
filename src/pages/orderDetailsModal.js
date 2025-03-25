@@ -15,6 +15,8 @@ const OrderDetailsPage = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [showCancelReason, setShowCancelReason] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [showReturnForm, setShowReturnForm] = useState(false);
+  const [returnReason, setReturnReason] = useState("");
 
   useEffect(() => {
     const auth = getAuth();
@@ -54,6 +56,26 @@ const OrderDetailsPage = () => {
     }
   };
 
+  const handleReturnOrder = async () => {
+    if (!returnReason.trim()) {
+      toast.error("Please provide a valid reason for return.");
+      return;
+    }
+    try {
+      const db = getDatabase();
+      const orderRef = ref(db, `orders/${userId}/${order.id}`);
+      await update(orderRef, {
+        Status: "Return Requested",
+        returnReason: returnReason.trim(),
+      });
+      toast.success("Return request submitted successfully!");
+      navigate("/profile");
+    } catch (error) {
+      toast.error("Failed to submit the return request. Please try again.");
+      console.error("Error submitting return request: ", error);
+    }
+  };
+
   const goBack = () => {
     navigate(-1);
   };
@@ -76,7 +98,7 @@ const OrderDetailsPage = () => {
           <strong>Order ID:</strong> {order?.id || "N/A"}
         </div>
         <div>
-          <strong>Status:</strong> {order?.Status || "N/A"}
+          <strong>Status:</strong> {order?.status || "N/A"}
         </div>
         <div>
           <strong>Customer:</strong>{" "}
@@ -140,6 +162,14 @@ const OrderDetailsPage = () => {
           <button className="btn-primary-profile" onClick={handleReorder}>
             <FaSave /> Reorder
           </button>
+          {order?.status === "Delivered" && (
+            <button
+              className="btn-warning-profile"
+              onClick={() => setShowReturnForm(true)}
+            >
+              Return
+            </button>
+          )}
           <button
             className="btn-danger-profile"
             onClick={() => setShowCancelReason(true)}
@@ -171,6 +201,33 @@ const OrderDetailsPage = () => {
               <button
                 className="btn-secondary-profile"
                 onClick={() => setShowCancelReason(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Return Form */}
+        {showReturnForm && (
+          <div className="return-form-section">
+            <h4>Reason for Return</h4>
+            <textarea
+              placeholder="Enter your reason for return..."
+              value={returnReason}
+              onChange={(e) => setReturnReason(e.target.value)}
+              rows={5}
+            />
+            <div className="return-form-actions">
+              <button
+                className="btn-primary-profile"
+                onClick={handleReturnOrder}
+              >
+                Submit
+              </button>
+              <button
+                className="btn-secondary-profile"
+                onClick={() => setShowReturnForm(false)}
               >
                 Cancel
               </button>

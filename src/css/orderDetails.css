@@ -110,6 +110,34 @@
   transform: translateY(-2px);
 }
 
+.btn-warning-profile {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-warning-profile:hover {
+  background: linear-gradient(135deg, #ff9900, #cc7a00);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-warning-profile:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
 /* orderDetails.css */
 .cancel-reason-section {
   margin-top: 2rem;
@@ -142,6 +170,42 @@
 }
 
 .cancel-reason-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.return-form-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.return-form-section h4 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.return-form-section textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  resize: vertical;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.return-form-section textarea:focus {
+  border-color: #ffc107;
+  outline: none;
+}
+
+.return-form-actions {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;

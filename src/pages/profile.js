@@ -254,7 +254,7 @@ const Profile = () => {
                       <strong>Order #{order.id}</strong>
                     </div>
                     <div>
-                      <strong>Status:</strong> {order.Status}
+                      <strong>Status:</strong> {order.status}
                     </div>
                     <div>
                       <strong>Total:</strong> LKR {order.total.toFixed(2)}

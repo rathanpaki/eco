@@ -14,7 +14,7 @@ import product3 from "../img/product4.jpg";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [totalTreesPlanted, setTotalTreesPlanted] = useState(12345); 
+  const [totalTreesPlanted, setTotalTreesPlanted] = useState(12345);
 
   // Hardcoded product data
   const [trendingProducts] = useState([
@@ -62,7 +62,7 @@ const Home = () => {
   };
 
   const carouselSettings = {
-    dots: true,
+    dots: false, // Updated to remove dots
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -76,15 +76,16 @@ const Home = () => {
           slidesToShow: 2,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
+          dots: false, // Ensure dots are also removed for responsive settings
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 30,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
           initialSlide: 1,
+          dots: false, // Ensure dots are also removed for responsive settings
         },
       },
     ],
@@ -118,11 +119,7 @@ const Home = () => {
         <h2 className="fade-in">Trending Products</h2>
         <Slider {...carouselSettings}>
           {trendingProducts.map((product) => (
-            <div
-              key={product.id}
-              className="product-card fade-in"
-              style={{ margin: "0 10px" }}
-            >
+            <div key={product.id} className="product-card fade-in">
               <span className="badge">{product.badge}</span>
               <div className="product-image-container">
                 <img
@@ -132,7 +129,7 @@ const Home = () => {
                 />
               </div>
               <h3>{product.name}</h3>
-              <p className="price">lkr {product.price.toFixed(2)}</p>
+              <p className="price">LKR {product.price.toFixed(2)}</p>
               <p>{product.description}</p>
               <a href={`/product/${product.id}`} className="btn primary">
                 View Details
