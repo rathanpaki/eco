@@ -40,11 +40,6 @@ const Faq = () => {
         "We offer hassle-free returns within 14 days for damaged or incorrect items. Personalized items are non-refundable unless defective.",
     },
     {
-      question: "Do you ship internationally?",
-      answer:
-        "Yes! We offer global shipping using sustainable delivery methods.",
-    },
-    {
       question: "How can I contact customer support?",
       answer: "📩 Email: support@ecogifts.com",
     },
