@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "aos": "^2.3.4",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
     "emailjs-com": "^3.2.0",
     "firebase": "^11.3.1",
     "lucide-react": "^0.475.0",

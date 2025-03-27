@@ -187,7 +187,7 @@ const ProductDetails = () => {
               })
             }
           >
-            Customize
+            Personalize
           </button>
         </div>
       </div>
