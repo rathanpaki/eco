@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { ref, onValue, push } from "firebase/database";
 import { db } from "../firebaseConfig";
 import { getAuth } from "firebase/auth";
@@ -10,37 +10,44 @@ import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetails = () => {
   const { productId } = useParams();
-  const [product, setProduct] = useState(null);
+  const location = useLocation();
+  const [product, setProduct] = useState(location.state?.product || null);
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const productRef = ref(db, `produt/${productId}`);
-
-    const unsubscribe = onValue(
-      productRef,
-      (snapshot) => {
-        try {
-          const data = snapshot.val();
-          if (data) {
-            setProduct(data);
-          } else {
-            setError("Product not found.");
+    if (!product) {
+      const productRef = ref(db, `produt/${productId}`);
+      const unsubscribe = onValue(
+        productRef,
+        (snapshot) => {
+          try {
+            const data = snapshot.val();
+            if (data) {
+              setProduct(data);
+            } else {
+              setError("Product not found.");
+            }
+          } catch (err) {
+            console.error("Error processing Firebase data:", err);
+            setError("Failed to load product details.");
           }
-        } catch (err) {
-          console.error("Error processing Firebase data:", err);
-          setError("Failed to load product details.");
+        },
+        (err) => {
+          console.error("Firebase data fetch error:", err);
+          setError("Error fetching product details from Firebase.");
         }
-      },
-      (err) => {
-        console.error("Firebase data fetch error:", err);
-        setError("Error fetching product details from Firebase.");
-      }
-    );
+      );
 
+      return () => unsubscribe();
+    }
+  }, [productId, product]);
+
+  useEffect(() => {
     const reviewsRef = ref(db, `reviews/${productId}`);
 
     const unsubscribeReviews = onValue(
@@ -57,7 +64,6 @@ const ProductDetails = () => {
     );
 
     return () => {
-      unsubscribe();
       unsubscribeReviews();
     };
   }, [productId]);
@@ -170,6 +176,18 @@ const ProductDetails = () => {
             onClick={() => addToWishlist(product)}
           >
             Add to Wishlist
+          </button>
+          <button
+            className="customize-btn"
+            onClick={() =>
+              navigate(`/customize`, {
+                state: {
+                  product: { image: product.image, price: product.price },
+                },
+              })
+            }
+          >
+            Customize
           </button>
         </div>
       </div>
