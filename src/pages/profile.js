@@ -5,8 +5,10 @@ import { db, storage } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import {
   uploadBytes,
+  uploadBytesResumable,
   getDownloadURL,
   ref as storageRef,
+  deleteObject,
 } from "firebase/storage";
 import "../css/profile.css";
 import Navbar from "../components/Navbar";
@@ -38,6 +40,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [uploadingProfilePic, setUploadingProfilePic] = useState(false);
 
   const handleOrderClick = (order) => {
     console.log("Navigating to order details with:", order);
@@ -99,20 +102,54 @@ const Profile = () => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    if (file && user) {
-      const storageReference = storageRef(storage, `profilePics/${user.uid}`);
-      uploadBytes(storageReference, file)
-        .then(() => getDownloadURL(storageReference))
-        .then((url) => {
-          setProfile((prev) => ({ ...prev, profilePic: url }));
-          toast.success("Profile picture uploaded successfully!");
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-          toast.error("Error uploading profile picture.");
-        });
+    if (!file || !user) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file (JPEG, PNG)');
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Image size should be less than 2MB');
+      return;
+    }
+
+    setUploadingProfilePic(true);
+
+    try {
+      const storageReference = storageRef(
+        storage, 
+        `profilePics/${user.uid}`
+      );
+
+      // Upload the file to the specified reference
+      await uploadBytes(storageReference, file);
+      const url = await getDownloadURL(storageReference);
+
+      // Delete the old profile picture if it exists
+      if (profile.profilePic) {
+        try {
+          const oldImageRef = storageRef(storage, profile.profilePic);
+          await deleteObject(oldImageRef);
+        } catch (error) {
+          console.log("No old image to delete or error deleting:", error);
+        }
+      }
+
+      // Update the profile with the new profile picture URL
+      setProfile(prev => ({ ...prev, profilePic: url }));
+
+      const userRef = databaseRef(db, `users/${user.uid}`);
+      await update(userRef, { profilePic: url });
+
+      toast.success('Profile picture updated successfully!');
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+      toast.error('Failed to upload profile picture');
+    } finally {
+      setUploadingProfilePic(false);
     }
   };
 
@@ -171,8 +208,13 @@ const Profile = () => {
                 />
                 {editing && (
                   <label className="profile-file-input-label">
-                    <input type="file" onChange={handleFileChange} />
-                    Change Photo
+                    <input 
+                      type="file" 
+                      onChange={handleFileChange} 
+                      accept="image/*"
+                      disabled={uploadingProfilePic}
+                    />
+                    {uploadingProfilePic ? 'Uploading...' : 'Change Photo'}
                   </label>
                 )}
               </div>
