@@ -1,187 +1,246 @@
 .community-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: 'Arial', sans-serif;
-    color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
+
+.community-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.community-description {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* Share Section */
+.community-share {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
+.community-share-title {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.community-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: #555;
+}
+
+.form-control {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+  width: 100%;
+}
+
+.form-control:focus {
+  border-color: #34db5e;
+}
+
+.form-control.select {
+  appearance: none;
+  background: #fff;
+  padding: 12px;
+}
+
+/* Textarea specific styles */
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-button {
+  padding: 12px 24px;
+  background: #2e8b5696;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.submit-button:hover {
+  background: #2e8b57;
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Posts Section */
+.community-posts {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.community-posts-title {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-item {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.post-type {
+  font-size: 1.2rem;
+  color: #3498db;
+  margin-bottom: 10px;
+}
+
+.post-content {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.no-posts-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Answers Section */
+.answers-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.answers-section h4 {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.answers-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.answer-item {
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Answer Form */
+.answer-form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.answer-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.answer-form .submit-button {
+  align-self: flex-start;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  background: #2e8b5696; /* Match the submit button color */
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.answer-form .submit-button:hover {
+  background: #2e8b57; /* Match the submit button hover color */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .community-container {
+    padding: 10px;
   }
-  
+
   .community-title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
+    font-size: 2rem;
   }
-  
-  .community-description {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 40px;
-  }
-  
-  /* Share Section */
-  .community-share {
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
-  }
-  
-  .community-share-title {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
-  }
-  
-  .community-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; 
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; 
-  }
-  
-  .form-group label {
-    font-size: 1rem;
-    color: #555;
-  }
-  
-  .form-control {
-    padding: 12px; 
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s ease;
-    width: 100%; 
-  }
-  
-  .form-control:focus {
-    border-color: #34db5e;
-  }
-  
-  .form-control.select {
-    appearance: none;
-    background: #fff;
-    padding: 12px; 
-  }
-  
-  /* Textarea specific styles */
-  textarea.form-control {
-    resize: vertical; 
-    min-height: 120px; 
-  }
-  
-  .submit-button {
-    padding: 12px 24px;
-    background: #2e8b5696;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    width: 100%; 
-    max-width: 200px; 
-    margin: 0 auto; 
-  }
-  
-  .submit-button:hover {
-    background: #2e8b57;
-    transform: translateY(-2px);
-    transition: transform 0.3s ease;
-    transition: box-shadow 0.3s ease;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Posts Section */
-  .community-posts {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+
+  .community-share-title,
   .community-posts-title {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
   }
-  
-  .posts-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+
+  .form-control {
+    font-size: 0.9rem;
+    padding: 10px;
   }
-  
-  .post-item {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  .submit-button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    max-width: 100%;
   }
-  
-  .post-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  }
-  
+
   .post-type {
-    font-size: 1.2rem;
-    color: #3498db;
-    margin-bottom: 10px;
-  }
-  
-  .post-content {
     font-size: 1rem;
-    color: #555;
-    line-height: 1.5;
   }
-  
-  .no-posts-message {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #777;
+
+  .post-content {
+    font-size: 0.9rem;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .community-container {
-      padding: 10px;
-    }
-  
-    .community-title {
-      font-size: 2rem;
-    }
-  
-    .community-share-title,
-    .community-posts-title {
-      font-size: 1.5rem;
-    }
-  
-    .form-control {
-      font-size: 0.9rem;
-      padding: 10px; 
-    }
-  
-    .submit-button {
-      font-size: 0.9rem;
-      padding: 10px 20px; 
-      max-width: 100%; 
-    }
-  
-    .post-type {
-      font-size: 1rem;
-    }
-  
-    .post-content {
-      font-size: 0.9rem;
-    }
-  }
+}

@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebaseConfig"; 
-import { ref, push, onValue } from "firebase/database"; 
-import "../css/Community.css"; 
+import { db } from "../firebaseConfig";
+import { ref, push, onValue } from "firebase/database";
+import "../css/Community.css";
 import Navbar from "../components/Navbar";
 
 const Community = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({
-    type: "experience", 
+    type: "experience",
     content: "",
   });
+  const [answers, setAnswers] = useState({}); // State to manage answers for posts
 
   const postsRef = ref(db, "posts");
 
   useEffect(() => {
+    // Fetch posts and their answers from Firebase
     onValue(postsRef, (snapshot) => {
       const data = snapshot.val();
+      console.log("Fetched data:", data); // Log the fetched data
       if (data) {
         const postList = Object.keys(data).map((key) => ({
           id: key,
           ...data[key],
+          answers: data[key].answers
+            ? Object.keys(data[key].answers).map((answerKey) => ({
+                id: answerKey,
+                ...data[key].answers[answerKey],
+              }))
+            : [], // Map answers to an array
         }));
         setPosts(postList);
       } else {
@@ -36,10 +45,16 @@ const Community = () => {
     });
   };
 
+  const handleAnswerChange = (postId, value) => {
+    setAnswers({
+      ...answers,
+      [postId]: value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newPost.content.trim()) {
-      // Push the new post to Firebase
       push(postsRef, newPost)
         .then(() => {
           console.log("Post saved successfully!");
@@ -50,6 +65,25 @@ const Community = () => {
         })
         .catch((error) => {
           console.error("Error saving post: ", error);
+        });
+    }
+  };
+
+  const handleAnswerSubmit = (e, postId) => {
+    e.preventDefault();
+    const answerContent = answers[postId]?.trim();
+    if (answerContent) {
+      const answersRef = ref(db, `posts/${postId}/answers`);
+      push(answersRef, { content: answerContent })
+        .then(() => {
+          console.log("Answer saved successfully!");
+          setAnswers({
+            ...answers,
+            [postId]: "",
+          });
+        })
+        .catch((error) => {
+          console.error("Error saving answer: ", error);
         });
     }
   };
@@ -110,6 +144,38 @@ const Community = () => {
                 <li key={post.id} className="post-item">
                   <h3 className="post-type">{post.type.toUpperCase()}</h3>
                   <p className="post-content">{post.content}</p>
+
+                  {/* Display answers */}
+                  {post.answers && post.answers.length > 0 && (
+                    <div className="answers-section">
+                      <h4>Answers:</h4>
+                      <ul className="answers-list">
+                        {post.answers.map((answer, index) => (
+                          <li key={index} className="answer-item">
+                            {answer.content}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Answer form */}
+                  <form
+                    onSubmit={(e) => handleAnswerSubmit(e, post.id)}
+                    className="answer-form"
+                  >
+                    <textarea
+                      value={answers[post.id] || ""}
+                      onChange={(e) =>
+                        handleAnswerChange(post.id, e.target.value)
+                      }
+                      placeholder="Write your answer..."
+                      className="form-control"
+                    />
+                    <button type="submit" className="submit-button">
+                      Submit Answer
+                    </button>
+                  </form>
                 </li>
               ))}
             </ul>

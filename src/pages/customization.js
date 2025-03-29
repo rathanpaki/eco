@@ -29,6 +29,7 @@ const Customization = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [textSize, setTextSize] = useState(20);
   const [drawingSize, setDrawingSize] = useState(2);
+  const [productName, setProductName] = useState("Custom Wedding Gift"); // Added product name state
 
   // Eco-friendly option states
   const [isEngravedText, setIsEngravedText] = useState(false);
@@ -46,11 +47,12 @@ const Customization = () => {
   const location = useLocation();
   const { product } = location.state || {};
 
-  // Set initial product image and base price
+  // Set initial product image, base price, and name
   useEffect(() => {
     if (product) {
       setImage(product.image);
       setBasePrice(product.price || 50);
+      setProductName(product.name || "Custom Wedding Gift");
     }
   }, [product]);
 
@@ -71,6 +73,9 @@ const Customization = () => {
 
   // Handle text input change
   const handleTextChange = (e) => setText(e.target.value);
+
+  // Handle product name change
+  const handleProductNameChange = (e) => setProductName(e.target.value);
 
   // Handle color picker change
   const handleColorChange = (e) => setColor(e.target.value);
@@ -221,7 +226,7 @@ const Customization = () => {
   // Draw text on the canvas
   const drawText = (ctx) => {
     ctx.fillStyle = color;
-    ctx.font = `${textSize}px ${font}`; // Fixed template literal syntax
+    ctx.font = `${textSize}px ${font}`;
     ctx.fillText(text, textPosition.x, textPosition.y);
   };
 
@@ -271,6 +276,7 @@ const Customization = () => {
 
     // Save the customization data with eco-friendly choices
     const customizationData = {
+      productName, // Include the product name in checkout data
       price,
       ecoFriendlyChoices: {
         isEngravedText,
@@ -361,14 +367,14 @@ const Customization = () => {
           <div className="score-meter">
             <div
               className="score-fill"
-              style={{ width: `${sustainabilityScore}%` }} // Fixed template literal syntax
+              style={{ width: `${sustainabilityScore}%` }}
             ></div>
           </div>
           <p>Sustainability Score: {sustainabilityScore}%</p>
         </div>
         <p>
           {savings > 0
-            ? `Your eco-friendly choices save ${savings}g of CO₂ emissions!` // Fixed template literal syntax
+            ? `Your eco-friendly choices save ${savings}g of CO₂ emissions!`
             : "Make eco-friendly choices to reduce your carbon footprint."}
         </p>
         {ecoIcons.length > 0 && (
@@ -490,7 +496,15 @@ const Customization = () => {
     <>
       <Navbar />
       <div className="customization-page-eco">
-        <h1>Customize Your Wedding Gift</h1>
+        <h1 className="product-name-header">
+          <input
+            type="text"
+            value={productName}
+            onChange={handleProductNameChange}
+            className="product-name-input"
+            placeholder="Name your custom product"
+          />
+        </h1>
         <div className="customization-content-eco">
           {/* Basic Customization Section */}
           <div className="customization-tools-eco">
