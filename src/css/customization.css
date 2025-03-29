@@ -19,6 +19,10 @@ h1 {
   margin-bottom: 20px;
 }
 
+li {
+  list-style: none;
+}
+
 /* Customization Tools */
 .customization-tools-eco {
   display: flex;
@@ -33,20 +37,31 @@ h1 {
 .customization-tools-eco input[type="text"],
 .customization-tools-eco input[type="color"],
 .customization-tools-eco select,
-.customization-tools-eco input[type="file"] {
+.customization-tools-eco input[type="file"],
+.customization-tools-eco input[type="number"] {
   padding: 10px;
   border: 2px solid #16703bef;
   border-radius: 8px;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .customization-tools-eco input[type="text"]:focus,
 .customization-tools-eco input[type="color"]:focus,
 .customization-tools-eco select:focus,
-.customization-tools-eco input[type="file"]:focus {
+.customization-tools-eco input[type="file"]:focus,
+.customization-tools-eco input[type="number"]:focus {
   border-color: #16703bef;
+}
+
+.customization-tools-eco input[type="text"]:hover,
+.customization-tools-eco input[type="color"]:hover,
+.customization-tools-eco select:hover,
+.customization-tools-eco input[type="file"]:hover,
+.customization-tools-eco input[type="number"]:hover {
+  border-color: #27ae60;
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
 }
 
 .customization-tools-eco input[type="file"] {
@@ -67,6 +82,11 @@ customization-tools-eco input[type="file"]:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   cursor: crosshair;
+  transition: box-shadow 0.3s ease;
+}
+
+.customization-canvas-eco:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .customization-canvas-container-eco {
@@ -92,26 +112,18 @@ customization-tools-eco input[type="file"]:hover {
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   margin: 5px;
 }
 
 .customization-btn-eco:hover {
   background-color: #16703bef;
+  transform: scale(1.05);
 }
 
 .customization-btn-eco:active {
-  background-color: #16703bef;
-}
-
-.customization-tools-eco input[type="number"] {
-  padding: 10px;
-  border: 2px solid #16703bef;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s ease;
-  width: 100px;
+  background-color: #16703bbe;
+  transform: scale(0.95);
 }
 
 customization-tools-eco input[type="number"]:focus {
@@ -144,6 +156,24 @@ customization-tools-eco input[type="number"]:focus {
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
+  flex-wrap: wrap;
+}
+
+.customization-tools-eco {
+  flex: 1;
+  max-width: 300px;
+}
+
+.customization-canvas-container-eco {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eco-options {
+  flex: 1;
+  max-width: 300px;
 }
 
 /* Eco-friendly checkboxes */
@@ -169,16 +199,16 @@ customization-tools-eco input[type="number"]:focus {
 .co2-savings-display {
   /* margin-top: 20px; */
   padding: 15px;
-  background-color: #f0f8f0; 
+  background-color: #f0f8f0;
   border-radius: 8px;
-  border: 1px solid #d0e8d0; 
+  border: 1px solid #d0e8d0;
   text-align: center;
 }
 
 .co2-savings-display h3 {
   margin-bottom: 10px;
   font-size: 18px;
-  color: #2e8b57; 
+  color: #2e8b57;
 }
 
 .co2-savings-display p {
@@ -187,12 +217,183 @@ customization-tools-eco input[type="number"]:focus {
   margin: 0;
 }
 
+/* Modal Animations */
+.eco-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.eco-modal {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  animation: slideIn 0.4s ease-in-out;
+}
+
+.eco-modal h2 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.eco-modal h3 {
+  font-size: 1.4rem;
+  color: #27ae60;
+  margin-bottom: 15px;
+}
+
+.eco-modal p {
+  font-size: 1rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.eco-modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+}
+
+.eco-modal ul li {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 5px 0;
+  text-align: left;
+}
+
+.eco-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.eco-modal-buttons button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.eco-modal-buttons .eco-back-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.eco-modal-buttons .eco-back-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.eco-modal-buttons .eco-continue-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.eco-modal-buttons .eco-continue-btn:hover {
+  background-color: #16703bef;
+  transform: scale(1.05);
+}
+
+.sustainability-score-modal {
+  margin: 20px 0;
+}
+
+.sustainability-score-modal .score-meter-modal {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
+  position: relative;
+  margin: 10px 0;
+}
+
+.sustainability-score-modal .score-fill-modal {
+  background-color: #27ae60;
+  height: 100%;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Modal Close Button */
+.eco-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.eco-modal-close:hover {
+  color: #e74c3c;
+}
+
+/* Sustainability Score Animations */
+.sustainability-score .score-meter {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
+  position: relative;
+}
+
+.sustainability-score .score-fill {
+  background-color: #27ae60;
+  height: 100%;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+.sustainability-score-modal .score-fill-modal {
+  background-color: #27ae60;
+  height: 100%;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Eco-friendly Options Hover Effects */
+.eco-option label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.eco-option label:hover {
+  color: #27ae60;
+}
+
+.eco-option input[type="checkbox"]:checked + span {
+  color: #27ae60;
+  font-weight: bold;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .customization-tools-eco {
     flex-direction: column;
     align-items: center;
     max-width: 100%;
+    animation: fadeIn 0.3s ease-in-out;
   }
 
   .customization-tools-eco input[type="text"],
@@ -211,6 +412,11 @@ customization-tools-eco input[type="number"]:focus {
   .customization-content-eco {
     flex-direction: column;
     align-items: center;
+  }
+
+  .customization-tools-eco,
+  .eco-options {
+    max-width: 100%;
   }
 
   .customization-canvas-container-eco {
