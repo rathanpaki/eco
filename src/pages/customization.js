@@ -29,7 +29,7 @@ const Customization = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [textSize, setTextSize] = useState(20);
   const [drawingSize, setDrawingSize] = useState(2);
-  const [productName, setProductName] = useState("Custom Wedding Gift"); // Added product name state
+  const [productName, setProductName] = useState("Custom Wedding Gift");
 
   // Eco-friendly option states
   const [isEngravedText, setIsEngravedText] = useState(false);
