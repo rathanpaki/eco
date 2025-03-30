@@ -77,6 +77,17 @@ const FONT_OPTIONS = [
   "Roboto",
 ];
 
+const CARD_SHAPES = [
+  "Square",
+  "Circle",
+  "Heart",
+  "Scalloped Top Edge",
+  "Beveled Top Edge",
+  "Rectangle",
+  "Oval Flower Tag",
+  "Flower Tag",
+];
+
 const Customization = () => {
   // Basic customization states
   const [text, setText] = useState("");
@@ -129,6 +140,216 @@ const Customization = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { product } = location.state || {};
+
+  // New state for customization mode
+  const [customizationMode, setCustomizationMode] = useState("product"); // "product" or "card"
+
+  // New states for card customization
+  const [groomName, setGroomName] = useState("");
+  const [brideName, setBrideName] = useState("");
+  const [wishMessage, setWishMessage] = useState("");
+  const [cardPhotos, setCardPhotos] = useState([]);
+
+  // New states for card customization colors and fonts
+  const [groomColor, setGroomColor] = useState("#000000");
+  const [brideColor, setBrideColor] = useState("#000000");
+  const [wishColor, setWishColor] = useState("#000000");
+  const [groomFont, setGroomFont] = useState("Arial");
+  const [brideFont, setBrideFont] = useState("Arial");
+  const [wishFont, setWishFont] = useState("Arial");
+
+  // New states for font size and card shape
+  const [fontSize, setFontSize] = useState(24);
+  const [cardShape, setCardShape] = useState("Square");
+
+  // Handle photo uploads for card customization
+  const handleCardPhotoUpload = (e) => {
+    const files = Array.from(e.target.files);
+    const photoURLs = files.map((file) => URL.createObjectURL(file));
+    setCardPhotos((prev) => [...prev, ...photoURLs]);
+  };
+
+  // Render card customization UI
+  const renderCardCustomization = () => (
+    <div className="card-customization">
+      <h3>Card Customization</h3>
+      <div className="card-customization-container">
+        <div className="card-inputs">
+          <label>
+            Groom's Name:
+            <input
+              type="text"
+              value={groomName}
+              onChange={(e) => setGroomName(e.target.value)}
+              placeholder="Enter groom's name"
+            />
+          </label>
+          <div className="side-by-side">
+            <label>
+              Groom's Name Color:
+              <input
+                type="color"
+                value={groomColor}
+                onChange={(e) => setGroomColor(e.target.value)}
+              />
+            </label>
+            <label>
+              Groom's Name Font:
+              <select
+                value={groomFont}
+                onChange={(e) => setGroomFont(e.target.value)}
+              >
+                {FONT_OPTIONS.map((font) => (
+                  <option key={font} value={font}>
+                    {font}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <label>
+            Bride's Name:
+            <input
+              type="text"
+              value={brideName}
+              onChange={(e) => setBrideName(e.target.value)}
+              placeholder="Enter bride's name"
+            />
+          </label>
+          <div className="side-by-side">
+            <label>
+              Bride's Name Color:
+              <input
+                type="color"
+                value={brideColor}
+                onChange={(e) => setBrideColor(e.target.value)}
+              />
+            </label>
+            <label>
+              Bride's Name Font:
+              <select
+                value={brideFont}
+                onChange={(e) => setBrideFont(e.target.value)}
+              >
+                {FONT_OPTIONS.map((font) => (
+                  <option key={font} value={font}>
+                    {font}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <label>
+            Wish Message:
+            <textarea
+              value={wishMessage}
+              onChange={(e) => setWishMessage(e.target.value)}
+              placeholder="Enter your wish message"
+            />
+          </label>
+          <div className="side-by-side">
+            <label>
+              Wish Message Color:
+              <input
+                type="color"
+                value={wishColor}
+                onChange={(e) => setWishColor(e.target.value)}
+              />
+            </label>
+            <label>
+              Wish Message Font:
+              <select
+                value={wishFont}
+                onChange={(e) => setWishFont(e.target.value)}
+              >
+                {FONT_OPTIONS.map((font) => (
+                  <option key={font} value={font}>
+                    {font}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <label>
+            Font Size:
+            <input
+              type="number"
+              value={fontSize}
+              onChange={(e) => setFontSize(parseInt(e.target.value, 10))}
+              min="10"
+              max="50"
+            />
+          </label>
+          <label>
+            Card Shape:
+            <select
+              value={cardShape}
+              onChange={(e) => setCardShape(e.target.value)}
+            >
+              {CARD_SHAPES.map((shape) => (
+                <option key={shape} value={shape}>
+                  {shape}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Upload Photos:
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleCardPhotoUpload}
+            />
+          </label>
+        </div>
+        <div className="card-live-preview">
+          <div
+            className={`card-preview-container card-shape-${cardShape
+              .toLowerCase()
+              .replace(/\s+/g, "-")}`}
+          >
+            {cardPhotos.length > 0 && (
+              <img
+                src={cardPhotos[0]}
+                alt="Card Background"
+                className="card-background"
+              />
+            )}
+            <div className="card-text">
+              <p
+                style={{
+                  color: groomColor,
+                  fontFamily: groomFont,
+                  fontSize: `${fontSize}px`,
+                }}
+              >
+                {groomName}
+              </p>
+              <p
+                style={{
+                  color: brideColor,
+                  fontFamily: brideFont,
+                  fontSize: `${fontSize}px`,
+                }}
+              >
+                {brideName}
+              </p>
+              <p
+                style={{
+                  color: wishColor,
+                  fontFamily: wishFont,
+                  fontSize: `${fontSize - 4}px`,
+                }}
+              >
+                {wishMessage}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   // Set initial product image, base price, and name
   useEffect(() => {
@@ -215,7 +436,6 @@ const Customization = () => {
   const saveDesignSnapshot = () => {
     const canvas = canvasRef.current;
     if (canvasRef.current) {
-
       const snapshot = canvas.toDataURL("image/png");
       setDesignHistory((prev) => [
         ...prev,
@@ -429,42 +649,42 @@ const Customization = () => {
       }
     }
   };
-// Apply perspective effect based on view angle
-const applyViewAngleEffect = (ctx, img) => {
-  const canvas = canvasRef.current; // Add this line to get the canvas reference
-  if (!canvas) return; // Add safety check
+  // Apply perspective effect based on view angle
+  const applyViewAngleEffect = (ctx, img) => {
+    const canvas = canvasRef.current; // Add this line to get the canvas reference
+    if (!canvas) return; // Add safety check
 
-  ctx.save();
+    ctx.save();
 
-  // Apply transformations based on the view angle
-  switch (viewAngle) {
-    case "front":
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      break;
-    case "left":
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.transform(0.7, 0, -0.3, 1, 0, 0);
-      ctx.translate(-canvas.width / 2, -canvas.height / 2);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      break;
-    case "right":
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.transform(0.7, 0, 0.3, 1, 0, 0);
-      ctx.translate(-canvas.width / 2, -canvas.height / 2);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      break;
-    case "top":
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.transform(1, -0.3, 0, 0.7, 0, 0);
-      ctx.translate(-canvas.width / 2, -canvas.height / 2);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      break;
-    default:
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  }
+    // Apply transformations based on the view angle
+    switch (viewAngle) {
+      case "front":
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        break;
+      case "left":
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.transform(0.7, 0, -0.3, 1, 0, 0);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        break;
+      case "right":
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.transform(0.7, 0, 0.3, 1, 0, 0);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        break;
+      case "top":
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.transform(1, -0.3, 0, 0.7, 0, 0);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        break;
+      default:
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
 
-  ctx.restore();
-};
+    ctx.restore();
+  };
   // Redraw the drawing from saved data
   const redrawDrawing = (ctx) => {
     ctx.strokeStyle = color;
@@ -663,7 +883,6 @@ const applyViewAngleEffect = (ctx, img) => {
 
     return Math.min(score, 100);
   };
-
 
   // Get eco-friendly icons for display
   const getEcoFriendlyIcons = () => {
@@ -886,219 +1105,244 @@ const applyViewAngleEffect = (ctx, img) => {
   return (
     <>
       <Navbar />
-      <div className="customization-page-eco">
-        <h1 className="product-name-header">
-          <input
-            type="text"
-            value={productName}
-            onChange={handleProductNameChange}
-            className="product-name-input"
-            placeholder="Name your custom product"
-          />
-        </h1>
-        <div className="customization-content-eco">
-          {/* Basic Customization Section */}
-          <div className="customization-tools-eco">
-            <div className="tool-section">
-              <h3>Basic Customization</h3>
+      <div className="customization-page">
+        <div className="customization-toggle">
+          <button
+            className={`toggle-btn ${
+              customizationMode === "product" ? "active" : ""
+            }`}
+            onClick={() => setCustomizationMode("product")}
+          >
+            Product Customization
+          </button>
+          <button
+            className={`toggle-btn ${
+              customizationMode === "card" ? "active" : ""
+            }`}
+            onClick={() => setCustomizationMode("card")}
+          >
+            Card Customization
+          </button>
+        </div>
+
+        {customizationMode === "product" ? (
+          <div className="product-customization">
+            <h1 className="product-name-header">
               <input
                 type="text"
-                placeholder="Add text"
-                value={text}
-                onChange={handleTextChange}
+                value={productName}
+                onChange={handleProductNameChange}
+                className="product-name-input"
+                placeholder="Name your custom product"
               />
-              <div className="color-picker-eco">
-                <label>Text Color:</label>
-                <input
-                  type="color"
-                  value={color}
-                  onChange={handleColorChange}
-                />
-              </div>
-              <div className="text-options-eco">
-                <select value={font} onChange={handleFontChange}>
-                  <option value="Arial">Arial</option>
-                  <option value="Verdana">Verdana</option>
-                  <option value="Times New Roman">Times New Roman</option>
-                  <option value="Courier New">Courier New</option>
-                  <option value="Georgia">Georgia</option>
-                </select>
-                <input
-                  type="number"
-                  placeholder="Text Size"
-                  value={textSize}
-                  onChange={handleTextSizeChange}
-                  min="10"
-                  max="100"
-                />
-              </div>
-              <div className="drawing-options-eco">
-                <label>Drawing Tool Size:</label>
-                <input
-                  type="range"
-                  value={drawingSize}
-                  onChange={handleDrawingSizeChange}
-                  min="1"
-                  max="20"
-                />
-                <span>{drawingSize}px</span>
-              </div>
-              <div className="image-upload-eco">
-                <label>Upload Image:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-              </div>
-            </div>
-            <div className="customization-buttons-eco">
-              <button
-                className="customization-btn-eco clear-drawing-btn"
-                onClick={handleClearCanvas}
-              >
-                Clear Drawing and Text
-              </button>
-              <button
-                className="customization-btn-eco remove-image-btn"
-                onClick={handleRemoveImage}
-              >
-                Remove Image
-              </button>
-            </div>
-          </div>
-
-          {/* Whiteboard Section */}
-          <div className="customization-canvas-container-eco">
-            <canvas
-              ref={canvasRef}
-              width="500"
-              height="500"
-              className="customization-canvas-eco"
-              onMouseDown={startDrawing}
-              onMouseMove={draw}
-              onMouseUp={stopDrawing}
-              onMouseOut={stopDrawing}
-              onMouseDownCapture={startTextDrag}
-              onMouseMoveCapture={dragText}
-              onMouseUpCapture={stopTextDrag}
-            />
-            <div className="price-display-eco">
-              <h3>Total Price: LKR {price}</h3>
-            </div>
-            <CO2SavingsDisplay />
-            <button
-              className="customization-btn-eco checkout-btn"
-              onClick={handleProceedToCheckout}
-            >
-              Proceed to Checkout
-            </button>
-          </div>
-
-          {/* Eco-Friendly Options Section */}
-          <div className="eco-options">
-            <div className="tool-section">
-              <h3>Eco-Friendly Options</h3>
-              <div className="eco-option">
-                <label>
+            </h1>
+            <div className="customization-content-eco">
+              {/* Basic Customization Section */}
+              <div className="customization-tools-eco">
+                <div className="tool-section">
+                  <h3>Basic Customization</h3>
                   <input
-                    type="checkbox"
-                    checked={isEngravedText}
-                    onChange={(e) => setIsEngravedText(e.target.checked)}
+                    type="text"
+                    placeholder="Add text"
+                    value={text}
+                    onChange={handleTextChange}
                   />
-                  Use Engraved Text
-                  <span className="eco-badge">Eco-friendly</span>
-                </label>
+                  <div className="color-picker-eco">
+                    <label>Text Color:</label>
+                    <input
+                      type="color"
+                      value={color}
+                      onChange={handleColorChange}
+                    />
+                  </div>
+                  <div className="text-options-eco">
+                    <select value={font} onChange={handleFontChange}>
+                      <option value="Arial">Arial</option>
+                      <option value="Verdana">Verdana</option>
+                      <option value="Times New Roman">Times New Roman</option>
+                      <option value="Courier New">Courier New</option>
+                      <option value="Georgia">Georgia</option>
+                    </select>
+                    <input
+                      type="number"
+                      placeholder="Text Size"
+                      value={textSize}
+                      onChange={handleTextSizeChange}
+                      min="10"
+                      max="100"
+                    />
+                  </div>
+                  <div className="drawing-options-eco">
+                    <label>Drawing Tool Size:</label>
+                    <input
+                      type="range"
+                      value={drawingSize}
+                      onChange={handleDrawingSizeChange}
+                      min="1"
+                      max="20"
+                    />
+                    <span>{drawingSize}px</span>
+                  </div>
+                  <div className="image-upload-eco">
+                    <label>Upload Image:</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+                </div>
+                <div className="customization-buttons-eco">
+                  <button
+                    className="customization-btn-eco clear-drawing-btn"
+                    onClick={handleClearCanvas}
+                  >
+                    Clear Drawing and Text
+                  </button>
+                  <button
+                    className="customization-btn-eco remove-image-btn"
+                    onClick={handleRemoveImage}
+                  >
+                    Remove Image
+                  </button>
+                </div>
               </div>
-              <div className="eco-option">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={isPlantBasedInk}
-                    onChange={(e) => setIsPlantBasedInk(e.target.checked)}
-                  />
-                  Use Plant-Based Ink
-                  <span className="eco-badge">Eco-friendly</span>
-                </label>
+
+              {/* Whiteboard Section */}
+              <div className="customization-canvas-container-eco">
+                <canvas
+                  ref={canvasRef}
+                  width="500"
+                  height="500"
+                  className="customization-canvas-eco"
+                  onMouseDown={startDrawing}
+                  onMouseMove={draw}
+                  onMouseUp={stopDrawing}
+                  onMouseOut={stopDrawing}
+                  onMouseDownCapture={startTextDrag}
+                  onMouseMoveCapture={dragText}
+                  onMouseUpCapture={stopTextDrag}
+                />
+                <div className="price-display-eco">
+                  <h3>Total Price: LKR {price}</h3>
+                </div>
+                <CO2SavingsDisplay />
+                <button
+                  className="customization-btn-eco checkout-btn"
+                  onClick={handleProceedToCheckout}
+                >
+                  Proceed to Checkout
+                </button>
               </div>
-              <div className="eco-material-section">
-                <h4>Sustainable Materials:</h4>
-                <div className="eco-option">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={isWoodenMaterial}
-                      onChange={(e) => {
-                        setIsWoodenMaterial(e.target.checked);
-                        if (e.target.checked) {
-                          setIsBambooMaterial(false);
-                          setIsBiodegradableMaterial(false);
-                          setIsRecycledMaterial(false);
-                        }
-                      }}
-                    />
-                    Recycled Wood
-                    <span className="eco-badge">Eco-friendly</span>
-                  </label>
-                </div>
-                <div className="eco-option">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={isBambooMaterial}
-                      onChange={(e) => {
-                        setIsBambooMaterial(e.target.checked);
-                        if (e.target.checked) {
-                          setIsWoodenMaterial(false);
-                          setIsBiodegradableMaterial(false);
-                          setIsRecycledMaterial(false);
-                        }
-                      }}
-                    />
-                    Bamboo Material
-                    <span className="eco-badge">Eco-friendly</span>
-                  </label>
-                </div>
-                <div className="eco-option">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={isBiodegradableMaterial}
-                      onChange={(e) => {
-                        setIsBiodegradableMaterial(e.target.checked);
-                        if (e.target.checked) {
-                          setIsWoodenMaterial(false);
-                          setIsBambooMaterial(false);
-                          setIsRecycledMaterial(false);
-                        }
-                      }}
-                    />
-                    Biodegradable Material
-                    <span className="eco-badge">Eco-friendly</span>
-                  </label>
-                </div>
-                <div className="eco-option">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={isRecycledMaterial}
-                      onChange={(e) => {
-                        setIsRecycledMaterial(e.target.checked);
-                        if (e.target.checked) {
-                          setIsWoodenMaterial(false);
-                          setIsBambooMaterial(false);
-                          setIsBiodegradableMaterial(false);
-                        }
-                      }}
-                    />
-                    Recycled Material
-                    <span className="eco-badge">Eco-friendly</span>
-                  </label>
+
+              {/* Eco-Friendly Options Section */}
+              <div className="eco-options">
+                <div className="tool-section">
+                  <h3>Eco-Friendly Options</h3>
+                  <div className="eco-option">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={isEngravedText}
+                        onChange={(e) => setIsEngravedText(e.target.checked)}
+                      />
+                      Use Engraved Text
+                      <span className="eco-badge">Eco-friendly</span>
+                    </label>
+                  </div>
+                  <div className="eco-option">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={isPlantBasedInk}
+                        onChange={(e) => setIsPlantBasedInk(e.target.checked)}
+                      />
+                      Use Plant-Based Ink
+                      <span className="eco-badge">Eco-friendly</span>
+                    </label>
+                  </div>
+                  <div className="eco-material-section">
+                    <h4>Sustainable Materials:</h4>
+                    <div className="eco-option">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={isWoodenMaterial}
+                          onChange={(e) => {
+                            setIsWoodenMaterial(e.target.checked);
+                            if (e.target.checked) {
+                              setIsBambooMaterial(false);
+                              setIsBiodegradableMaterial(false);
+                              setIsRecycledMaterial(false);
+                            }
+                          }}
+                        />
+                        Recycled Wood
+                        <span className="eco-badge">Eco-friendly</span>
+                      </label>
+                    </div>
+                    <div className="eco-option">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={isBambooMaterial}
+                          onChange={(e) => {
+                            setIsBambooMaterial(e.target.checked);
+                            if (e.target.checked) {
+                              setIsWoodenMaterial(false);
+                              setIsBiodegradableMaterial(false);
+                              setIsRecycledMaterial(false);
+                            }
+                          }}
+                        />
+                        Bamboo Material
+                        <span className="eco-badge">Eco-friendly</span>
+                      </label>
+                    </div>
+                    <div className="eco-option">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={isBiodegradableMaterial}
+                          onChange={(e) => {
+                            setIsBiodegradableMaterial(e.target.checked);
+                            if (e.target.checked) {
+                              setIsWoodenMaterial(false);
+                              setIsBambooMaterial(false);
+                              setIsRecycledMaterial(false);
+                            }
+                          }}
+                        />
+                        Biodegradable Material
+                        <span className="eco-badge">Eco-friendly</span>
+                      </label>
+                    </div>
+                    <div className="eco-option">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={isRecycledMaterial}
+                          onChange={(e) => {
+                            setIsRecycledMaterial(e.target.checked);
+                            if (e.target.checked) {
+                              setIsWoodenMaterial(false);
+                              setIsBambooMaterial(false);
+                              setIsBiodegradableMaterial(false);
+                            }
+                          }}
+                        />
+                        Recycled Material
+                        <span className="eco-badge">Eco-friendly</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          renderCardCustomization()
+        )}
       </div>
 
       <EcoFriendlyModal />
