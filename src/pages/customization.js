@@ -15,6 +15,68 @@ const CO2_SAVINGS = {
   recycledMaterial: 0.25, // 25% CO₂ saved by choosing recycled materials
 };
 
+// Personalization templates/views for different materials
+const MATERIAL_PREVIEWS = {
+  wooden: "/assets/previews/wooden-preview.jpg",
+  bamboo: "/assets/previews/bamboo-preview.jpg",
+  biodegradable: "/assets/previews/biodegradable-preview.jpg",
+  recycled: "/assets/previews/recycled-preview.jpg",
+  default: "/assets/previews/default-preview.jpg",
+};
+
+// Popular personalization templates
+const PERSONALIZATION_TEMPLATES = [
+  {
+    id: 1,
+    name: "Anniversary Gift",
+    preview: "/assets/templates/anniversary.jpg",
+    text: "Happy Anniversary!",
+    font: "Dancing Script",
+    textSize: 28,
+    color: "#8B4513",
+  },
+  {
+    id: 2,
+    name: "Birthday Gift",
+    preview: "/assets/templates/birthday.jpg",
+    text: "Happy Birthday!",
+    font: "Pacifico",
+    textSize: 30,
+    color: "#4169E1",
+  },
+  {
+    id: 3,
+    name: "Thank You Gift",
+    preview: "/assets/templates/thank-you.jpg",
+    text: "Thank You!",
+    font: "Montserrat",
+    textSize: 26,
+    color: "#228B22",
+  },
+  {
+    id: 4,
+    name: "Wedding Gift",
+    preview: "/assets/templates/wedding.jpg",
+    text: "Congratulations!",
+    font: "Playfair Display",
+    textSize: 32,
+    color: "#800080",
+  },
+];
+
+const FONT_OPTIONS = [
+  "Arial",
+  "Verdana",
+  "Times New Roman",
+  "Courier New",
+  "Georgia",
+  "Dancing Script",
+  "Pacifico",
+  "Montserrat",
+  "Playfair Display",
+  "Roboto",
+];
+
 const Customization = () => {
   // Basic customization states
   const [text, setText] = useState("");
@@ -30,6 +92,9 @@ const Customization = () => {
   const [textSize, setTextSize] = useState(20);
   const [drawingSize, setDrawingSize] = useState(2);
   const [productName, setProductName] = useState("Custom Wedding Gift");
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [previewMode, setPreviewMode] = useState("default");
 
   // Eco-friendly option states
   const [isEngravedText, setIsEngravedText] = useState(false);
@@ -39,8 +104,26 @@ const Customization = () => {
   const [isBambooMaterial, setIsBambooMaterial] = useState(false);
   const [isRecycledMaterial, setIsRecycledMaterial] = useState(false);
 
+  // New state for 3D view toggle
+  const [show3DView, setShow3DView] = useState(false);
+
+  // New state for saved design snapshots
+  const [designHistory, setDesignHistory] = useState([]);
+
+  // New state for customization view
+  const [viewAngle, setViewAngle] = useState("front");
+
+  // Reference for preview image to switch between materials
+  const [materialPreview, setMaterialPreview] = useState(
+    MATERIAL_PREVIEWS.default
+  );
+
   // Modal state for eco-friendly feedback
   const [showEcoModal, setShowEcoModal] = useState(false);
+
+  // Modal for personalization templates
+  const [showPersonalizationModal, setShowPersonalizationModal] =
+    useState(false);
 
   const canvasRef = useRef(null);
   const navigate = useNavigate();
@@ -71,6 +154,16 @@ const Customization = () => {
     drawingSize,
   ]);
 
+  // Update material preview when material selection changes
+  useEffect(() => {
+    updateMaterialPreview();
+  }, [
+    isWoodenMaterial,
+    isBambooMaterial,
+    isBiodegradableMaterial,
+    isRecycledMaterial,
+  ]);
+
   // Handle text input change
   const handleTextChange = (e) => setText(e.target.value);
 
@@ -83,16 +176,78 @@ const Customization = () => {
   // Handle font selection change
   const handleFontChange = (e) => setFont(e.target.value);
 
-  // Handle image upload
+  // Update material preview based on selected material
+  const updateMaterialPreview = () => {
+    if (isWoodenMaterial) {
+      setMaterialPreview(MATERIAL_PREVIEWS.wooden);
+      setPreviewMode("wooden");
+    } else if (isBambooMaterial) {
+      setMaterialPreview(MATERIAL_PREVIEWS.bamboo);
+      setPreviewMode("bamboo");
+    } else if (isBiodegradableMaterial) {
+      setMaterialPreview(MATERIAL_PREVIEWS.biodegradable);
+      setPreviewMode("biodegradable");
+    } else if (isRecycledMaterial) {
+      setMaterialPreview(MATERIAL_PREVIEWS.recycled);
+      setPreviewMode("recycled");
+    } else {
+      setMaterialPreview(MATERIAL_PREVIEWS.default);
+      setPreviewMode("default");
+    }
+  };
+
+  // Handle image upload with enhanced preview
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
+        // Save current state before changing the image
+        saveDesignSnapshot();
         setImage(event.target.result);
+        toast.success("Image uploaded successfully!");
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  // Save current design as a snapshot
+  const saveDesignSnapshot = () => {
+    const canvas = canvasRef.current;
+    if (canvasRef.current) {
+
+      const snapshot = canvas.toDataURL("image/png");
+      setDesignHistory((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          snapshot,
+          text,
+          color,
+          font,
+          textSize,
+        },
+      ]);
+      toast.info("Design snapshot saved!");
+    }
+  };
+
+  // Restore design from history
+  const restoreDesign = (historyItem) => {
+    setText(historyItem.text);
+    setColor(historyItem.color);
+    setFont(historyItem.font);
+    setTextSize(historyItem.textSize);
+    // Use the snapshot as background
+    const img = new Image();
+    img.src = historyItem.snapshot;
+    img.onload = () => {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+    toast.success("Previous design restored!");
   };
 
   // Handle text size change
@@ -101,6 +256,33 @@ const Customization = () => {
   // Handle drawing size change
   const handleDrawingSizeChange = (e) =>
     setDrawingSize(parseInt(e.target.value, 10));
+
+  // Apply personalization template
+  const applyTemplate = (template) => {
+    setText(template.text);
+    setFont(template.font);
+    setColor(template.color);
+    setTextSize(template.textSize);
+    setSelectedTemplate(template.id);
+    setShowPersonalizationModal(false);
+    toast.success(`Applied "${template.name}" template!`);
+  };
+
+  // Toggle 3D view
+  const toggle3DView = () => {
+    setShow3DView(!show3DView);
+    if (!show3DView) {
+      toast.info(
+        "3D view enabled! Rotate the product to see different angles."
+      );
+    }
+  };
+
+  // Change view angle in 3D mode
+  const changeViewAngle = (angle) => {
+    setViewAngle(angle);
+    toast.info(`Viewing from ${angle} angle`);
+  };
 
   // Start drawing on the canvas
   const startDrawing = (e) => {
@@ -181,29 +363,108 @@ const Customization = () => {
   // Draw the canvas with text, image, and drawings
   const drawCanvas = () => {
     const canvas = canvasRef.current;
+    if (!canvasRef.current) return;
+
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the image (if any)
-    if (image) {
-      const img = new Image();
-      img.crossOrigin = "Anonymous";
-      img.src = image;
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        redrawDrawing(ctx);
-        drawText(ctx);
-      };
-      img.onerror = (error) => {
-        console.error("Failed to load image:", error);
+    // Draw material background based on selection
+    if (
+      isWoodenMaterial ||
+      isBambooMaterial ||
+      isBiodegradableMaterial ||
+      isRecycledMaterial
+    ) {
+      const materialImg = new Image();
+      materialImg.crossOrigin = "Anonymous";
+      materialImg.src = materialPreview;
+      materialImg.onload = () => {
+        ctx.drawImage(materialImg, 0, 0, canvas.width, canvas.height);
+
+        // Then draw the custom image on top if available
+        if (image) {
+          const img = new Image();
+          img.crossOrigin = "Anonymous";
+          img.src = image;
+          img.onload = () => {
+            // For 3D effect in different view angles
+            if (show3DView) {
+              applyViewAngleEffect(ctx, img);
+            } else {
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            }
+            redrawDrawing(ctx);
+            drawText(ctx);
+          };
+          img.onerror = (error) => {
+            console.error("Failed to load image:", error);
+          };
+        } else {
+          redrawDrawing(ctx);
+          drawText(ctx);
+        }
       };
     } else {
-      // If no image, draw on a blank canvas
-      redrawDrawing(ctx);
-      drawText(ctx);
+      // If no material selected, use regular image or blank canvas
+      if (image) {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = image;
+        img.onload = () => {
+          if (show3DView) {
+            applyViewAngleEffect(ctx, img);
+          } else {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          }
+          redrawDrawing(ctx);
+          drawText(ctx);
+        };
+        img.onerror = (error) => {
+          console.error("Failed to load image:", error);
+        };
+      } else {
+        // If no image, draw on a blank canvas
+        redrawDrawing(ctx);
+        drawText(ctx);
+      }
     }
   };
+// Apply perspective effect based on view angle
+const applyViewAngleEffect = (ctx, img) => {
+  const canvas = canvasRef.current; // Add this line to get the canvas reference
+  if (!canvas) return; // Add safety check
 
+  ctx.save();
+
+  // Apply transformations based on the view angle
+  switch (viewAngle) {
+    case "front":
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      break;
+    case "left":
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.transform(0.7, 0, -0.3, 1, 0, 0);
+      ctx.translate(-canvas.width / 2, -canvas.height / 2);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      break;
+    case "right":
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.transform(0.7, 0, 0.3, 1, 0, 0);
+      ctx.translate(-canvas.width / 2, -canvas.height / 2);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      break;
+    case "top":
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.transform(1, -0.3, 0, 0.7, 0, 0);
+      ctx.translate(-canvas.width / 2, -canvas.height / 2);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      break;
+    default:
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  }
+
+  ctx.restore();
+};
   // Redraw the drawing from saved data
   const redrawDrawing = (ctx) => {
     ctx.strokeStyle = color;
@@ -225,9 +486,49 @@ const Customization = () => {
 
   // Draw text on the canvas
   const drawText = (ctx) => {
+    if (!text) return;
+
     ctx.fillStyle = color;
     ctx.font = `${textSize}px ${font}`;
-    ctx.fillText(text, textPosition.x, textPosition.y);
+
+    // Apply engraved text effect when selected
+    if (isEngravedText) {
+      // Shadow for engraved effect
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
+      ctx.shadowBlur = 2;
+      ctx.shadowColor = "rgba(0,0,0,0.5)";
+
+      // First draw the text in a lighter color for the "carved out" effect
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      ctx.fillText(text, textPosition.x + 1, textPosition.y + 1);
+
+      // Then draw the main text
+      ctx.fillStyle = color;
+      ctx.fillText(text, textPosition.x, textPosition.y);
+
+      // Reset shadow
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.shadowBlur = 0;
+    } else {
+      // Regular text
+      ctx.fillText(text, textPosition.x, textPosition.y);
+    }
+
+    // If plant-based ink is selected, add a subtle organic texture
+    if (isPlantBasedInk) {
+      const originalComposite = ctx.globalCompositeOperation;
+      ctx.globalCompositeOperation = "overlay";
+      ctx.fillStyle = "rgba(0,100,0,0.1)";
+      ctx.fillRect(
+        textPosition.x,
+        textPosition.y - textSize,
+        ctx.measureText(text).width,
+        textSize
+      );
+      ctx.globalCompositeOperation = originalComposite;
+    }
   };
 
   // Calculate the total price based on customization
@@ -244,29 +545,42 @@ const Customization = () => {
     if (isBiodegradableMaterial || isRecycledMaterial) additionalCost += 3;
     if (isPlantBasedInk) additionalCost += 1;
 
+    // Add personalization template premium if used
+    if (selectedTemplate) additionalCost += 8;
+
     setPrice(basePrice + additionalCost);
   };
 
   // Function to clear drawing and text
   const handleClearCanvas = () => {
+    saveDesignSnapshot(); // Save before clearing
     setText("");
     setDrawingData([]);
     setTextPosition({ x: 50, y: 50 });
     setTextSize(20);
     setDrawingSize(2);
+    setSelectedTemplate(null);
     drawCanvas();
   };
 
   // Function to remove the uploaded image
   const handleRemoveImage = () => {
+    saveDesignSnapshot(); // Save before removing
     setImage(null);
     drawCanvas();
   };
 
   // Navigate to the checkout page
   const handleProceedToCheckout = () => {
+    // Take final snapshot of design
+    const canvas = canvasRef.current;
+    const finalDesign = canvas.toDataURL("image/png");
+
     // Show eco-friendly modal first before checkout
     setShowEcoModal(true);
+
+    // Store the final design
+    localStorage.setItem("finalCustomDesign", finalDesign);
   };
 
   // Continue to checkout after seeing eco modal
@@ -274,10 +588,14 @@ const Customization = () => {
     // Close the modal
     setShowEcoModal(false);
 
+    // Get the final design from storage
+    const finalDesign = localStorage.getItem("finalCustomDesign");
+
     // Save the customization data with eco-friendly choices
     const customizationData = {
-      productName, // Include the product name in checkout data
+      productName,
       price,
+      finalDesign,
       ecoFriendlyChoices: {
         isEngravedText,
         isWoodenMaterial,
@@ -286,8 +604,13 @@ const Customization = () => {
         isBambooMaterial,
         isRecycledMaterial,
       },
+      previewMode,
+      viewAngle: show3DView ? viewAngle : "front",
       sustainabilityScore: calculateSustainabilityScore(),
       co2Savings: calculateCO2Savings(),
+      selectedTemplate: PERSONALIZATION_TEMPLATES.find(
+        (t) => t.id === selectedTemplate
+      ),
     };
 
     // Navigate to checkout with the data
@@ -340,6 +663,7 @@ const Customization = () => {
 
     return Math.min(score, 100);
   };
+
 
   // Get eco-friendly icons for display
   const getEcoFriendlyIcons = () => {
@@ -489,6 +813,73 @@ const Customization = () => {
           </div>
         </div>
       )
+    );
+  };
+
+  // Template selection modal
+  const PersonalizationTemplateModal = () => {
+    return (
+      showPersonalizationModal && (
+        <div className="template-modal-overlay">
+          <div className="template-modal">
+            <h2>Choose a Personalization Template</h2>
+            <div className="template-grid">
+              {PERSONALIZATION_TEMPLATES.map((template) => (
+                <div
+                  key={template.id}
+                  className={`template-item ${
+                    selectedTemplate === template.id ? "selected" : ""
+                  }`}
+                  onClick={() => applyTemplate(template)}
+                >
+                  <img src={template.preview} alt={template.name} />
+                  <div className="template-details">
+                    <h4>{template.name}</h4>
+                    <p style={{ color: template.color }}>{template.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="template-modal-buttons">
+              <button
+                className="template-close-btn"
+                onClick={() => setShowPersonalizationModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    );
+  };
+
+  // Design history panel
+  const DesignHistoryPanel = () => {
+    return (
+      <div
+        className={`design-history-panel ${
+          designHistory.length === 0 ? "empty" : ""
+        }`}
+      >
+        <h3>Design History</h3>
+        {designHistory.length === 0 ? (
+          <p>No saved designs yet. Changes will be saved automatically.</p>
+        ) : (
+          <div className="history-items">
+            {designHistory.map((item) => (
+              <div
+                key={item.id}
+                className="history-item"
+                onClick={() => restoreDesign(item)}
+              >
+                <img src={item.snapshot} alt="Design snapshot" />
+                <p>{new Date(item.id).toLocaleTimeString()}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     );
   };
 
