@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { ref as databaseRef, get, update } from "firebase/database";
-import { db, storage } from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import {
-  uploadBytes,
-  uploadBytesResumable,
-  getDownloadURL,
-  ref as storageRef,
-  deleteObject,
-} from "firebase/storage";
 import "../css/profile.css";
 import Navbar from "../components/Navbar";
 import Loading from "../components/Loader";
@@ -102,55 +95,31 @@ const Profile = () => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (!file || !user) return;
+    if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please upload an image file (JPEG, PNG)');
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image file (JPEG, PNG)");
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('Image size should be less than 2MB');
+      toast.error("Image size should be less than 2MB");
       return;
     }
 
-    setUploadingProfilePic(true);
-
-    try {
-      const storageReference = storageRef(
-        storage, 
-        `profilePics/${user.uid}`
-      );
-
-      // Upload the file to the specified reference
-      await uploadBytes(storageReference, file);
-      const url = await getDownloadURL(storageReference);
-
-      // Delete the old profile picture if it exists
-      if (profile.profilePic) {
-        try {
-          const oldImageRef = storageRef(storage, profile.profilePic);
-          await deleteObject(oldImageRef);
-        } catch (error) {
-          console.log("No old image to delete or error deleting:", error);
-        }
-      }
-
-      // Update the profile with the new profile picture URL
-      setProfile(prev => ({ ...prev, profilePic: url }));
-
-      const userRef = databaseRef(db, `users/${user.uid}`);
-      await update(userRef, { profilePic: url });
-
-      toast.success('Profile picture updated successfully!');
-    } catch (error) {
-      console.error("Error uploading profile picture:", error);
-      toast.error('Failed to upload profile picture');
-    } finally {
-      setUploadingProfilePic(false);
-    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Image = reader.result;
+      localStorage.setItem("profilePic", base64Image); // Save to local storage
+      setProfile((prev) => ({ ...prev, profilePic: base64Image }));
+      toast.success("Profile picture updated successfully!");
+    };
+    reader.onerror = () => {
+      toast.error("Failed to upload profile picture");
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSave = () => {
@@ -202,19 +171,23 @@ const Profile = () => {
             <div className="profile-card">
               <div className="profile-pic-wrapper">
                 <img
-                  src={profile.profilePic || "https://firebasestorage.googleapis.com/v0/b/eco-gifts.firebasestorage.app/o/profilePics%2Fprofile.jpg?alt=media&token=831c9d67-03a8-489d-b5d3-62a3caff641a"}
+                  src={
+                    profile.profilePic ||
+                    localStorage.getItem("profilePic") || // Retrieve from local storage
+                    "https://firebasestorage.googleapis.com/v0/b/eco-gifts.firebasestorage.app/o/profilePics%2Fprofile.jpg?alt=media&token=831c9d67-03a8-489d-b5d3-62a3caff641a"
+                  }
                   alt="Profile"
                   className="profile-pic"
                 />
                 {editing && (
                   <label className="profile-file-input-label">
-                    <input 
-                      type="file" 
-                      onChange={handleFileChange} 
+                    <input
+                      type="file"
+                      onChange={handleFileChange}
                       accept="image/*"
                       disabled={uploadingProfilePic}
                     />
-                    {uploadingProfilePic ? 'Uploading...' : 'Change Photo'}
+                    {uploadingProfilePic ? "Uploading..." : "Change Photo"}
                   </label>
                 )}
               </div>
