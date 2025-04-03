@@ -56,7 +56,6 @@
 .about-us h2 {
   font-size: 2em;
   margin-top: 40px;
-  animation: slideIn 1s ease-in-out;
 }
 
 @keyframes slideIn {
@@ -129,20 +128,7 @@
   text-align: center;
   font-size: 1.3em;
   color: #414643;
-  animation: pulse 2s infinite;
 }
-
-/* @keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-} */
 
 @media (max-width: 768px) {
   .about-us {
