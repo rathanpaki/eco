@@ -472,6 +472,40 @@ const Customization = () => {
     isRecycledMaterial,
   ]);
 
+  useEffect(() => {
+    if (location.state?.savedDesign) {
+      const savedDesign = location.state.savedDesign;
+
+      setProductName(savedDesign.productName);
+      setPrice(savedDesign.price);
+      setText(savedDesign.text || "");
+      setColor(savedDesign.color || "#000000");
+      setFont(savedDesign.font || "Arial");
+      setTextSize(savedDesign.textSize || 20);
+      setDrawingData(savedDesign.drawingData || []);
+      setImage(savedDesign.savedDesign);
+      setIsEngravedText(savedDesign.ecoFriendlyChoices.isEngravedText || false);
+      setIsWoodenMaterial(
+        savedDesign.ecoFriendlyChoices.isWoodenMaterial || false
+      );
+      setIsBiodegradableMaterial(
+        savedDesign.ecoFriendlyChoices.isBiodegradableMaterial || false
+      );
+      setIsPlantBasedInk(
+        savedDesign.ecoFriendlyChoices.isPlantBasedInk || false
+      );
+      setIsBambooMaterial(
+        savedDesign.ecoFriendlyChoices.isBambooMaterial || false
+      );
+      setIsRecycledMaterial(
+        savedDesign.ecoFriendlyChoices.isRecycledMaterial || false
+      );
+      setPreviewMode(savedDesign.previewMode || "default");
+      setViewAngle(savedDesign.viewAngle || "front");
+      setSelectedTemplate(savedDesign.selectedTemplate?.id || null);
+    }
+  }, [location.state]);
+
   // Handle text input change
   const handleTextChange = (e) => setText(e.target.value);
 
@@ -908,6 +942,40 @@ const Customization = () => {
 
     // Store the final design
     localStorage.setItem("finalCustomDesign", finalDesign);
+  };
+
+  // Save customized design for later purchase
+  const saveForLater = () => {
+    const canvas = canvasRef.current;
+    const savedDesign = canvas.toDataURL("image/png");
+
+    const savedDesignData = {
+      id: Date.now(),
+      productName,
+      price,
+      savedDesign,
+      ecoFriendlyChoices: {
+        isEngravedText,
+        isWoodenMaterial,
+        isBiodegradableMaterial,
+        isPlantBasedInk,
+        isBambooMaterial,
+        isRecycledMaterial,
+      },
+      previewMode,
+      viewAngle: show3DView ? viewAngle : "front",
+      sustainabilityScore: calculateSustainabilityScore(),
+      co2Savings: calculateCO2Savings(),
+      selectedTemplate: PERSONALIZATION_TEMPLATES.find(
+        (t) => t.id === selectedTemplate
+      ),
+    };
+
+    const savedDesigns = JSON.parse(localStorage.getItem("savedDesigns")) || [];
+    savedDesigns.push(savedDesignData);
+    localStorage.setItem("savedDesigns", JSON.stringify(savedDesigns));
+
+    toast.success("Design saved for later purchase!");
   };
 
   // Continue to checkout after seeing eco modal
@@ -1347,6 +1415,12 @@ const Customization = () => {
                   onClick={handleProceedToCheckout}
                 >
                   Proceed to Checkout
+                </button>
+                <button
+                  className="customization-btn-eco save-later-btn"
+                  onClick={saveForLater}
+                >
+                  Save for Later
                 </button>
               </div>
 

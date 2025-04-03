@@ -34,10 +34,24 @@ const Profile = () => {
   const [editing, setEditing] = useState(false);
   const [orders, setOrders] = useState([]);
   const [uploadingProfilePic, setUploadingProfilePic] = useState(false);
+  const [savedDesigns, setSavedDesigns] = useState([]);
 
   const handleOrderClick = (order) => {
     console.log("Navigating to order details with:", order);
     navigate("/order-details", { state: { order } });
+  };
+
+  const handleEditSavedDesign = (design) => {
+    navigate("/customize", { state: { savedDesign: design } });
+  };
+
+  const handleDeleteSavedDesign = (designId) => {
+    const updatedDesigns = savedDesigns.filter(
+      (design) => design.id !== designId
+    );
+    setSavedDesigns(updatedDesigns);
+    localStorage.setItem("savedDesigns", JSON.stringify(updatedDesigns));
+    toast.success("Design deleted successfully!");
   };
 
   useEffect(() => {
@@ -52,6 +66,11 @@ const Profile = () => {
       }
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const designs = JSON.parse(localStorage.getItem("savedDesigns")) || [];
+    setSavedDesigns(designs);
   }, []);
 
   const fetchUserData = (uid) => {
@@ -276,6 +295,39 @@ const Profile = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            <div className="profile-section">
+              <h3 className="profile-section-title">Saved Designs</h3>
+              <div className="saved-designs">
+                {savedDesigns.length === 0 ? (
+                  <p>No saved designs yet.</p>
+                ) : (
+                  savedDesigns.map((design) => (
+                    <div key={design.id} className="saved-design-item">
+                      <img src={design.savedDesign} alt={design.productName} />
+                      <h3>{design.productName}</h3>
+                      <p>Price: LKR {design.price}</p>
+                      <p>Sustainability Score: {design.sustainabilityScore}%</p>
+                      <p>CO₂ Savings: {design.co2Savings}g</p>
+                      <div className="saved-design-actions">
+                        <button
+                          className="btn-primary-profile"
+                          onClick={() => handleEditSavedDesign(design)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="btn-danger-profile"
+                          onClick={() => handleDeleteSavedDesign(design.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </>
