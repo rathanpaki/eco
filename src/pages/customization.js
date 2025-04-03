@@ -4,6 +4,11 @@ import "../css/customization.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
+import bag1 from "../img/bag1.jpg";
+import bag2 from "../img/bag2.jpg";
+import bag3 from "../img/bag3.jpg";
+import bag4 from "../img/bag4.jpg";
+import bag5 from "../img/bag5.jpg";
 
 // Enhanced CO2 savings with additional eco-friendly options
 const CO2_SAVINGS = {
@@ -88,6 +93,9 @@ const CARD_SHAPES = [
   "Flower Tag",
 ];
 
+// Predefined bag images
+const BAG_IMAGES = [bag1, bag2, bag3, bag4, bag5];
+
 const Customization = () => {
   // Basic customization states
   const [text, setText] = useState("");
@@ -132,6 +140,9 @@ const Customization = () => {
   // Modal state for eco-friendly feedback
   const [showEcoModal, setShowEcoModal] = useState(false);
 
+  // Function to generate random price increments
+  const getRandomPriceIncrement = () => Math.floor(Math.random() * 10) + 1;
+
   // Modal for personalization templates
   const [showPersonalizationModal, setShowPersonalizationModal] =
     useState(false);
@@ -139,10 +150,10 @@ const Customization = () => {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { product } = location.state || {};
+  const { product, price: initialPrice } = location.state || {};
 
   // New state for customization mode
-  const [customizationMode, setCustomizationMode] = useState("product"); // "product" or "card"
+  const [customizationMode, setCustomizationMode] = useState("product");
 
   // New states for card customization
   const [groomName, setGroomName] = useState("");
@@ -162,11 +173,34 @@ const Customization = () => {
   const [fontSize, setFontSize] = useState(24);
   const [cardShape, setCardShape] = useState("Square");
 
+  // New state for bag customization
+  const [bagImage, setBagImage] = useState(null);
+  const [bagText, setBagText] = useState("");
+  const [bagTextColor, setBagTextColor] = useState("#000000");
+  const [bagTextFont, setBagTextFont] = useState("Arial");
+  const [bagTextSize, setBagTextSize] = useState(20);
+
+  // New state for selected bag image
+  const [selectedBagImage, setSelectedBagImage] = useState(null);
+
   // Handle photo uploads for card customization
   const handleCardPhotoUpload = (e) => {
     const files = Array.from(e.target.files);
     const photoURLs = files.map((file) => URL.createObjectURL(file));
     setCardPhotos((prev) => [...prev, ...photoURLs]);
+  };
+
+  // Handle bag image upload
+  const handleBagImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setBagImage(event.target.result);
+        toast.success("Bag image uploaded successfully!");
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   // Render card customization UI
@@ -347,6 +381,48 @@ const Customization = () => {
             </div>
           </div>
         </div>
+        <div className="price-display">
+          <h3>Total Price: LKR {price}</h3>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderBagCustomization = () => (
+    <div className="bag-customization">
+      <h3>Bag Customization</h3>
+      <div className="bag-customization-container">
+        <div className="bag-selection">
+          <h4>Choose a Bag:</h4>
+          <div className="bag-options">
+            {BAG_IMAGES.map((bag, index) => (
+              <img
+                key={index}
+                src={bag}
+                alt={`Bag ${index + 1}`}
+                className={`bag-option ${
+                  selectedBagImage === bag ? "selected" : ""
+                }`}
+                onClick={() => setSelectedBagImage(bag)}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="bag-live-preview">
+          <h4>Preview:</h4>
+          {selectedBagImage ? (
+            <img
+              src={selectedBagImage}
+              alt="Selected Bag"
+              className="bag-preview-image"
+            />
+          ) : (
+            <div className="bag-placeholder">Select a bag to preview</div>
+          )}
+          <div className="price-display">
+            <h3>Total Price: LKR {price}</h3>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -355,10 +431,11 @@ const Customization = () => {
   useEffect(() => {
     if (product) {
       setImage(product.image);
-      setBasePrice(product.price || 50);
+      setBasePrice(initialPrice || product.price || 50);
+      setPrice(initialPrice || product.price || 50);
       setProductName(product.name || "Custom Wedding Gift");
     }
-  }, [product]);
+  }, [product, initialPrice]);
 
   // Update canvas and price whenever changes are made
   useEffect(() => {
@@ -373,6 +450,16 @@ const Customization = () => {
     textPosition,
     textSize,
     drawingSize,
+    groomName,
+    brideName,
+    wishMessage,
+    cardPhotos,
+    cardShape,
+    selectedBagImage,
+    bagText,
+    bagImage,
+    show3DView, // Add show3DView as a dependency
+    viewAngle, // Add viewAngle as a dependency
   ]);
 
   // Update material preview when material selection changes
@@ -490,7 +577,8 @@ const Customization = () => {
 
   // Toggle 3D view
   const toggle3DView = () => {
-    setShow3DView(!show3DView);
+    setShow3DView((prev) => !prev); // Ensure state updates correctly
+    drawCanvas(); // Force canvas redraw immediately
     if (!show3DView) {
       toast.info(
         "3D view enabled! Rotate the product to see different angles."
@@ -501,6 +589,7 @@ const Customization = () => {
   // Change view angle in 3D mode
   const changeViewAngle = (angle) => {
     setViewAngle(angle);
+    drawCanvas(); // Force canvas redraw immediately
     toast.info(`Viewing from ${angle} angle`);
   };
 
@@ -651,8 +740,8 @@ const Customization = () => {
   };
   // Apply perspective effect based on view angle
   const applyViewAngleEffect = (ctx, img) => {
-    const canvas = canvasRef.current; // Add this line to get the canvas reference
-    if (!canvas) return; // Add safety check
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
     ctx.save();
 
@@ -751,24 +840,42 @@ const Customization = () => {
     }
   };
 
-  // Calculate the total price based on customization
   const calculatePrice = () => {
-    let additionalCost = 0;
+    let additionalCost = 0; // Start with no additional cost
 
-    if (text.length > 0) additionalCost += 5;
-    if (image) additionalCost += 10;
-    if (drawingData.length > 0) additionalCost += 15;
+    if (customizationMode === "product") {
+      if (text.length > 0) additionalCost += getRandomPriceIncrement();
+      if (image) additionalCost += getRandomPriceIncrement();
+      if (drawingData.length > 0) additionalCost += getRandomPriceIncrement();
 
-    // Small premium for eco-friendly options
-    if (isEngravedText) additionalCost += 2;
-    if (isWoodenMaterial || isBambooMaterial) additionalCost += 5;
-    if (isBiodegradableMaterial || isRecycledMaterial) additionalCost += 3;
-    if (isPlantBasedInk) additionalCost += 1;
+      // Small premium for eco-friendly options
+      if (isEngravedText) additionalCost += getRandomPriceIncrement();
+      if (isWoodenMaterial || isBambooMaterial)
+        additionalCost += getRandomPriceIncrement();
+      if (isBiodegradableMaterial || isRecycledMaterial)
+        additionalCost += getRandomPriceIncrement();
+      if (isPlantBasedInk) additionalCost += getRandomPriceIncrement();
 
-    // Add personalization template premium if used
-    if (selectedTemplate) additionalCost += 8;
+      // Add personalization template premium if used
+      if (selectedTemplate) additionalCost += getRandomPriceIncrement();
+    } else if (customizationMode === "card") {
+      if (groomName || brideName) additionalCost += getRandomPriceIncrement();
+      if (wishMessage) additionalCost += getRandomPriceIncrement();
+      if (cardPhotos.length > 0) additionalCost += getRandomPriceIncrement();
+      if (cardShape !== "Square") additionalCost += getRandomPriceIncrement();
 
-    setPrice(basePrice + additionalCost);
+      // Add a base price for card customization
+      additionalCost += 20; // Example base price for card customization
+    } else if (customizationMode === "bag") {
+      if (selectedBagImage) additionalCost += getRandomPriceIncrement();
+      if (bagText) additionalCost += getRandomPriceIncrement();
+      if (bagImage) additionalCost += getRandomPriceIncrement();
+
+      // Add a base price for bag customization
+      additionalCost += 30; // Example base price for bag customization
+    }
+
+    setPrice(basePrice + additionalCost); // Add basePrice to additionalCost
   };
 
   // Function to clear drawing and text
@@ -1123,6 +1230,14 @@ const Customization = () => {
           >
             Card Customization
           </button>
+          <button
+            className={`toggle-btn ${
+              customizationMode === "bag" ? "active" : ""
+            }`}
+            onClick={() => setCustomizationMode("bag")}
+          >
+            Bag Customization
+          </button>
         </div>
 
         {customizationMode === "product" ? (
@@ -1340,8 +1455,10 @@ const Customization = () => {
               </div>
             </div>
           </div>
-        ) : (
+        ) : customizationMode === "card" ? (
           renderCardCustomization()
+        ) : (
+          renderBagCustomization()
         )}
       </div>
 

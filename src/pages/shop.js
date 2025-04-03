@@ -91,7 +91,7 @@ const Shop = () => {
 
   const navigateToProductDetails = (product) => {
     if (product.badge === "Personalized 🎁") {
-      navigate("/customize", { state: { product } });
+      navigate("/customize", { state: { product, price: product.price } });
     } else {
       navigate(`/product/${product.id}`);
     }
