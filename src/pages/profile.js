@@ -199,15 +199,25 @@ const Profile = () => {
                   className="profile-pic"
                 />
                 {editing && (
-                  <label className="profile-file-input-label">
+                  <>
                     <input
                       type="file"
+                      id="profile-pic-input"
+                      style={{ display: "none" }}
                       onChange={handleFileChange}
                       accept="image/*"
                       disabled={uploadingProfilePic}
                     />
-                    {uploadingProfilePic ? "Uploading..." : "Change Photo"}
-                  </label>
+                    <button
+                      className="btn-primary-profile"
+                      onClick={() =>
+                        document.getElementById("profile-pic-input").click()
+                      }
+                      disabled={uploadingProfilePic}
+                    >
+                      {uploadingProfilePic ? "Uploading..." : "Change Photo"}
+                    </button>
+                  </>
                 )}
               </div>
               <div className="profile-info">

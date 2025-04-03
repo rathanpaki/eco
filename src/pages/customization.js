@@ -183,6 +183,18 @@ const Customization = () => {
   // New state for selected bag image
   const [selectedBagImage, setSelectedBagImage] = useState(null);
 
+  // Handle file input click programmatically
+  const triggerFileInput = (inputRef) => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+
+  // Create refs for file inputs
+  const cardPhotoInputRef = useRef(null);
+  const bagImageInputRef = useRef(null);
+  const productImageInputRef = useRef(null);
+
   // Handle photo uploads for card customization
   const handleCardPhotoUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -206,7 +218,7 @@ const Customization = () => {
   // Render card customization UI
   const renderCardCustomization = () => (
     <div className="card-customization">
-      <h3>Card Customization</h3>
+      <h3>Tag Customization</h3>
       <div className="card-customization-container">
         <div className="card-inputs">
           <label>
@@ -315,7 +327,7 @@ const Customization = () => {
             />
           </label>
           <label>
-            Card Shape:
+            Tag Shape:
             <select
               value={cardShape}
               onChange={(e) => setCardShape(e.target.value)}
@@ -329,10 +341,19 @@ const Customization = () => {
           </label>
           <label>
             Upload Photos:
+            <button
+              type="button"
+              onClick={() => triggerFileInput(cardPhotoInputRef)}
+              className="upload-btn"
+            >
+              Select Photos
+            </button>
             <input
               type="file"
               accept="image/*"
               multiple
+              ref={cardPhotoInputRef}
+              style={{ display: "none" }}
               onChange={handleCardPhotoUpload}
             />
           </label>
@@ -392,10 +413,10 @@ const Customization = () => {
 
   const renderBagCustomization = () => (
     <div className="bag-customization">
-      <h3>Bag Customization</h3>
+      <h3>Package Customization</h3>
       <div className="bag-customization-container">
         <div className="bag-selection">
-          <h4>Choose a Bag:</h4>
+          <h4>Choose a Pack:</h4>
           <div className="bag-options">
             {BAG_IMAGES.map((bag, index) => (
               <img
@@ -411,7 +432,7 @@ const Customization = () => {
           </div>
         </div>
         <div className="bag-color-picker">
-          <h4>Choose Bag Color:</h4>
+          <h4>Choose Pack Color:</h4>
           <input
             type="color"
             value={bagColor}
@@ -437,6 +458,23 @@ const Customization = () => {
           <div className="price-display">
             <h3>Total Price: LKR {price}</h3>
           </div>
+        </div>
+        <div className="image-upload-eco">
+          <label>Upload Image:</label>
+          <button
+            type="button"
+            onClick={() => triggerFileInput(bagImageInputRef)}
+            className="upload-btn"
+          >
+            Select Bag Image
+          </button>
+          <input
+            type="file"
+            accept="image/*"
+            ref={bagImageInputRef}
+            style={{ display: "none" }}
+            onChange={handleBagImageUpload}
+          />
         </div>
       </div>
     </div>
@@ -1311,7 +1349,7 @@ const Customization = () => {
             }`}
             onClick={() => setCustomizationMode("card")}
           >
-            Card Customization
+            Tag Customization
           </button>
           <button
             className={`toggle-btn ${
@@ -1383,9 +1421,18 @@ const Customization = () => {
                   </div>
                   <div className="image-upload-eco">
                     <label>Upload Image:</label>
+                    <button
+                      type="button"
+                      onClick={() => triggerFileInput(productImageInputRef)}
+                      className="upload-btn"
+                    >
+                      Select Product Image
+                    </button>
                     <input
                       type="file"
                       accept="image/*"
+                      ref={productImageInputRef}
+                      style={{ display: "none" }}
                       onChange={handleImageChange}
                     />
                   </div>

@@ -1160,6 +1160,33 @@ customization-tools-eco input[type="number"]:focus {
   color: #27ae60;
 }
 
+/* Upload Button Styles */
+.upload-btn {
+  padding: 10px 20px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.upload-btn:hover {
+  background-color: #16703bef;
+  transform: scale(1.05);
+}
+
+.upload-btn:active {
+  background-color: #16703bbe;
+  transform: scale(0.95);
+}
+
+/* Hidden File Input */
+input[type="file"][style*="display: none"] {
+  display: none !important;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {

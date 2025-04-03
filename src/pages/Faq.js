@@ -12,7 +12,7 @@ const Faq = () => {
     {
       question: "Why should I choose EcoGifts?",
       answer:
-        "We are committed to sustainability and personalization. Our platform offers:\n🌱 Eco-friendly materials – Biodegradable, plant-based, and upcycled products.\n🎨 Custom gift options – Interactive whiteboard customization for personal touches.\n📦 Smart inventory & green logistics – AI-powered stock optimization & carbon-neutral shipping.",
+        "We are committed to sustainability and personalization. Our platform offers:\n🌱 Eco-friendly materials – Biodegradable, plant-based, and upcycled products.\n🎨 Custom gift options – Interactive whiteboard customization for personal touches.",
     },
     {
       question: "How do I personalize a gift?",

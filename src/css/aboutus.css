@@ -114,7 +114,6 @@
 .about-us section {
   margin-bottom: 50px;
   padding: 25px;
-  background: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
@@ -201,18 +200,18 @@
     font-size: 0.9em;
   }
 
-  .contact-us-button {
+  .about-us .contact-us-button {
     font-size: 1em;
     padding: 10px 20px;
   }
 
-  .modal-content {
+  .about-us-modal-content {
     padding: 20px;
   }
 }
 
 /* Contact Us Button */
-.contact-us-button {
+.about-us .contact-us-button {
   display: block;
   margin: 40px auto;
   padding: 15px 30px;
@@ -226,13 +225,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.contact-us-button:hover {
+.about-us .contact-us-button:hover {
   background-color: #2ecc71;
   transform: translateY(-5px);
 }
 
 /* Modal Overlay */
-.modal-overlay {
+.about-us-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -246,7 +245,7 @@
 }
 
 /* Modal Content */
-.modal-content {
+.about-us-modal-content {
   color: #fff;
   background: #fff;
   padding: 30px;
@@ -270,7 +269,7 @@
 }
 
 /* Close Modal Button */
-.close-modal {
+.about-us-close-modal {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -281,11 +280,11 @@
   color: #333;
 }
 
-.close-modal:hover {
+.about-us-close-modal:hover {
   color: #e74c3c;
 }
 
-.modal-content h2 {
+.about-us-modal-content h2 {
   color: #000000;
   text-align: center;
   font-size: 1.5rem;
@@ -295,25 +294,25 @@
 }
 
 /* Form Styles */
-form {
+.about-us form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.form-group {
+.about-us-form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.form-group label {
+.about-us-form-group label {
   font-size: 1.1em;
   color: #000000;
 }
 
-.form-group input,
-.form-group textarea {
+.about-us-form-group input,
+.about-us-form-group textarea {
   padding: 10px;
   border: 1px solid #0a6b33;
   background-color: #ffffff;
@@ -323,8 +322,8 @@ form {
   transition: border-color 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.about-us-form-group input:focus,
+.about-us-form-group textarea:focus {
   border-color: #27ae60;
   color: #000000;
   background-color: #adbdb4;
@@ -332,7 +331,7 @@ form {
 }
 
 /* Submit Button */
-.submit-button {
+.about-us-submit-button {
   padding: 12px 20px;
   font-size: 1.1em;
   color: #fff;
@@ -343,6 +342,6 @@ form {
   transition: background-color 0.3s ease;
 }
 
-.submit-button:hover {
+.about-us-submit-button:hover {
   background-color: #2ecc71;
 }

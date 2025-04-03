@@ -98,22 +98,22 @@ const AboutUs = () => {
 
       {/* Contact Us Modal */}
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <button className="close-modal" onClick={closeModal}>
+        <div className="about-us-modal-overlay">
+          <div className="about-us-modal-content">
+            <button className="about-us-close-modal" onClick={closeModal}>
               &times;
             </button>
             <h2>Contact Us</h2>
             <form>
-              <div className="form-group">
+              <div className="about-us-form-group">
                 <label htmlFor="name">Name</label>
                 <input type="text" id="name" placeholder="Enter your name" />
               </div>
-              <div className="form-group">
+              <div className="about-us-form-group">
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" placeholder="Enter your email" />
               </div>
-              <div className="form-group">
+              <div className="about-us-form-group">
                 <label htmlFor="message">Message</label>
                 <textarea
                   id="message"
@@ -121,7 +121,7 @@ const AboutUs = () => {
                   placeholder="Enter your message"
                 ></textarea>
               </div>
-              <button type="submit" className="submit-button">
+              <button type="submit" className="about-us-submit-button">
                 Send Message
               </button>
             </form>
