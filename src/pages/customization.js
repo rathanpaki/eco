@@ -388,6 +388,8 @@ const Customization = () => {
     </div>
   );
 
+  const [bagColor, setBagColor] = useState("#ffffff");
+
   const renderBagCustomization = () => (
     <div className="bag-customization">
       <h3>Bag Customization</h3>
@@ -408,14 +410,27 @@ const Customization = () => {
             ))}
           </div>
         </div>
+        <div className="bag-color-picker">
+          <h4>Choose Bag Color:</h4>
+          <input
+            type="color"
+            value={bagColor}
+            onChange={(e) => setBagColor(e.target.value)}
+          />
+        </div>
         <div className="bag-live-preview">
           <h4>Preview:</h4>
           {selectedBagImage ? (
-            <img
-              src={selectedBagImage}
-              alt="Selected Bag"
-              className="bag-preview-image"
-            />
+            <div
+              className="bag-preview-container"
+              style={{ backgroundColor: bagColor }}
+            >
+              <img
+                src={selectedBagImage}
+                alt="Selected Bag"
+                className="bag-preview-image"
+              />
+            </div>
           ) : (
             <div className="bag-placeholder">Select a bag to preview</div>
           )}
@@ -1304,7 +1319,7 @@ const Customization = () => {
             }`}
             onClick={() => setCustomizationMode("bag")}
           >
-            Bag Customization
+            Packaging
           </button>
         </div>
 
