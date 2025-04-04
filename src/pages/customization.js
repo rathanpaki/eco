@@ -9,6 +9,8 @@ import bag2 from "../img/bag2.jpg";
 import bag3 from "../img/bag3.jpg";
 import bag4 from "../img/bag4.jpg";
 import bag5 from "../img/bag5.jpg";
+import { db } from "../firebaseConfig"; // Use the existing Firebase configuration
+import { collection, addDoc } from "firebase/firestore";
 
 // Enhanced CO2 savings with additional eco-friendly options
 const CO2_SAVINGS = {
@@ -19,55 +21,6 @@ const CO2_SAVINGS = {
   bambooMaterial: 0.35, // 35% CO₂ saved by choosing bamboo over plastic
   recycledMaterial: 0.25, // 25% CO₂ saved by choosing recycled materials
 };
-
-// Personalization templates/views for different materials
-const MATERIAL_PREVIEWS = {
-  wooden: "/assets/previews/wooden-preview.jpg",
-  bamboo: "/assets/previews/bamboo-preview.jpg",
-  biodegradable: "/assets/previews/biodegradable-preview.jpg",
-  recycled: "/assets/previews/recycled-preview.jpg",
-  default: "/assets/previews/default-preview.jpg",
-};
-
-// Popular personalization templates
-const PERSONALIZATION_TEMPLATES = [
-  {
-    id: 1,
-    name: "Anniversary Gift",
-    preview: "/assets/templates/anniversary.jpg",
-    text: "Happy Anniversary!",
-    font: "Dancing Script",
-    textSize: 28,
-    color: "#8B4513",
-  },
-  {
-    id: 2,
-    name: "Birthday Gift",
-    preview: "/assets/templates/birthday.jpg",
-    text: "Happy Birthday!",
-    font: "Pacifico",
-    textSize: 30,
-    color: "#4169E1",
-  },
-  {
-    id: 3,
-    name: "Thank You Gift",
-    preview: "/assets/templates/thank-you.jpg",
-    text: "Thank You!",
-    font: "Montserrat",
-    textSize: 26,
-    color: "#228B22",
-  },
-  {
-    id: 4,
-    name: "Wedding Gift",
-    preview: "/assets/templates/wedding.jpg",
-    text: "Congratulations!",
-    font: "Playfair Display",
-    textSize: 32,
-    color: "#800080",
-  },
-];
 
 const FONT_OPTIONS = [
   "Arial",
@@ -131,11 +84,6 @@ const Customization = () => {
 
   // New state for customization view
   const [viewAngle, setViewAngle] = useState("front");
-
-  // Reference for preview image to switch between materials
-  const [materialPreview, setMaterialPreview] = useState(
-    MATERIAL_PREVIEWS.default
-  );
 
   // Modal state for eco-friendly feedback
   const [showEcoModal, setShowEcoModal] = useState(false);
@@ -459,23 +407,6 @@ const Customization = () => {
             <h3>Total Price: LKR {price}</h3>
           </div>
         </div>
-        <div className="image-upload-eco">
-          <label>Upload Image:</label>
-          <button
-            type="button"
-            onClick={() => triggerFileInput(bagImageInputRef)}
-            className="upload-btn"
-          >
-            Select Bag Image
-          </button>
-          <input
-            type="file"
-            accept="image/*"
-            ref={bagImageInputRef}
-            style={{ display: "none" }}
-            onChange={handleBagImageUpload}
-          />
-        </div>
       </div>
     </div>
   );
@@ -513,16 +444,6 @@ const Customization = () => {
     bagImage,
     show3DView, // Add show3DView as a dependency
     viewAngle, // Add viewAngle as a dependency
-  ]);
-
-  // Update material preview when material selection changes
-  useEffect(() => {
-    updateMaterialPreview();
-  }, [
-    isWoodenMaterial,
-    isBambooMaterial,
-    isBiodegradableMaterial,
-    isRecycledMaterial,
   ]);
 
   useEffect(() => {
@@ -570,26 +491,6 @@ const Customization = () => {
 
   // Handle font selection change
   const handleFontChange = (e) => setFont(e.target.value);
-
-  // Update material preview based on selected material
-  const updateMaterialPreview = () => {
-    if (isWoodenMaterial) {
-      setMaterialPreview(MATERIAL_PREVIEWS.wooden);
-      setPreviewMode("wooden");
-    } else if (isBambooMaterial) {
-      setMaterialPreview(MATERIAL_PREVIEWS.bamboo);
-      setPreviewMode("bamboo");
-    } else if (isBiodegradableMaterial) {
-      setMaterialPreview(MATERIAL_PREVIEWS.biodegradable);
-      setPreviewMode("biodegradable");
-    } else if (isRecycledMaterial) {
-      setMaterialPreview(MATERIAL_PREVIEWS.recycled);
-      setPreviewMode("recycled");
-    } else {
-      setMaterialPreview(MATERIAL_PREVIEWS.default);
-      setPreviewMode("default");
-    }
-  };
 
   // Handle image upload with enhanced preview
   const handleImageChange = (e) => {
@@ -650,17 +551,6 @@ const Customization = () => {
   // Handle drawing size change
   const handleDrawingSizeChange = (e) =>
     setDrawingSize(parseInt(e.target.value, 10));
-
-  // Apply personalization template
-  const applyTemplate = (template) => {
-    setText(template.text);
-    setFont(template.font);
-    setColor(template.color);
-    setTextSize(template.textSize);
-    setSelectedTemplate(template.id);
-    setShowPersonalizationModal(false);
-    toast.success(`Applied "${template.name}" template!`);
-  };
 
   // Toggle 3D view
   const toggle3DView = () => {
@@ -764,65 +654,28 @@ const Customization = () => {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw material background based on selection
-    if (
-      isWoodenMaterial ||
-      isBambooMaterial ||
-      isBiodegradableMaterial ||
-      isRecycledMaterial
-    ) {
-      const materialImg = new Image();
-      materialImg.crossOrigin = "Anonymous";
-      materialImg.src = materialPreview;
-      materialImg.onload = () => {
-        ctx.drawImage(materialImg, 0, 0, canvas.width, canvas.height);
-
-        // Then draw the custom image on top if available
-        if (image) {
-          const img = new Image();
-          img.crossOrigin = "Anonymous";
-          img.src = image;
-          img.onload = () => {
-            // For 3D effect in different view angles
-            if (show3DView) {
-              applyViewAngleEffect(ctx, img);
-            } else {
-              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            }
-            redrawDrawing(ctx);
-            drawText(ctx);
-          };
-          img.onerror = (error) => {
-            console.error("Failed to load image:", error);
-          };
+    // Then draw the custom image on top if available
+    if (image) {
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.src = image;
+      img.onload = () => {
+        // For 3D effect in different view angles
+        if (show3DView) {
+          applyViewAngleEffect(ctx, img);
         } else {
-          redrawDrawing(ctx);
-          drawText(ctx);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
-      };
-    } else {
-      // If no material selected, use regular image or blank canvas
-      if (image) {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.src = image;
-        img.onload = () => {
-          if (show3DView) {
-            applyViewAngleEffect(ctx, img);
-          } else {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          }
-          redrawDrawing(ctx);
-          drawText(ctx);
-        };
-        img.onerror = (error) => {
-          console.error("Failed to load image:", error);
-        };
-      } else {
-        // If no image, draw on a blank canvas
         redrawDrawing(ctx);
         drawText(ctx);
-      }
+      };
+      img.onerror = (error) => {
+        console.error("Failed to load image:", error);
+      };
+    } else {
+      // If no image, draw on a blank canvas
+      redrawDrawing(ctx);
+      drawText(ctx);
     }
   };
   // Apply perspective effect based on view angle
@@ -985,16 +838,40 @@ const Customization = () => {
   };
 
   // Navigate to the checkout page
-  const handleProceedToCheckout = () => {
+  const handleProceedToCheckout = async () => {
     // Take final snapshot of design
     const canvas = canvasRef.current;
     const finalDesign = canvas.toDataURL("image/png");
 
+    // Save the customization data with eco-friendly choices
+    const customizationData = {
+      productName,
+      price,
+      finalDesign,
+      ecoFriendlyChoices: {
+        isEngravedText,
+        isWoodenMaterial,
+        isBiodegradableMaterial,
+        isPlantBasedInk,
+        isBambooMaterial,
+        isRecycledMaterial,
+      },
+      previewMode,
+      viewAngle: show3DView ? viewAngle : "front",
+      sustainabilityScore: calculateSustainabilityScore(),
+      co2Savings: calculateCO2Savings(),
+    };
+
+    try {
+      await addDoc(collection(db, "customizations"), customizationData);
+      toast.success("Customization details saved to Firebase!");
+    } catch (error) {
+      toast.error("Failed to save customization details to Firebase.");
+      console.error("Firebase Error:", error);
+    }
+
     // Show eco-friendly modal first before checkout
     setShowEcoModal(true);
-
-    // Store the final design
-    localStorage.setItem("finalCustomDesign", finalDesign);
   };
 
   // Save customized design for later purchase
@@ -1019,9 +896,6 @@ const Customization = () => {
       viewAngle: show3DView ? viewAngle : "front",
       sustainabilityScore: calculateSustainabilityScore(),
       co2Savings: calculateCO2Savings(),
-      selectedTemplate: PERSONALIZATION_TEMPLATES.find(
-        (t) => t.id === selectedTemplate
-      ),
     };
 
     const savedDesigns = JSON.parse(localStorage.getItem("savedDesigns")) || [];
@@ -1056,9 +930,6 @@ const Customization = () => {
       viewAngle: show3DView ? viewAngle : "front",
       sustainabilityScore: calculateSustainabilityScore(),
       co2Savings: calculateCO2Savings(),
-      selectedTemplate: PERSONALIZATION_TEMPLATES.find(
-        (t) => t.id === selectedTemplate
-      ),
     };
 
     // Navigate to checkout with the data
@@ -1255,44 +1126,6 @@ const Customization = () => {
               </button>
               <button className="eco-continue-btn" onClick={continueToCheckout}>
                 Continue to Checkout
-              </button>
-            </div>
-          </div>
-        </div>
-      )
-    );
-  };
-
-  // Template selection modal
-  const PersonalizationTemplateModal = () => {
-    return (
-      showPersonalizationModal && (
-        <div className="template-modal-overlay">
-          <div className="template-modal">
-            <h2>Choose a Personalization Template</h2>
-            <div className="template-grid">
-              {PERSONALIZATION_TEMPLATES.map((template) => (
-                <div
-                  key={template.id}
-                  className={`template-item ${
-                    selectedTemplate === template.id ? "selected" : ""
-                  }`}
-                  onClick={() => applyTemplate(template)}
-                >
-                  <img src={template.preview} alt={template.name} />
-                  <div className="template-details">
-                    <h4>{template.name}</h4>
-                    <p style={{ color: template.color }}>{template.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="template-modal-buttons">
-              <button
-                className="template-close-btn"
-                onClick={() => setShowPersonalizationModal(false)}
-              >
-                Close
               </button>
             </div>
           </div>

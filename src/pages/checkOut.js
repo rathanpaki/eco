@@ -6,6 +6,8 @@ import EcoOptions from "./ecoOptions";
 import "../css/checkout.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { db } from "../firebaseConfig"; // Use the existing Firebase configuration
+import { collection, addDoc } from "firebase/firestore";
 
 const Checkout = () => {
   const [step, setStep] = useState(1);
@@ -15,8 +17,17 @@ const Checkout = () => {
       items: [],
       subtotal: 0,
       deliveryCost: 0,
-      ecoFriendlyPackaging: false, 
-      treePlantingContribution: 0, 
+      ecoFriendlyPackaging: false,
+      treePlantingContribution: 0,
+    },
+    customizationDetails: {
+      productName: "",
+      finalDesign: "",
+      ecoFriendlyChoices: {},
+      previewMode: "",
+      viewAngle: "",
+      sustainabilityScore: 0,
+      co2Savings: 0,
     },
     payment: {},
     total: 0,
@@ -27,7 +38,7 @@ const Checkout = () => {
   const nextStep = () => setStep(step + 1);
   const previousStep = () => setStep(step - 1);
 
-  const handleOrderDetails = (details) => {
+  const handleOrderDetails = async (details) => {
     const treePlantingContribution =
       details.details.treePlantingContribution || 0;
     const additionalAmount = treePlantingContribution > 0 ? 300 : 0;
@@ -37,20 +48,48 @@ const Checkout = () => {
       details: {
         ...orderDetails.details,
         ...details.details,
-        subtotal: details.details.subtotal, 
+        subtotal: details.details.subtotal,
       },
       payment: details.payment,
       total:
         details.details.subtotal +
         details.details.deliveryCost +
-        additionalAmount, 
+        additionalAmount,
     });
-    toast.success("Order details updated successfully!");
+
+    try {
+      await addDoc(collection(db, "orders"), {
+        ...orderDetails,
+        details: {
+          ...orderDetails.details,
+          ...details.details,
+        },
+        payment: details.payment,
+        total:
+          details.details.subtotal +
+          details.details.deliveryCost +
+          additionalAmount,
+      });
+      toast.success("Order details saved to Firebase!");
+    } catch (error) {
+      toast.error("Failed to save order details to Firebase.");
+      console.error("Firebase Error:", error);
+    }
     nextStep();
   };
 
-  const handleEcoOptions = (options) => {
-    const additionalAmount = options.treePlantingContribution > 0 ? 300 : 0; 
+  const handleCustomizationDetails = (customization) => {
+    setOrderDetails((prevOrderDetails) => ({
+      ...prevOrderDetails,
+      customizationDetails: {
+        ...customization,
+      },
+    }));
+    toast.success("Customization details updated successfully!");
+  };
+
+  const handleEcoOptions = async (options) => {
+    const additionalAmount = options.treePlantingContribution > 0 ? 300 : 0;
 
     setOrderDetails((prevOrderDetails) => ({
       ...prevOrderDetails,
@@ -63,8 +102,27 @@ const Checkout = () => {
       total:
         prevOrderDetails.details.subtotal +
         prevOrderDetails.details.deliveryCost +
-        additionalAmount, 
+        additionalAmount,
     }));
+
+    try {
+      await addDoc(collection(db, "orders"), {
+        ...orderDetails,
+        details: {
+          ...orderDetails.details,
+          ecoFriendlyPackaging: options.ecoFriendlyPackaging,
+          treePlantingContribution: options.treePlantingContribution,
+        },
+        total:
+          orderDetails.details.subtotal +
+          orderDetails.details.deliveryCost +
+          additionalAmount,
+      });
+      toast.success("Eco options saved to Firebase!");
+    } catch (error) {
+      toast.error("Failed to save eco options to Firebase.");
+      console.error("Firebase Error:", error);
+    }
     nextStep();
   };
 

@@ -147,7 +147,7 @@ customization-tools-eco input[type="file"]:hover {
 }
 
 .price-display::before {
-  content: "💰";
+  /* content: "Lkr"; */
   font-size: 2rem;
   position: absolute;
   top: -30px;
