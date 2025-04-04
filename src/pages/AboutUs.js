@@ -21,7 +21,7 @@ const AboutUs = () => {
       <Navbar />
       <div className="about-us">
         <h1 data-aos="fade-down" data-aos-duration="1000">
-          EcoGifts – Sustainable & Personalized Wedding Return Gifts
+          EcoGifts – Sustainable & customizable Wedding Return Gifts
         </h1>
         <section data-aos="fade-right" data-aos-duration="1000">
           <h2>Our Story</h2>

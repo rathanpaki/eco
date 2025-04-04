@@ -50,7 +50,7 @@ const Navbar = () => {
               to="/customize"
               className={({ isActive }) => (isActive ? "active-link" : "")}
             >
-              Personalization
+              Customization
             </NavLink>
           </li>
           <li>
