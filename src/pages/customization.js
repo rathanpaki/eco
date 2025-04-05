@@ -88,6 +88,9 @@ const Customization = () => {
   // Modal state for eco-friendly feedback
   const [showEcoModal, setShowEcoModal] = useState(false);
 
+  // New state to track the user-uploaded image separately
+  const [uploadedImage, setUploadedImage] = useState(null);
+
   // Function to generate random price increments
   const getRandomPriceIncrement = () => Math.floor(Math.random() * 10) + 1;
 
@@ -131,6 +134,9 @@ const Customization = () => {
   // New state for selected bag image
   const [selectedBagImage, setSelectedBagImage] = useState(null);
 
+  // New state to track if the image is from the shop page
+  const [isShopImage, setIsShopImage] = useState(false);
+
   // Handle file input click programmatically
   const triggerFileInput = (inputRef) => {
     if (inputRef.current) {
@@ -158,6 +164,19 @@ const Customization = () => {
       reader.onload = (event) => {
         setBagImage(event.target.result);
         toast.success("Bag image uploaded successfully!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle image upload with enhanced preview
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setUploadedImage(event.target.result); // Set the uploaded image separately
+        toast.success("Image uploaded successfully!");
       };
       reader.readAsDataURL(file);
     }
@@ -415,6 +434,7 @@ const Customization = () => {
   useEffect(() => {
     if (product) {
       setImage(product.image);
+      setIsShopImage(true); // Mark as shop image
       setBasePrice(initialPrice || product.price || 50);
       setPrice(initialPrice || product.price || 50);
       setProductName(product.name || "Custom Wedding Gift");
@@ -491,21 +511,6 @@ const Customization = () => {
 
   // Handle font selection change
   const handleFontChange = (e) => setFont(e.target.value);
-
-  // Handle image upload with enhanced preview
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        // Save current state before changing the image
-        saveDesignSnapshot();
-        setImage(event.target.result);
-        toast.success("Image uploaded successfully!");
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   // Save current design as a snapshot
   const saveDesignSnapshot = () => {
@@ -646,7 +651,7 @@ const Customization = () => {
     setIsDragging(false);
   };
 
-  // Draw the canvas with text, image, and drawings
+  // Draw the canvas with text, shop image, and drawings
   const drawCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvasRef.current) return;
@@ -654,18 +659,13 @@ const Customization = () => {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Then draw the custom image on top if available
+    // Always draw the shop image on the canvas if available
     if (image) {
       const img = new Image();
       img.crossOrigin = "Anonymous";
       img.src = image;
       img.onload = () => {
-        // For 3D effect in different view angles
-        if (show3DView) {
-          applyViewAngleEffect(ctx, img);
-        } else {
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        }
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         redrawDrawing(ctx);
         drawText(ctx);
       };
@@ -673,47 +673,12 @@ const Customization = () => {
         console.error("Failed to load image:", error);
       };
     } else {
-      // If no image, draw on a blank canvas
+      // If no shop image, draw on a blank canvas
       redrawDrawing(ctx);
       drawText(ctx);
     }
   };
-  // Apply perspective effect based on view angle
-  const applyViewAngleEffect = (ctx, img) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
 
-    ctx.save();
-
-    // Apply transformations based on the view angle
-    switch (viewAngle) {
-      case "front":
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        break;
-      case "left":
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.transform(0.7, 0, -0.3, 1, 0, 0);
-        ctx.translate(-canvas.width / 2, -canvas.height / 2);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        break;
-      case "right":
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.transform(0.7, 0, 0.3, 1, 0, 0);
-        ctx.translate(-canvas.width / 2, -canvas.height / 2);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        break;
-      case "top":
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.transform(1, -0.3, 0, 0.7, 0, 0);
-        ctx.translate(-canvas.width / 2, -canvas.height / 2);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        break;
-      default:
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    }
-
-    ctx.restore();
-  };
   // Redraw the drawing from saved data
   const redrawDrawing = (ctx) => {
     ctx.strokeStyle = color;
@@ -833,7 +798,7 @@ const Customization = () => {
   // Function to remove the uploaded image
   const handleRemoveImage = () => {
     saveDesignSnapshot(); // Save before removing
-    setImage(null);
+    setUploadedImage(null);
     drawCanvas();
   };
 
@@ -845,6 +810,7 @@ const Customization = () => {
 
     // Save the customization data with eco-friendly choices
     const customizationData = {
+      id: Date.now(), // Unique ID for the order
       productName,
       price,
       finalDesign,
@@ -860,6 +826,7 @@ const Customization = () => {
       viewAngle: show3DView ? viewAngle : "front",
       sustainabilityScore: calculateSustainabilityScore(),
       co2Savings: calculateCO2Savings(),
+      status: "Pending", // Default order status
     };
 
     try {
@@ -869,6 +836,11 @@ const Customization = () => {
       toast.error("Failed to save customization details to Firebase.");
       console.error("Firebase Error:", error);
     }
+
+    // Save order details to local storage
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(customizationData);
+    localStorage.setItem("orders", JSON.stringify(orders));
 
     // Show eco-friendly modal first before checkout
     setShowEcoModal(true);
@@ -1317,6 +1289,20 @@ const Customization = () => {
                 >
                   Save for Later
                 </button>
+              </div>
+
+              {/* Uploaded Image Preview Section */}
+              <div className="image-upload-preview">
+                <h3>Uploaded Image Preview</h3>
+                {uploadedImage ? (
+                  <img
+                    src={uploadedImage}
+                    alt="Uploaded Preview"
+                    className="uploaded-image-preview"
+                  />
+                ) : (
+                  <p>No user-uploaded image yet.</p>
+                )}
               </div>
 
               {/* Eco-Friendly Options Section */}
