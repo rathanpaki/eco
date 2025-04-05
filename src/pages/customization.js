@@ -1231,7 +1231,7 @@ const Customization = () => {
                       onClick={() => triggerFileInput(productImageInputRef)}
                       className="upload-btn"
                     >
-                      Select Product Image
+                      Select Image
                     </button>
                     <input
                       type="file"
@@ -1293,7 +1293,7 @@ const Customization = () => {
 
               {/* Uploaded Image Preview Section */}
               <div className="image-upload-preview">
-                <h3>Uploaded Image Preview</h3>
+                <h3>Uploaded Image </h3>
                 {uploadedImage ? (
                   <img
                     src={uploadedImage}
