@@ -16,12 +16,6 @@ const Sidebar = () => {
         <li>How to Live a Zero-Waste Lifestyle</li>
         <li>Top 5 Eco-Friendly Brands</li>
       </ul>
-      <h3>Join the Green Revolution!</h3>
-      <form>
-        <input type="text" placeholder="Your Name" />
-        <input type="email" placeholder="Your Email" />
-        <button type="submit">Subscribe</button>
-      </form>
     </div>
   );
 };
