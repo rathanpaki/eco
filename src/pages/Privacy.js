@@ -138,15 +138,6 @@ const Privacy = () => {
           logistics, and analytics. Your data is never sold or shared without
           your explicit consent.
         </p>
-
-        <h2 className="privacy-heading">8. Contact Us</h2>
-        <p className="privacy-text">
-          For any privacy-related concerns, feel free to reach out:
-          <span className="privacy-email">
-            {" "}
-            📩 <a href="mailto:privacy@ecogifts.com">privacy@ecogifts.com</a>
-          </span>
-        </p>
       </div>
     </div>
   );
