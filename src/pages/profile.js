@@ -73,6 +73,17 @@ const Profile = () => {
     setSavedDesigns(designs);
   }, []);
 
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);
+      fetchUserData(storedUser.uid);
+      fetchOrders(storedUser.uid);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
   const fetchUserData = (uid) => {
     const userRef = databaseRef(db, `users/${uid}`);
     get(userRef)
@@ -162,6 +173,7 @@ const Profile = () => {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
+        localStorage.removeItem("user"); // Clear user data from localStorage
         setUser(null);
         navigate("/login");
         toast.success("Logged out successfully!");

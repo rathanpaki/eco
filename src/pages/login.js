@@ -24,8 +24,16 @@ const Login = () => {
         navigate("/admin-dashboard");
       } else {
         // Regular user login
-        await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("user", JSON.stringify({ email }));
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ email: user.email, uid: user.uid })
+        );
         toast.success("Login successful!");
         navigate("/");
       }

@@ -172,7 +172,15 @@ const Shop = () => {
               </button>
               <button
                 className="btn wishlist"
-                onClick={() => addToWishlist(product)}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent navigating to product details
+                  const user = JSON.parse(localStorage.getItem("user"));
+                  if (!user) {
+                    toast.error("Please log in to add items to your wishlist.");
+                  } else {
+                    addToWishlist(product);
+                  }
+                }}
               >
                 Add to Wishlist
               </button>

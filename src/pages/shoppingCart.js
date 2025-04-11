@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../css/shoppingCart.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { db } from "../firebaseConfig";
@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const ShoppingCart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -74,6 +75,12 @@ const ShoppingCart = ({ isOpen, onClose }) => {
   };
 
   const handleCheckout = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      toast.error("Please log in to proceed to checkout.");
+      navigate("/login");
+      return;
+    }
     const orderDetails = {
       id: new Date().getTime().toString(),
       details: {
@@ -84,7 +91,8 @@ const ShoppingCart = ({ isOpen, onClose }) => {
       payment: {},
     };
     localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
-    toast.success("Order details saved successfully!");
+    toast.success("Redirecting to checkout...");
+    navigate("/checkout", { state: { orderDetails } });
   };
 
   const subTotal = cartItems
@@ -129,11 +137,9 @@ const ShoppingCart = ({ isOpen, onClose }) => {
         <p>
           <strong>Sub-Total:</strong> LKR {subTotal}
         </p>
-        <Link to="/checkout">
-          <button className="checkout-button" onClick={handleCheckout}>
-            Checkout
-          </button>
-        </Link>
+        <button className="checkout-button" onClick={handleCheckout}>
+          Checkout
+        </button>
       </div>
     </div>
   );

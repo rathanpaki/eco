@@ -19,6 +19,11 @@ const Wishlist = () => {
   }, []);
 
   const handleRemove = (index) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      toast.error("Please log in to manage your wishlist.");
+      return;
+    }
     const newWishlistItems = wishlistItems.filter((_, i) => i !== index);
     setWishlistItems(newWishlistItems);
     localStorage.setItem("wishlist", JSON.stringify(newWishlistItems));
@@ -38,6 +43,24 @@ const Wishlist = () => {
     } catch (err) {
       console.error("Error adding to cart:", err);
       toast.error("Error adding to cart.");
+    }
+  };
+
+  const handleAddToWishlist = (product) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      toast.error("Please log in to add items to your wishlist.");
+      return;
+    }
+    try {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      wishlist.push(product);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      setWishlistItems(wishlist);
+      toast.success("Product added to wishlist!");
+    } catch (err) {
+      console.error("Error adding to wishlist:", err);
+      toast.error("Error adding to wishlist.");
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomerDetails from "./customerDetails";
 import PaymentMethod from "./paymentMethode";
 import Confirmation from "./confirmation";
@@ -8,32 +8,43 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../firebaseConfig"; // Use the existing Firebase configuration
 import { collection, addDoc } from "firebase/firestore";
+import { useLocation } from "react-router-dom";
 
 const Checkout = () => {
+  const location = useLocation();
   const [step, setStep] = useState(1);
-  const [orderDetails, setOrderDetails] = useState({
-    id: new Date().getTime().toString(),
-    details: {
-      items: [],
-      subtotal: 0,
-      deliveryCost: 0,
-      ecoFriendlyPackaging: false,
-      treePlantingContribution: 0,
-    },
-    customizationDetails: {
-      productName: "",
-      finalDesign: "",
-      ecoFriendlyChoices: {},
-      previewMode: "",
-      viewAngle: "",
-      sustainabilityScore: 0,
-      co2Savings: 0,
-    },
-    payment: {},
-    total: 0,
-    status: "pending",
-    date: new Date().toLocaleDateString(),
+  const [orderDetails, setOrderDetails] = useState(() => {
+    const initialOrderDetails = location.state?.orderDetails || {
+      id: new Date().getTime().toString(),
+      details: {
+        items: [],
+        subtotal: 0,
+        deliveryCost: 0,
+        ecoFriendlyPackaging: false,
+        treePlantingContribution: 0,
+      },
+      customizationDetails: {
+        productName: "",
+        finalDesign: "",
+        ecoFriendlyChoices: {},
+        previewMode: "",
+        viewAngle: "",
+        sustainabilityScore: 0,
+        co2Savings: 0,
+      },
+      payment: {},
+      total: 0,
+      status: "pending",
+      date: new Date().toLocaleDateString(),
+    };
+    return initialOrderDetails;
   });
+
+  useEffect(() => {
+    if (location.state?.orderDetails) {
+      setOrderDetails(location.state.orderDetails);
+    }
+  }, [location.state]);
 
   const nextStep = () => setStep(step + 1);
   const previousStep = () => setStep(step - 1);
@@ -94,7 +105,6 @@ const Checkout = () => {
     setOrderDetails((prevOrderDetails) => ({
       ...prevOrderDetails,
       details: {
-        ...prevOrderDetails.details,
         ecoFriendlyPackaging: options.ecoFriendlyPackaging,
         treePlantingContribution: options.treePlantingContribution,
         subtotal: prevOrderDetails.details.subtotal,
