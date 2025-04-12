@@ -4,6 +4,7 @@ import "../css/customization.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
+import Loader from "../components/Loader"; // Import the Loader component
 import bag1 from "../img/bag1.jpg";
 import bag2 from "../img/bag2.jpg";
 import bag3 from "../img/bag3.jpg";
@@ -804,6 +805,8 @@ const Customization = () => {
     drawCanvas();
   };
 
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
+
   // Navigate to the checkout page
   const handleProceedToCheckout = async () => {
     const auth = getAuth();
@@ -814,38 +817,41 @@ const Customization = () => {
       return;
     }
 
-    // Take final snapshot of design
-    const canvas = canvasRef.current;
-    const finalDesign = canvas.toDataURL("image/png");
-
-    // Save the customization data with eco-friendly choices
-    const customizationData = {
-      id: Date.now(), // Unique ID for the order
-      productName,
-      price,
-      finalDesign,
-      ecoFriendlyChoices: {
-        isEngravedText,
-        isWoodenMaterial,
-        isBiodegradableMaterial,
-        isPlantBasedInk,
-        isBambooMaterial,
-        isRecycledMaterial,
-      },
-      previewMode,
-      viewAngle: show3DView ? viewAngle : "front",
-      sustainabilityScore: calculateSustainabilityScore(),
-      co2Savings: calculateCO2Savings(),
-      status: "Pending", // Default order status
-    };
-
+    setIsLoading(true); // Start loading
     try {
+      // Take final snapshot of design
+      const canvas = canvasRef.current;
+      const finalDesign = canvas.toDataURL("image/png");
+
+      // Save the customization data with eco-friendly choices
+      const customizationData = {
+        id: Date.now(), // Unique ID for the order
+        productName,
+        price,
+        finalDesign,
+        ecoFriendlyChoices: {
+          isEngravedText,
+          isWoodenMaterial,
+          isBiodegradableMaterial,
+          isPlantBasedInk,
+          isBambooMaterial,
+          isRecycledMaterial,
+        },
+        previewMode,
+        viewAngle: show3DView ? viewAngle : "front",
+        sustainabilityScore: calculateSustainabilityScore(),
+        co2Savings: calculateCO2Savings(),
+        status: "Pending", // Default order status
+      };
+
       const orderRef = ref(db, `orders/${user.uid}/${customizationData.id}`);
       await set(orderRef, customizationData);
       toast.success("Customization details saved under your orders!");
     } catch (error) {
       toast.error("Failed to save customization details.");
       console.error("Firebase Error:", error);
+    } finally {
+      setIsLoading(false); // Stop loading
     }
 
     // Show eco-friendly modal first before checkout
@@ -1144,6 +1150,7 @@ const Customization = () => {
   return (
     <>
       <Navbar />
+      {isLoading && <Loader />} {/* Show loader when loading */}
       <div className="customization-page">
         <div className="customization-toggle">
           <button
@@ -1422,7 +1429,6 @@ const Customization = () => {
           renderBagCustomization()
         )}
       </div>
-
       <EcoFriendlyModal />
     </>
   );

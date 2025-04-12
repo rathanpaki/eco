@@ -11,10 +11,12 @@ import { collection, addDoc } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { ref, set } from "firebase/database";
+import Loader from "../components/Loader"; // Import the Loader component
 
 const Checkout = () => {
   const location = useLocation();
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false); // State to manage loader visibility
   const [orderDetails, setOrderDetails] = useState(() => {
     const initialOrderDetails = location.state?.orderDetails || {
       id: new Date().getTime().toString(),
@@ -52,6 +54,7 @@ const Checkout = () => {
   const previousStep = () => setStep(step - 1);
 
   const handleOrderDetails = async (details) => {
+    setLoading(true); // Show loader
     const treePlantingContribution =
       details.details.treePlantingContribution || 0;
     const additionalAmount = treePlantingContribution > 0 ? 300 : 0;
@@ -93,6 +96,8 @@ const Checkout = () => {
     } catch (error) {
       toast.error("Failed to save order details to Firebase.");
       console.error("Firebase Error:", error);
+    } finally {
+      setLoading(false); // Hide loader
     }
     nextStep();
   };
@@ -108,6 +113,7 @@ const Checkout = () => {
   };
 
   const handleEcoOptions = async (options) => {
+    setLoading(true); // Show loader
     const additionalAmount = options.treePlantingContribution > 0 ? 300 : 0;
 
     setOrderDetails((prevOrderDetails) => ({
@@ -146,12 +152,15 @@ const Checkout = () => {
     } catch (error) {
       toast.error("Failed to save eco options to Firebase.");
       console.error("Firebase Error:", error);
+    } finally {
+      setLoading(false); // Hide loader
     }
     nextStep();
   };
 
   return (
     <div className="checkout-container">
+      {loading && <Loader />} {/* Display loader when loading */}
       <div className="checkout-steps">
         <div className={`checkout-step ${step === 1 ? "active" : ""}`}>
           Customer Details
