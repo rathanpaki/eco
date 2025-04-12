@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/eco/static/css/main.90875cc1.css",
+    "main.js": "/eco/static/js/main.7e23d4be.js",
+    "static/js/453.95ccfebc.chunk.js": "/eco/static/js/453.95ccfebc.chunk.js",
+    "static/media/product2.jpg": "/eco/static/media/product2.6b81b2ed9fa0b4224b36.jpg",
+    "static/media/bag5.jpg": "/eco/static/media/bag5.2571c2fe3beaad072acf.jpg",
+    "static/media/product4.jpg": "/eco/static/media/product4.3485c58698d75108033b.jpg",
+    "static/media/hero.png": "/eco/static/media/hero.85addc0855223f318b3b.png",
+    "static/media/product3.jpg": "/eco/static/media/product3.a3b52e87753b5d6f8ce2.jpg",
+    "static/media/bag3.jpg": "/eco/static/media/bag3.f95a84d4f74ce895d80a.jpg",
+    "static/media/bag2.jpg": "/eco/static/media/bag2.c013f509e0e2fa82e661.jpg",
+    "static/media/logo.jpg": "/eco/static/media/logo.fc735f08259540a797c6.jpg",
+    "static/media/eco-friendly-gifts.jpg": "/eco/static/media/eco-friendly-gifts.7de36448ae745ae37ac4.jpg",
+    "static/media/bag1.jpg": "/eco/static/media/bag1.496fc6107757aac597ef.jpg",
+    "static/media/bag4.jpg": "/eco/static/media/bag4.9cee469906882d2f5f1a.jpg",
+    "static/media/slick.svg": "/eco/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/eco/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/eco/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/eco/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/eco/index.html",
+    "main.90875cc1.css.map": "/eco/static/css/main.90875cc1.css.map",
+    "main.7e23d4be.js.map": "/eco/static/js/main.7e23d4be.js.map",
+    "453.95ccfebc.chunk.js.map": "/eco/static/js/453.95ccfebc.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.90875cc1.css",
+    "static/js/main.7e23d4be.js"
+  ]
+}
