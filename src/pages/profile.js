@@ -313,7 +313,8 @@ const Profile = () => {
                       <strong>Status:</strong> {order.status}
                     </div>
                     <div>
-                      <strong>Total:</strong> LKR {order.total.toFixed(2)}
+                      <strong>Total:</strong> LKR{" "}
+                      {(order.total || 0).toFixed(2)}
                     </div>
                   </div>
                 ))}

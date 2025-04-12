@@ -11,6 +11,8 @@ import bag4 from "../img/bag4.jpg";
 import bag5 from "../img/bag5.jpg";
 import { db } from "../firebaseConfig"; // Use the existing Firebase configuration
 import { collection, addDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { ref, set } from "firebase/database";
 
 // Enhanced CO2 savings with additional eco-friendly options
 const CO2_SAVINGS = {
@@ -804,6 +806,14 @@ const Customization = () => {
 
   // Navigate to the checkout page
   const handleProceedToCheckout = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      toast.error("You must be logged in to proceed to checkout.");
+      return;
+    }
+
     // Take final snapshot of design
     const canvas = canvasRef.current;
     const finalDesign = canvas.toDataURL("image/png");
@@ -830,17 +840,13 @@ const Customization = () => {
     };
 
     try {
-      await addDoc(collection(db, "customizations"), customizationData);
-      toast.success("Customization details saved to Firebase!");
+      const orderRef = ref(db, `orders/${user.uid}/${customizationData.id}`);
+      await set(orderRef, customizationData);
+      toast.success("Customization details saved under your orders!");
     } catch (error) {
-      toast.error("Failed to save customization details to Firebase.");
+      toast.error("Failed to save customization details.");
       console.error("Firebase Error:", error);
     }
-
-    // Save order details to local storage
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
-    orders.push(customizationData);
-    localStorage.setItem("orders", JSON.stringify(orders));
 
     // Show eco-friendly modal first before checkout
     setShowEcoModal(true);

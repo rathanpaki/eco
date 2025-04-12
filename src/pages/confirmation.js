@@ -19,9 +19,12 @@ const Confirmation = ({ orderDetails }) => {
 
       // Update product stock
       const updateProductStock = async () => {
-        for (const item of orderDetails.details.items) {
+        const items = Array.isArray(orderDetails?.details?.items)
+          ? orderDetails.details.items
+          : [];
+        for (const item of items) {
           try {
-            const productRef = ref(db, `products/${item.id}`);
+            const productRef = ref(db, `produt/${item.id}`);
             const productSnapshot = await get(productRef);
             if (productSnapshot.exists()) {
               const productData = productSnapshot.val();
@@ -59,7 +62,7 @@ const Confirmation = ({ orderDetails }) => {
           const treesSnapshot = await get(treesRef);
           if (treesSnapshot.exists()) {
             const currentTotal = treesSnapshot.val();
-            const newTotal = currentTotal + 1; 
+            const newTotal = currentTotal + 1;
             await update(treesRef, { totalTreesPlanted: newTotal });
           }
         } catch (error) {
@@ -81,27 +84,28 @@ const Confirmation = ({ orderDetails }) => {
       <p>Thank you for your purchase! Your order has been confirmed.</p>
       <div className="order-summary">
         <p>
-          Subtotal ({orderDetails.details.items.length} items): LKR
-          {orderDetails.details.subtotal.toFixed(2)}
+          Subtotal ({orderDetails?.details?.items?.length || 0} items): LKR
+          {orderDetails?.details?.subtotal?.toFixed(2) || "0.00"}
         </p>
         <p>
-          Home delivery cost: LKR {orderDetails.details.deliveryCost.toFixed(2)}
+          Home delivery cost: LKR{" "}
+          {orderDetails?.details?.deliveryCost?.toFixed(2) || "0.00"}
         </p>
         {/* Display Eco-Friendly Packaging Option */}
-        {orderDetails.details.ecoFriendlyPackaging && (
+        {orderDetails?.details?.ecoFriendlyPackaging && (
           <p className="eco-badge">
             🌿 You chose eco-friendly packaging! This reduces 500g of plastic
             waste.
           </p>
         )}
         {/* Display Tree Planting Contribution */}
-        {orderDetails.details.treePlantingContribution > 0 && (
+        {orderDetails?.details?.treePlantingContribution > 0 && (
           <p className="eco-badge">
             🌳 You contributed LKR 300 to plant a tree and offset your carbon
             footprint!
           </p>
         )}
-        <p>Total amount: LKR {orderDetails.total.toFixed(2)}</p>
+        <p>Total amount: LKR {orderDetails?.total?.toFixed(2) || "0.00"}</p>
       </div>
       <button className="home-button" onClick={handleHomeButtonClick}>
         Go to Homepage
