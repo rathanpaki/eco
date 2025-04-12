@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { db } from "../firebaseConfig"; // Use the existing Firebase configuration
 import { collection, addDoc } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import { ref, set } from "firebase/database";
 
 const Checkout = () => {
   const location = useLocation();
@@ -69,19 +71,25 @@ const Checkout = () => {
     });
 
     try {
-      await addDoc(collection(db, "orders"), {
-        ...orderDetails,
-        details: {
-          ...orderDetails.details,
-          ...details.details,
-        },
-        payment: details.payment,
-        total:
-          details.details.subtotal +
-          details.details.deliveryCost +
-          additionalAmount,
-      });
-      toast.success("Order details saved to Firebase!");
+      const user = getAuth().currentUser;
+      if (user) {
+        const orderRef = ref(db, `orders/${user.uid}/${orderDetails.id}`);
+        await set(orderRef, {
+          ...orderDetails,
+          details: {
+            ...orderDetails.details,
+            ...details.details,
+          },
+          payment: details.payment,
+          total:
+            details.details.subtotal +
+            details.details.deliveryCost +
+            additionalAmount,
+        });
+        toast.success("Order details saved to Firebase!");
+      } else {
+        toast.error("User not authenticated.");
+      }
     } catch (error) {
       toast.error("Failed to save order details to Firebase.");
       console.error("Firebase Error:", error);
@@ -116,19 +124,25 @@ const Checkout = () => {
     }));
 
     try {
-      await addDoc(collection(db, "orders"), {
-        ...orderDetails,
-        details: {
-          ...orderDetails.details,
-          ecoFriendlyPackaging: options.ecoFriendlyPackaging,
-          treePlantingContribution: options.treePlantingContribution,
-        },
-        total:
-          orderDetails.details.subtotal +
-          orderDetails.details.deliveryCost +
-          additionalAmount,
-      });
-      toast.success("Eco options saved to Firebase!");
+      const user = getAuth().currentUser;
+      if (user) {
+        const orderRef = ref(db, `orders/${user.uid}/${orderDetails.id}`);
+        await set(orderRef, {
+          ...orderDetails,
+          details: {
+            ...orderDetails.details,
+            ecoFriendlyPackaging: options.ecoFriendlyPackaging,
+            treePlantingContribution: options.treePlantingContribution,
+          },
+          total:
+            orderDetails.details.subtotal +
+            orderDetails.details.deliveryCost +
+            additionalAmount,
+        });
+        toast.success("Eco options saved to Firebase!");
+      } else {
+        toast.error("User not authenticated.");
+      }
     } catch (error) {
       toast.error("Failed to save eco options to Firebase.");
       console.error("Firebase Error:", error);
